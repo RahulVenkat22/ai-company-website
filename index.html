@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#060a14" />
+    <title>AI Solutions, Agentic AI &amp; Data Engineering | [TBD] Company</title>
+    <meta
+      name="description"
+      content="AI-first technology company engineering AI agents, agentic AI, RAG systems, data platforms, cloud solutions and intelligent applications — from business problem to production."
+    />
+    <!-- Static social tags for crawlers that do not execute JS.
+         Replace example-tbd-domain.com with the real domain before launch. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AI Solutions, Agentic AI & Data Engineering | [TBD] Company" />
+    <meta
+      property="og:description"
+      content="AI-first technology company engineering AI agents, agentic AI, RAG systems, data platforms, cloud solutions and intelligent applications."
+    />
+    <meta property="og:image" content="https://www.example-tbd-domain.com/og-image.png" />
+    <meta property="og:url" content="https://www.example-tbd-domain.com/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://www.example-tbd-domain.com/" />
+    <script>
+      // Set theme before first paint to avoid a flash of the wrong theme.
+      ;(function () {
+        try {
+          var stored = localStorage.getItem('theme')
+          var theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia('(prefers-color-scheme: light)').matches
+                ? 'light'
+                : 'dark'
+          document.documentElement.setAttribute('data-theme', theme)
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark')
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

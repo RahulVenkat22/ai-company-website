@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Replace with the real production domain before launch ([TBD])
+Sitemap: https://www.example-tbd-domain.com/sitemap.xml
