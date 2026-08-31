@@ -1,292 +1,128 @@
-import { lazy, Suspense } from 'react'
-import { ArrowRight, Sparkles } from 'lucide-react'
-import { Badge } from '@/components/ui/Badge'
+import { ArrowRight, ChevronDown, Sparkles, Star } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import { Container } from '@/components/ui/Container'
+import { useParallax } from '@/lib/useParallax'
 
 /**
- * Homepage hero. Bespoke section (not the shared <Section>) so the layout,
- * backdrop and vertical rhythm can be tuned independently. Owns the only h1
- * on the home page.
- *
- * The animated visualization (the only framer-motion component in the hero)
- * is lazy-loaded; the Suspense fallback is a static inline-SVG rendering of
- * the same network, so first paint never waits on framer-motion.
+ * Homepage hero — full-bleed photograph of a team at work with a scroll-
+ * linked parallax background, gradient overlay and staggered entrance.
+ * Owns the only h1 on the home page. Content sits on a fixed dark image,
+ * so colors here are explicit (white/amber), not theme tokens.
  */
 
-const HeroVisualization = lazy(() => import('./HeroVisualization'))
-
-/* ------------------------------------------------------------------ */
-/* Static fallback — keep geometry in sync with HeroVisualization.tsx  */
-/* ------------------------------------------------------------------ */
-
-interface Pt {
-  x: number
-  y: number
-}
-
-const NODES = {
-  problem: { x: 96, y: 92 },
-  data: { x: 182, y: 214 },
-  ai: { x: 340, y: 300 },
-  automation: { x: 498, y: 356 },
-  insights: { x: 574, y: 226 },
-  outcome: { x: 584, y: 92 },
-  cloud: { x: 104, y: 344 },
-  rag: { x: 226, y: 430 },
-  agents: { x: 408, y: 468 },
-  apps: { x: 296, y: 148 },
-  analytics: { x: 476, y: 168 },
-} satisfies Record<string, Pt>
-
-const SPINE_D = [
-  `M 96 92 Q 108 170 182 214`,
-  `M 182 214 Q 255 242 340 300`,
-  `M 340 300 Q 425 318 498 356`,
-  `M 498 356 Q 562 312 574 226`,
-  `M 574 226 Q 600 158 584 92`,
+const AVATARS = [
+  { src: '/images/client-3.jpg', alt: 'Smiling client portrait' },
+  { src: '/images/client-2.jpg', alt: 'Smiling client portrait' },
+  { src: '/images/client-5.jpg', alt: 'Smiling client portrait' },
+  { src: '/images/client-4.jpg', alt: 'Smiling client portrait' },
+  { src: '/images/client-6.jpg', alt: 'Smiling client portrait' },
 ]
 
-const SATELLITE_EDGES: Array<[Pt, Pt]> = [
-  [NODES.cloud, NODES.data],
-  [NODES.cloud, NODES.ai],
-  [NODES.rag, NODES.data],
-  [NODES.rag, NODES.ai],
-  [NODES.agents, NODES.ai],
-  [NODES.agents, NODES.automation],
-  [NODES.apps, NODES.ai],
-  [NODES.analytics, NODES.ai],
-  [NODES.analytics, NODES.insights],
-]
+export function Hero() {
+  const layerRef = useParallax<HTMLDivElement>(0.3)
 
-const SATELLITES: Array<{ node: Pt; label: string }> = [
-  { node: NODES.data, label: 'Data' },
-  { node: NODES.rag, label: 'RAG' },
-  { node: NODES.agents, label: 'Agents' },
-  { node: NODES.cloud, label: 'Cloud' },
-  { node: NODES.analytics, label: 'Analytics' },
-  { node: NODES.automation, label: 'Automation' },
-  { node: NODES.apps, label: 'Applications' },
-  { node: NODES.insights, label: 'Insights' },
-]
-
-/** Static rendering of the hero network — same layout, no animation. */
-function HeroVisualizationStatic() {
   return (
-    <div className="relative">
+    <section
+      className="relative isolate flex min-h-[100svh] items-center overflow-hidden"
+      aria-label="AI-first engineering for real business outcomes"
+    >
+      {/* Parallax photo backdrop + cinematic overlay */}
       <div
+        ref={layerRef}
+        className="parallax-layer -z-20 animate-ken-burns"
+        style={{ backgroundImage: 'url(/images/hero-team.jpg)' }}
         aria-hidden="true"
-        className="absolute inset-x-8 inset-y-12 -z-10 rounded-full bg-primary/10 blur-3xl"
       />
-      <svg
-        viewBox="0 0 680 560"
-        role="img"
-        aria-label="Network diagram: a business problem flows through data, an AI core, automation and insights to a business outcome, supported by RAG, agents, cloud, analytics and application nodes."
-        className="h-auto w-full max-h-[320px] sm:max-h-[400px] lg:max-h-none"
-      >
-        <g aria-hidden="true">
-          <g className="text-line-strong" stroke="currentColor" strokeWidth={1} opacity={0.7}>
-            {SATELLITE_EDGES.map(([a, b], i) => (
-              <line key={i} x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
-            ))}
-          </g>
+      <div
+        className="absolute inset-0 -z-10 bg-gradient-to-br from-[#0C0C1D]/95 via-[#141433]/80 to-[#0C0C1D]/60"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-bg to-transparent"
+        aria-hidden="true"
+      />
 
-          <g
-            className="text-primary"
-            stroke="currentColor"
-            strokeWidth={1.5}
-            fill="none"
-            strokeLinecap="round"
-            opacity={0.55}
-          >
-            {SPINE_D.map((d) => (
-              <path key={d} d={d} />
-            ))}
-          </g>
+      <Container className="relative py-28 md:py-36">
+        <div className="flex max-w-3xl flex-col items-start gap-6">
+          <span className="reveal is-visible inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-caption font-semibold uppercase tracking-[0.14em] text-amber-300 backdrop-blur-sm">
+            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+            AI-first engineering, human at heart
+          </span>
 
-          <circle cx={NODES.ai.x} cy={NODES.ai.y} r={46} className="fill-primary" opacity={0.16} />
-          <circle
-            cx={NODES.outcome.x}
-            cy={NODES.outcome.y}
-            r={26}
-            className="fill-accent"
-            opacity={0.16}
-          />
-          <circle
-            cx={NODES.agents.x}
-            cy={NODES.agents.y}
-            r={24}
-            className="fill-violet-acc"
-            opacity={0.16}
-          />
-
-          <circle
-            cx={NODES.problem.x}
-            cy={NODES.problem.y}
-            r={10}
-            className="fill-surface-2 stroke-line-strong"
-            strokeWidth={1.5}
-          />
-          <circle cx={NODES.problem.x} cy={NODES.problem.y} r={3.5} className="fill-ink-subtle" />
-          <text
-            x={NODES.problem.x}
-            y={NODES.problem.y - 22}
-            textAnchor="middle"
-            fontSize={10}
-            fontWeight={600}
-            letterSpacing="0.12em"
-            className="fill-ink-subtle"
-          >
-            BUSINESS PROBLEM
-          </text>
-
-          <circle
-            cx={NODES.outcome.x}
-            cy={NODES.outcome.y}
-            r={11}
-            className="fill-accent/15 stroke-accent"
-            strokeWidth={1.5}
-          />
-          <circle cx={NODES.outcome.x} cy={NODES.outcome.y} r={3.5} className="fill-accent" />
-          <text
-            x={NODES.outcome.x}
-            y={NODES.outcome.y - 24}
-            textAnchor="middle"
-            fontSize={10}
-            fontWeight={600}
-            letterSpacing="0.12em"
-            className="fill-accent"
-          >
-            BUSINESS OUTCOME
-          </text>
-
-          <circle
-            cx={NODES.ai.x}
-            cy={NODES.ai.y}
-            r={28}
-            className="fill-primary/15 stroke-primary"
-            strokeWidth={1.5}
-          />
-          <circle
-            cx={NODES.ai.x}
-            cy={NODES.ai.y}
-            r={36}
-            fill="none"
-            className="stroke-primary"
-            strokeWidth={1}
-            opacity={0.3}
-            strokeDasharray="3 6"
-          />
-          <text
-            x={NODES.ai.x}
-            y={NODES.ai.y + 5}
-            textAnchor="middle"
-            fontSize={15}
-            fontWeight={650}
-            className="fill-ink"
-          >
-            AI
-          </text>
-
-          {SATELLITES.map(({ node, label }) => (
-            <g key={label}>
-              <circle
-                cx={node.x}
-                cy={node.y}
-                r={13}
-                className="fill-surface-2 stroke-line-strong"
-                strokeWidth={1.25}
-              />
-              <circle cx={node.x} cy={node.y} r={3.5} className="fill-accent" opacity={0.85} />
-              <text
-                x={node.x}
-                y={node.y + 30}
-                textAnchor="middle"
-                fontSize={12}
-                fontWeight={550}
-                letterSpacing="0.03em"
-                className="fill-ink-muted"
-              >
-                {label}
-              </text>
-            </g>
-          ))}
-        </g>
-      </svg>
-    </div>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* Hero                                                                */
-/* ------------------------------------------------------------------ */
-
-interface HeroProps {
-  /**
-   * Background band. The hero is a bespoke section (no shared <Section>
-   * wrapper), so the variant maps directly to background classes.
-   */
-  variant?: 'default' | 'alt' | 'deep'
-}
-
-const heroVariantClasses: Record<NonNullable<HeroProps['variant']>, string> = {
-  default: '',
-  alt: 'bg-surface',
-  deep: 'bg-surface-2/60 border-b border-line',
-}
-
-export function Hero({ variant = 'default' }: HeroProps) {
-  return (
-    <section className={`relative isolate overflow-hidden ${heroVariantClasses[variant]}`.trim()}>
-      <div className="grid-backdrop absolute inset-0 -z-10" aria-hidden="true" />
-
-      <div className="container-site grid items-center gap-12 py-16 md:py-22 lg:min-h-[calc(100vh-8rem)] lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:py-24">
-        <div className="max-w-2xl">
-          <div className="flex flex-wrap items-center gap-3">
-            <Badge tone="primary">
-              <Sparkles size={13} aria-hidden="true" />
-              AI Agents · RAG · Agentic AI
-            </Badge>
-          </div>
-
-          <h1 className="mt-6 text-display">
-            Engineering <span className="text-primary">Intelligence</span> for the Modern
-            Enterprise.
+          <h1 className="text-display text-white">
+            We turn business problems into{' '}
+            <span className="text-gradient">production AI</span> people love
+            using.
           </h1>
 
-          <p className="mt-6 max-w-xl text-body-lg text-ink-muted">
-            We design and build AI-powered applications, intelligent agents, RAG systems, data
-            platforms, cloud solutions and automated workflows that turn complex business
-            challenges into measurable outcomes.
+          <p className="max-w-2xl text-body-lg text-slate-200">
+            AI agents, RAG systems, data platforms and cloud solutions — designed
+            with your team, engineered to production standards, and improved long
+            after launch.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <Button
-              to="/contact"
               size="lg"
+              to="/contact"
               eventName="cta_click"
-              eventParams={{ cta: 'start_project', location: 'hero' }}
-              iconRight={<ArrowRight size={18} aria-hidden="true" />}
+              eventParams={{ cta: 'start_conversation', location: 'hero' }}
+              iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
             >
-              Start a Project
+              Start a Conversation
             </Button>
             <Button
-              to="/ai-solutions"
-              variant="secondary"
               size="lg"
+              variant="secondary"
+              to="/services"
+              className="border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
               eventName="cta_click"
-              eventParams={{ cta: 'explore_ai', location: 'hero' }}
+              eventParams={{ cta: 'explore_services', location: 'hero' }}
             >
-              Explore Our AI Solutions
+              Explore Our Services
             </Button>
           </div>
-        </div>
 
-        <div className="relative mx-auto w-full max-w-xl lg:max-w-none">
-          <Suspense fallback={<HeroVisualizationStatic />}>
-            <HeroVisualization />
-          </Suspense>
+          {/* Social proof strip — faces + rating (illustrative placeholders) */}
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <div className="flex -space-x-3">
+              {AVATARS.map((a) => (
+                <img
+                  key={a.src}
+                  src={a.src}
+                  alt={a.alt}
+                  loading="lazy"
+                  width={44}
+                  height={44}
+                  className="h-11 w-11 rounded-full border-2 border-white/80 object-cover"
+                />
+              ))}
+            </div>
+            <div className="flex flex-col">
+              <span
+                className="flex items-center gap-1 text-amber-300"
+                aria-label="Rated five stars by clients (illustrative)"
+              >
+                {Array.from({ length: 5 }, (_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-current" aria-hidden="true" />
+                ))}
+              </span>
+              <span className="text-small text-slate-300">
+                Teams who love working with us
+              </span>
+            </div>
+          </div>
         </div>
-      </div>
+      </Container>
+
+      {/* Scroll cue */}
+      <a
+        href="#capabilities"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 transition-colors hover:text-white"
+        aria-label="Scroll to explore"
+      >
+        <ChevronDown className="h-7 w-7 animate-bounce-cue" aria-hidden="true" />
+      </a>
     </section>
   )
 }

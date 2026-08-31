@@ -8,44 +8,44 @@
 /* ------------------------------------------------------------------ */
 
 :root {
-  /* Dark theme (default): deep navy / charcoal / near-black */
-  --c-bg: 6 10 20; /* #060A14 near-black navy */
-  --c-surface: 10 16 30; /* #0A101E deep navy */
-  --c-surface-2: 15 23 41; /* #0F1729 */
-  --c-surface-3: 21 31 54; /* #151F36 */
-  --c-border: 30 42 68; /* #1E2A44 */
-  --c-border-strong: 44 60 94; /* #2C3C5E */
-  --c-text: 233 238 247; /* #E9EEF7 */
-  --c-text-muted: 162 176 198; /* #A2B0C6 */
-  --c-text-subtle: 116 131 158; /* #74839E */
-  --c-text-inverse: 8 12 22;
-  --c-primary: 77 124 245; /* #4D7CF5 subtle blue */
-  --c-primary-hover: 103 145 250; /* #6791FA */
-  --c-primary-soft: 26 38 68; /* dark blue wash */
-  --c-accent: 61 214 232; /* #3DD6E8 electric cyan */
-  --c-accent-strong: 34 181 200; /* #22B5C8 */
-  --c-violet: 155 130 246; /* #9B82F6 limited purple accent */
+  /* Dark theme (default): deep indigo-violet night with warm accents */
+  --c-bg: 12 12 29; /* #0C0C1D deep indigo night */
+  --c-surface: 18 18 40; /* #121228 */
+  --c-surface-2: 26 26 54; /* #1A1A36 */
+  --c-surface-3: 36 36 70; /* #242446 */
+  --c-border: 46 46 84; /* #2E2E54 */
+  --c-border-strong: 66 66 112; /* #424270 */
+  --c-text: 240 240 250; /* #F0F0FA */
+  --c-text-muted: 178 180 208; /* #B2B4D0 */
+  --c-text-subtle: 128 130 162; /* #8082A2 */
+  --c-text-inverse: 14 14 30;
+  --c-primary: 109 106 245; /* #6D6AF5 vivid indigo */
+  --c-primary-hover: 135 132 250; /* #8784FA */
+  --c-primary-soft: 34 32 74; /* dark indigo wash */
+  --c-accent: 250 190 88; /* #FABE58 warm golden amber */
+  --c-accent-strong: 240 165 48; /* #F0A530 */
+  --c-violet: 186 148 250; /* #BA94FA soft violet accent */
 
   color-scheme: dark;
 }
 
 :root[data-theme='light'] {
-  --c-bg: 255 255 255;
-  --c-surface: 248 250 253; /* #F8FAFD */
-  --c-surface-2: 241 245 250; /* #F1F5FA */
-  --c-surface-3: 232 238 246; /* #E8EEF6 */
-  --c-border: 226 232 240; /* #E2E8F0 */
-  --c-border-strong: 203 213 225; /* #CBD5E1 */
-  --c-text: 11 18 32; /* #0B1220 */
-  --c-text-muted: 71 85 105; /* #475569 */
-  --c-text-subtle: 100 116 139; /* #64748B */
+  --c-bg: 255 254 251; /* #FFFEFB warm white */
+  --c-surface: 250 248 244; /* #FAF8F4 warm ivory */
+  --c-surface-2: 244 241 235; /* #F4F1EB */
+  --c-surface-3: 236 232 226; /* #ECE8E2 */
+  --c-border: 231 227 219; /* #E7E3DB */
+  --c-border-strong: 208 203 194; /* #D0CBC2 */
+  --c-text: 24 22 43; /* #18162B */
+  --c-text-muted: 84 82 110; /* #54526E */
+  --c-text-subtle: 118 116 142; /* #76748E */
   --c-text-inverse: 255 255 255;
-  --c-primary: 29 78 216; /* #1D4ED8 */
-  --c-primary-hover: 30 64 175; /* #1E40AF */
-  --c-primary-soft: 226 234 254;
-  --c-accent: 8 126 148; /* #087E94 darkened cyan for contrast */
-  --c-accent-strong: 6 103 122;
-  --c-violet: 109 40 217; /* #6D28D9 */
+  --c-primary: 84 64 222; /* #5440DE vivid indigo */
+  --c-primary-hover: 67 48 197; /* #4330C5 */
+  --c-primary-soft: 236 233 254;
+  --c-accent: 176 108 12; /* #B06C0C amber, darkened for contrast */
+  --c-accent-strong: 146 88 8;
+  --c-violet: 124 58 237; /* #7C3AED */
 
   color-scheme: light;
 }
@@ -113,9 +113,41 @@
     @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
   }
 
-  /* Eyebrow label above section headings */
+  /* Eyebrow label above section headings — pill badge with gradient edge */
   .eyebrow {
-    @apply text-caption font-semibold uppercase tracking-[0.14em] text-accent;
+    @apply inline-flex w-fit items-center rounded-full border border-primary/25 bg-primary/10 px-3.5 py-1.5 text-caption font-semibold uppercase tracking-[0.14em] text-primary;
+  }
+
+  :root:not([data-theme='light']) .eyebrow {
+    @apply border-accent/25 bg-accent/10 text-accent;
+  }
+
+  /* Gradient headline treatment for hero / band titles */
+  .text-gradient {
+    background-image: linear-gradient(
+      100deg,
+      rgb(var(--c-primary)),
+      rgb(var(--c-violet)) 55%,
+      rgb(var(--c-accent))
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Photo card treatment — rounded, soft shadow, zoom on hover */
+  .photo-frame {
+    @apply overflow-hidden rounded-2xl shadow-card;
+  }
+
+  .photo-frame img {
+    @apply h-full w-full object-cover transition-transform duration-700 ease-premium;
+  }
+
+  @media (hover: hover) {
+    .photo-frame:hover img {
+      transform: scale(1.06);
+    }
   }
 
   /* Subtle top border glow used to separate major dark sections */
@@ -238,6 +270,70 @@
 
 .animate-marquee {
   animation: marquee 36s linear infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* Parallax bands — scroll-linked background imagery                   */
+/* The .parallax-layer is oversized so the JS-driven translate never   */
+/* exposes an edge; useParallax applies the transform.                 */
+/* ------------------------------------------------------------------ */
+
+.parallax-layer {
+  position: absolute;
+  inset: -18% 0;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax-layer {
+    inset: 0;
+    transform: none !important;
+  }
+}
+
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 18s ease-out both;
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+@keyframes bounce-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.5;
+  }
+}
+
+.animate-bounce-cue {
+  animation: bounce-cue 2s ease-in-out infinite;
 }
 
 /* Card hover lift — CSS only */

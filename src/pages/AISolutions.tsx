@@ -101,6 +101,7 @@ export default function AISolutions() {
       />
 
       <PageHeader
+        image="/images/band-tech.jpg"
         eyebrow="AI Solutions"
         title="AI Systems That Reach Production"
         lead="AI is not a feature we bolt on — it is what we engineer. We design and build AI agents, RAG systems and generative AI applications that move beyond the demo into dependable, secure production systems."

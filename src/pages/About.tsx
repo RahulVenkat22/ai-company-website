@@ -20,6 +20,7 @@ import { Card } from '@/components/ui/Card'
 import { Reveal } from '@/components/ui/Reveal'
 import { HowWeWork } from '@/components/sections/HowWeWork'
 import { FinalCTA } from '@/components/sections/FinalCTA'
+import { Testimonials } from '@/components/sections/Testimonials'
 
 const beliefs = [
   {
@@ -110,6 +111,7 @@ export default function About() {
       />
 
       <PageHeader
+        image="/images/team-success.jpg"
         eyebrow="About Us"
         title="An AI-first engineering company for serious business problems."
         lead="We are an AI-first technology company helping organizations use artificial intelligence, data and cloud technologies to build smarter products, automate operations and make better decisions."
@@ -196,6 +198,7 @@ export default function About() {
 
       <HowWeWork variant="alt" />
 
+      <Testimonials variant="alt" />
       <FinalCTA />
     </>
   )

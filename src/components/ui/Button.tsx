@@ -34,8 +34,9 @@ const base =
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    'bg-primary text-white hover:bg-primary-hover active:bg-primary-hover ' +
-    'shadow-[0_1px_0_rgb(255_255_255/0.08)_inset,0_8px_20px_-8px_rgb(var(--c-primary)/0.55)]',
+    'bg-gradient-to-r from-primary to-violet-acc text-white ' +
+    'hover:brightness-110 active:brightness-95 transition-[filter] ' +
+    'shadow-[0_1px_0_rgb(255_255_255/0.15)_inset,0_10px_24px_-8px_rgb(var(--c-primary)/0.6)]',
   secondary:
     'border border-line-strong bg-surface text-ink hover:border-line-strong ' +
     'hover:bg-surface-2 active:bg-surface-3',

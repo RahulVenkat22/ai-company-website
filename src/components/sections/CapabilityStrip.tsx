@@ -48,8 +48,9 @@ function StripRun() {
 export function CapabilityStrip({ variant = 'default' }: CapabilityStripProps) {
   return (
     <section
+      id="capabilities"
       aria-label="Core capabilities"
-      className={`border-y border-line ${variantClasses[variant]}`}
+      className={`scroll-mt-20 border-y border-line ${variantClasses[variant]}`}
     >
       <p className="sr-only">
         Our core capabilities: AI, data, cloud, analytics, automation and software engineering.

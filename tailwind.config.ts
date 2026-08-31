@@ -95,13 +95,13 @@ export default {
         content: '80rem', // 1280px content width
       },
       borderRadius: {
-        card: '0.75rem',
-        btn: '0.5rem',
+        card: '1rem',
+        btn: '9999px',
       },
       boxShadow: {
-        card: '0 1px 2px 0 rgb(0 0 0 / 0.06), 0 8px 24px -12px rgb(0 0 0 / 0.25)',
+        card: '0 1px 2px 0 rgb(20 16 60 / 0.05), 0 12px 32px -14px rgb(20 16 60 / 0.28)',
         'card-hover':
-          '0 2px 4px 0 rgb(0 0 0 / 0.08), 0 16px 40px -12px rgb(0 0 0 / 0.35)',
+          '0 2px 4px 0 rgb(20 16 60 / 0.07), 0 22px 48px -16px rgb(var(--c-primary) / 0.35)',
         glow: '0 0 0 1px rgb(var(--c-accent) / 0.25), 0 0 32px -8px rgb(var(--c-accent) / 0.35)',
       },
       transitionTimingFunction: {
