@@ -7,11 +7,17 @@ website. The product requirements live in `prompt.md` at the repo root.
 
 - React 18 + TypeScript (strict) + Vite + Tailwind CSS. Path alias `@/` → `src/`.
 - Icons: **lucide-react only**. Always `aria-hidden="true"` on decorative icons.
-- **Framer Motion is allowed ONLY in** `src/components/sections/HeroVisualization.tsx`
-  and `src/components/sections/ProcessTimeline.tsx`. Everywhere else: CSS
-  animations/transitions only (utilities below). Both framer-motion components
-  must be loaded via `React.lazy` from their parent so the main bundle stays lean.
-- No new dependencies. No external images/CDNs — visuals are inline SVG or CSS.
+- Motion system (updated 2026-09-01, framer-motion removed): **GSAP +
+  ScrollTrigger** for scroll-scrubbed/pinned/orchestrated effects over NATIVE
+  scrolling (Lenis smooth-scroll was tried and removed — the user disliked
+  hijacked scrolling; do not reintroduce it). Import gsap/ScrollTrigger only
+  via `src/lib/gsap.ts`. Every GSAP effect must run inside `gsap.context()`
+  scoped to its component and `ctx.revert()` on unmount. Simple entrance reveals stay on the
+  CSS `.reveal` system — do not duplicate them in GSAP.
+- Photography lives in `public/images/` (Unsplash); the hero background video
+  in `public/videos/hero-network.mp4` (Mixkit free license — muted, looping,
+  paused off-screen, photo fallback under reduced motion). No other external
+  CDNs — remaining visuals are inline SVG or CSS.
 - Respect `prefers-reduced-motion`: the global CSS already disables transitions
   and reveals; for bespoke JS-driven motion, check
   `window.matchMedia('(prefers-reduced-motion: reduce)')`.

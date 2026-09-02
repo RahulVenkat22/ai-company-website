@@ -31,7 +31,7 @@ export function PageHeader({
   const layerRef = useParallax<HTMLDivElement>(0.25)
 
   return (
-    <div className="relative isolate overflow-hidden border-b border-line">
+    <div className="bg-window relative isolate overflow-hidden border-b border-line">
       <div
         ref={layerRef}
         className="parallax-layer -z-20"

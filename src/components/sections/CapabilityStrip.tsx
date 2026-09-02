@@ -8,6 +8,9 @@
  * leaves the first copy visible as a static strip.
  */
 
+import { useEffect, useRef } from 'react'
+import { gsap, ScrollTrigger, prefersReducedMotion } from '@/lib/gsap'
+
 const CAPABILITIES = [
   'AI',
   'Data',
@@ -46,6 +49,28 @@ function StripRun() {
 }
 
 export function CapabilityStrip({ variant = 'default' }: CapabilityStripProps) {
+  const wrapRef = useRef<HTMLDivElement>(null)
+
+  // Scroll-velocity skew: the marquee leans into fast scrolls and eases
+  // back upright when scrolling settles. Purely decorative (aria-hidden).
+  useEffect(() => {
+    const el = wrapRef.current
+    if (!el || prefersReducedMotion()) return
+
+    const ctx = gsap.context(() => {
+      const skewTo = gsap.quickTo(el, 'skewX', { duration: 0.4, ease: 'power2.out' })
+      const settle = gsap.delayedCall(0.15, () => skewTo(0)).pause()
+      ScrollTrigger.create({
+        onUpdate: (self) => {
+          skewTo(gsap.utils.clamp(-8, 8, self.getVelocity() / -300))
+          settle.restart(true)
+        },
+      })
+    })
+
+    return () => ctx.revert()
+  }, [])
+
   return (
     <section
       id="capabilities"
@@ -55,7 +80,7 @@ export function CapabilityStrip({ variant = 'default' }: CapabilityStripProps) {
       <p className="sr-only">
         Our core capabilities: AI, data, cloud, analytics, automation and software engineering.
       </p>
-      <div className="overflow-hidden py-4" aria-hidden="true">
+      <div ref={wrapRef} className="overflow-hidden py-4" aria-hidden="true">
         <div className="flex w-max animate-marquee">
           <StripRun />
           <StripRun />

@@ -3,6 +3,7 @@ import { Navbar } from './Navbar'
 import { Footer } from './Footer'
 import { ConsentBanner } from './ConsentBanner'
 import { ScrollManager } from './ScrollManager'
+import { ScrollProgress } from './ScrollProgress'
 
 /**
  * Site shell: skip link, sticky navbar, routed content, footer, consent.
@@ -19,6 +20,7 @@ export function Layout({ children }: { children: ReactNode }) {
       </a>
       <ScrollManager />
       <Navbar />
+      <ScrollProgress />
       <main id="main-content" tabIndex={-1} className="flex-1 pt-16 outline-none md:pt-[72px]">
         <Suspense
           fallback={

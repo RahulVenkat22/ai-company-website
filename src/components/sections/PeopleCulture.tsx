@@ -2,6 +2,7 @@ import { ArrowRight, HeartHandshake, Smile, Users } from 'lucide-react'
 import { Section } from '@/components/ui/Section'
 import { Button } from '@/components/ui/Button'
 import { Reveal } from '@/components/ui/Reveal'
+import { Drift } from '@/components/ui/Drift'
 
 interface PeopleCultureProps {
   variant?: 'default' | 'alt' | 'deep'
@@ -36,16 +37,18 @@ export function PeopleCulture({ variant = 'alt' }: PeopleCultureProps) {
   return (
     <Section id="people" variant={variant} ariaLabel="The people behind the technology">
       <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-        {/* Photo collage */}
+        {/* Photo collage — columns drift at different speeds for depth */}
         <div className="relative grid grid-cols-2 gap-4 sm:gap-5">
-          <Reveal className="photo-frame aspect-[3/4]">
-            <img
-              src="/images/team-success.jpg"
-              alt="Team members smiling while reviewing work together on a laptop"
-              loading="lazy"
-            />
-          </Reveal>
-          <div className="flex flex-col gap-4 sm:gap-5">
+          <Drift amp={16}>
+            <Reveal className="photo-frame aspect-[3/4]">
+              <img
+                src="/images/team-success.jpg"
+                alt="Team members smiling while reviewing work together on a laptop"
+                loading="lazy"
+              />
+            </Reveal>
+          </Drift>
+          <Drift amp={-26} className="flex flex-col gap-4 sm:gap-5">
             <Reveal delay={120} className="photo-frame aspect-[4/3]">
               <img
                 src="/images/happy-handshake.jpg"
@@ -60,7 +63,7 @@ export function PeopleCulture({ variant = 'alt' }: PeopleCultureProps) {
                 loading="lazy"
               />
             </Reveal>
-          </div>
+          </Drift>
 
           {/* Floating badge */}
           <Reveal

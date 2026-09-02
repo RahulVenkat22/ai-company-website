@@ -14,9 +14,10 @@ interface ParallaxBandProps {
 }
 
 /**
- * Full-bleed section with a scroll-linked parallax photo background and a
- * dark gradient overlay. Content inside is always rendered on dark, so use
- * explicit white/amber text classes rather than theme tokens.
+ * Full-bleed section acting as a window onto a viewport-fixed photograph:
+ * the page scrolls over the image while the image itself stays put, with a
+ * slow scrubbed zoom (useParallax). Content is always rendered on dark, so
+ * use explicit white/amber text classes rather than theme tokens.
  */
 export function ParallaxBand({
   image,
@@ -32,7 +33,7 @@ export function ParallaxBand({
     <section
       id={id}
       aria-label={ariaLabel}
-      className={`relative isolate overflow-hidden scroll-mt-20 ${className}`.trim()}
+      className={`bg-window relative isolate overflow-hidden scroll-mt-20 ${className}`.trim()}
     >
       <div
         ref={layerRef}

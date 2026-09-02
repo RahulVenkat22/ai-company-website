@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { trackEvent } from '@/lib/analytics'
+import { ScrollTrigger } from '@/lib/gsap'
 
 /**
  * Restores scroll position to top on route change, honours #hash anchors,
@@ -23,7 +24,7 @@ export function ScrollManager() {
     if (hash) {
       // Wait a frame so the target section has rendered.
       requestAnimationFrame(() => {
-        const el = document.querySelector(hash)
+        const el = document.querySelector<HTMLElement>(hash)
         if (el) {
           el.scrollIntoView({ behavior: 'auto', block: 'start' })
           return
@@ -33,6 +34,10 @@ export function ScrollManager() {
     } else {
       window.scrollTo(0, 0)
     }
+
+    // New page, new layout: recompute every trigger's positions once the
+    // lazy route chunk has painted.
+    requestAnimationFrame(() => ScrollTrigger.refresh())
     trackEvent('page_view', { path: pathname })
   }, [pathname, hash])
 

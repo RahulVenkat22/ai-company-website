@@ -13,7 +13,7 @@ import { Section } from '@/components/ui/Section'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Reveal } from '@/components/ui/Reveal'
+import { StackedCards } from '@/components/ui/StackedCards'
 
 type BadgeTone = 'neutral' | 'accent' | 'primary' | 'violet'
 
@@ -92,9 +92,16 @@ const solutions: Solution[] = [
   },
 ]
 
+/** Outcomes grouped two per stacking panel. */
+const pairs: Solution[][] = []
+for (let i = 0; i < solutions.length; i += 2) {
+  pairs.push(solutions.slice(i, i + 2))
+}
+
 /**
- * Business-outcome section: eight problem-to-solution cards mapping common
- * business needs to the capabilities that address them.
+ * Business-outcome section: eight problem-to-solution outcomes presented as
+ * stacking cards — each two-outcome panel sticks below the navbar and the
+ * next slides up over it.
  */
 export function WhatWeSolve({
   variant = 'alt',
@@ -109,25 +116,35 @@ export function WhatWeSolve({
         lead="Start from the business problem, not the technology. These are the outcomes teams most often ask us to deliver — each one backed by a specific engineering capability."
       />
 
-      <ul className="grid list-none grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {solutions.map(({ title, description, icon: Icon, tag, tone }, i) => (
-          <Reveal as="li" key={title} delay={80 * (i % 4)}>
-            <Card
-              interactive
-              className="flex h-full flex-col gap-4 p-6"
+      {/* Stacking panels: two outcomes per card, each panel slides up to
+          cover the previous one as the section scrolls (StackedCards). */}
+      <StackedCards top={7}>
+        {pairs.map((pair, p) => (
+          <Card
+            key={pair[0].title}
+            className="relative grid gap-x-10 gap-y-8 p-7 shadow-card-hover md:grid-cols-2 md:p-9"
+          >
+            {pair.map(({ title, description, icon: Icon, tag, tone }) => (
+              <div key={title} className="flex flex-col gap-4">
+                <span className="flex h-11 w-11 items-center justify-center rounded-card bg-primary/10 text-primary">
+                  <Icon aria-hidden="true" className="h-5 w-5" />
+                </span>
+                <h3 className="text-h4 text-ink">{title}</h3>
+                <p className="text-small text-ink-muted">{description}</p>
+                <span className="mt-auto pt-2">
+                  <Badge tone={tone}>{tag}</Badge>
+                </span>
+              </div>
+            ))}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute right-6 top-5 text-h3 font-semibold text-ink-subtle/30"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-card bg-primary/10 text-primary">
-                <Icon aria-hidden="true" className="h-5 w-5" />
-              </span>
-              <h3 className="text-h4 text-ink">{title}</h3>
-              <p className="text-small text-ink-muted">{description}</p>
-              <span className="mt-auto pt-2">
-                <Badge tone={tone}>{tag}</Badge>
-              </span>
-            </Card>
-          </Reveal>
+              {String(p + 1).padStart(2, '0')} / {String(pairs.length).padStart(2, '0')}
+            </span>
+          </Card>
         ))}
-      </ul>
+      </StackedCards>
     </Section>
   )
 }

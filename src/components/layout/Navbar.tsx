@@ -14,6 +14,7 @@ import { ThemeToggle } from './ThemeToggle'
 export function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const location = useLocation()
   const toggleRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -23,13 +24,21 @@ export function Navbar() {
     setOpen(false)
   }, [location.pathname])
 
-  // Elevated background once the page is scrolled.
+  // Elevated background once scrolled; slide away when scrolling down deep
+  // into the page, return the moment the user scrolls back up. Never hidden
+  // while the mobile menu is open, and focus-within reveals it via CSS.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
+    let lastY = window.scrollY
+    const onScroll = () => {
+      const y = window.scrollY
+      setScrolled(y > 8)
+      setHidden(y > lastY && y > 480 && !open)
+      lastY = y
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  }, [open])
 
   // Escape closes the menu; lock body scroll and make the covered page
   // content inert while open so Tab cannot reach hidden elements.
@@ -63,7 +72,9 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ease-premium focus-within:translate-y-0 motion-reduce:translate-y-0 ${
+        hidden ? '-translate-y-full' : 'translate-y-0'
+      } ${
         scrolled || open
           ? 'border-line bg-bg/90 backdrop-blur-md'
           : 'border-transparent bg-transparent'

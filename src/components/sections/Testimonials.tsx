@@ -3,6 +3,7 @@ import { Section } from '@/components/ui/Section'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
 import { Reveal } from '@/components/ui/Reveal'
+import { Drift } from '@/components/ui/Drift'
 import { testimonials, TESTIMONIALS_DISCLAIMER } from '@/data/testimonials'
 
 interface TestimonialsProps {
@@ -23,7 +24,9 @@ export function Testimonials({ variant = 'default' }: TestimonialsProps) {
       <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {testimonials.map((t, i) => (
           <Reveal as="li" key={t.name} delay={(i % 3) * 90} className="h-full">
-            <Card interactive className="flex h-full flex-col gap-5 p-6">
+            {/* Columns drift at slightly different speeds (masonry-like depth) */}
+            <Drift amp={[10, 30, 18][i % 3]} className="h-full">
+              <Card interactive className="flex h-full flex-col gap-5 p-6">
               <Quote className="h-7 w-7 text-primary/50" aria-hidden="true" />
               <p className="flex-1 text-body text-ink-muted">
                 &ldquo;{t.quote}&rdquo;
@@ -50,7 +53,8 @@ export function Testimonials({ variant = 'default' }: TestimonialsProps) {
                   <p className="text-caption text-ink-subtle">{t.role}</p>
                 </div>
               </div>
-            </Card>
+              </Card>
+            </Drift>
           </Reveal>
         ))}
       </ul>

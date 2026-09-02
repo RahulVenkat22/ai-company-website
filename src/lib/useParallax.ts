@@ -1,11 +1,15 @@
 import { useEffect, useRef } from 'react'
+import { gsap, prefersReducedMotion } from './gsap'
 
 /**
- * Scroll-linked parallax. Attach the returned ref to an oversized
- * `.parallax-layer` element; while its parent section is on screen the layer
- * is translated vertically at `speed` × scroll delta (rAF-throttled,
- * transform-only so it stays on the compositor). No-ops entirely under
- * prefers-reduced-motion — the CSS fallback pins the layer to the section.
+ * Cinematic zoom for a fixed-window background (`.parallax-layer` inside a
+ * `.bg-window` section): the image is pinned to the viewport by CSS while
+ * the page scrolls over it, and this hook scrubs a slow push-in as the
+ * section crosses the screen — the "background scroll" look of modern
+ * photography sites. Scale only ever grows from 1, so no edges appear.
+ *
+ * `speed` (kept from the old API) sets zoom depth: 0.2–0.3 ≈ 8–12%.
+ * No-ops under prefers-reduced-motion (CSS keeps the layer static).
  */
 export function useParallax<T extends HTMLElement = HTMLDivElement>(speed = 0.22) {
   const ref = useRef<T>(null)
@@ -14,30 +18,27 @@ export function useParallax<T extends HTMLElement = HTMLDivElement>(speed = 0.22
     const el = ref.current
     const parent = el?.parentElement
     if (!el || !parent) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (prefersReducedMotion()) return
 
-    let raf = 0
+    const zoom = 1 + Math.min(speed * 0.4, 0.14)
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el,
+        { scale: 1 },
+        {
+          scale: zoom,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: parent,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+          },
+        },
+      )
+    })
 
-    const update = () => {
-      raf = 0
-      const rect = parent.getBoundingClientRect()
-      // Distance of the section's center from the viewport's center.
-      const delta = rect.top + rect.height / 2 - window.innerHeight / 2
-      el.style.transform = `translate3d(0, ${(delta * speed).toFixed(1)}px, 0)`
-    }
-
-    const schedule = () => {
-      if (!raf) raf = requestAnimationFrame(update)
-    }
-
-    update()
-    window.addEventListener('scroll', schedule, { passive: true })
-    window.addEventListener('resize', schedule)
-    return () => {
-      window.removeEventListener('scroll', schedule)
-      window.removeEventListener('resize', schedule)
-      if (raf) cancelAnimationFrame(raf)
-    }
+    return () => ctx.revert()
   }, [speed])
 
   return ref
