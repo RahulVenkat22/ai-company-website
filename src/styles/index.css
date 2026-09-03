@@ -324,16 +324,54 @@
   }
 }
 
-/* Homepage over-video glass: content stretches between the video windows
-   soften their opaque fills so the scroll-scrubbed backdrop stays visible
-   behind everything. Single-class override wins over the bg-* utilities
-   by appearing later at equal specificity within the wrapper. */
+/* Homepage over-video content: the scroll-scrubbed video story IS the
+   background for these stretches, so they paint no fill of their own —
+   sections are fully transparent and the footage shows through.
+   The footage is dark whichever theme the visitor picked, so the dark
+   tokens are pinned locally here: text, borders and panels flip to
+   light-on-dark and stay legible even in light theme. Only cards keep a
+   translucent fill, so their copy reads against moving footage. */
 .story-glass {
-  background-color: rgb(var(--c-bg) / 0.88);
+  --c-bg: 12 12 29;
+  --c-surface: 18 18 40;
+  --c-surface-2: 26 26 54;
+  --c-surface-3: 36 36 70;
+  --c-border: 46 46 84;
+  --c-border-strong: 66 66 112;
+  --c-text: 240 240 250;
+  --c-text-muted: 178 180 208;
+  --c-text-subtle: 128 130 162;
+  --c-text-inverse: 14 14 30;
+  --c-primary: 109 106 245;
+  --c-primary-hover: 135 132 250;
+  --c-primary-soft: 34 32 74;
+  --c-accent: 250 190 88;
+  --c-accent-strong: 240 165 48;
+  --c-violet: 186 148 250;
+
+  color-scheme: dark;
+  /* Legibility scrim only — the footage still reads clearly through it.
+     This is the one fill left over the video; keep it low. */
+  background-color: rgb(var(--c-bg) / 0.45);
 }
 
-.story-glass .bg-surface {
-  background-color: rgb(var(--c-surface) / 0.78);
+/* Section bands paint nothing — this is what lets the video through. */
+.story-glass section,
+.story-glass section.bg-surface {
+  background-color: transparent;
+}
+
+/* Content panels stay as glass so their copy survives busy footage. */
+.story-glass .rounded-card.bg-surface {
+  background-color: rgb(var(--c-surface) / 0.55);
+  backdrop-filter: blur(12px);
+}
+
+/* Matches the dark-theme eyebrow treatment, which keys off :root. */
+.story-glass .eyebrow {
+  border-color: rgb(var(--c-accent) / 0.25);
+  background-color: rgb(var(--c-accent) / 0.1);
+  color: rgb(var(--c-accent));
 }
 
 @keyframes gradient-pan {

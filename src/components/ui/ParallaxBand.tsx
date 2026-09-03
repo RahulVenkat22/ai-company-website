@@ -48,11 +48,18 @@ export function ParallaxBand({
           aria-hidden="true"
         />
       )}
+      {/* Windowed (no-image) bands sit over the homepage video and stay
+          lighter than the surrounding `.story-glass` scrim, so a band reads
+          as the footage opening up rather than a darker stripe. */}
       <div
         className={`absolute inset-0 -z-10 ${
-          overlay === 'strong'
-            ? 'bg-gradient-to-b from-[#0C0C1D]/85 via-[#141433]/75 to-[#0C0C1D]/85'
-            : 'bg-[#0C0C1D]/60'
+          image
+            ? overlay === 'strong'
+              ? 'bg-gradient-to-b from-[#0C0C1D]/85 via-[#141433]/75 to-[#0C0C1D]/85'
+              : 'bg-[#0C0C1D]/60'
+            : overlay === 'strong'
+              ? 'bg-gradient-to-b from-[#0C0C1D]/40 via-[#141433]/25 to-[#0C0C1D]/40'
+              : 'bg-[#0C0C1D]/20'
         }`}
         aria-hidden="true"
       />
