@@ -324,6 +324,18 @@
   }
 }
 
+/* Homepage over-video glass: content stretches between the video windows
+   soften their opaque fills so the scroll-scrubbed backdrop stays visible
+   behind everything. Single-class override wins over the bg-* utilities
+   by appearing later at equal specificity within the wrapper. */
+.story-glass {
+  background-color: rgb(var(--c-bg) / 0.88);
+}
+
+.story-glass .bg-surface {
+  background-color: rgb(var(--c-surface) / 0.78);
+}
+
 @keyframes gradient-pan {
   from {
     background-position: 0% 50%;

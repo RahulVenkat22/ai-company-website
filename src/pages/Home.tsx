@@ -55,9 +55,11 @@ const HOME_JSONLD = {
  * why us (differentiators, security) → how to engage → invitation.
  *
  * A fixed three-video robot story (ScrollVideoStory) runs behind the whole
- * page; the Hero, both ParallaxBands and the FinalCTA are transparent
- * windows onto it, while every other stretch of content sits inside an
- * opaque `bg-bg` wrapper so the backdrop never bleeds through body copy.
+ * page, its playback scrubbed by scroll position. The Hero, both
+ * ParallaxBands and the FinalCTA are fully transparent windows onto it;
+ * every other stretch of content sits inside a `.story-glass` wrapper —
+ * translucent enough that the footage stays visible while scrolling, dense
+ * enough that body copy stays legible.
  */
 export default function Home() {
   return (
@@ -65,7 +67,7 @@ export default function Home() {
       <Seo title={TITLE} description={DESCRIPTION} path="/" jsonLd={HOME_JSONLD} />
       <ScrollVideoStory />
       <Hero />
-      <div className="bg-bg">
+      <div className="story-glass">
         <CapabilityStrip />
         <AIExpertise variant="alt" />
         <WhatWeSolve variant="default" />
@@ -97,7 +99,7 @@ export default function Home() {
           </ul>
         </Reveal>
       </ParallaxBand>
-      <div className="bg-bg">
+      <div className="story-glass">
         <RAGSection variant="deep" />
         <AgentsSection variant="default" />
         <MachineLearningSection variant="alt" />
@@ -127,7 +129,7 @@ export default function Home() {
           </p>
         </Reveal>
       </ParallaxBand>
-      <div className="bg-bg">
+      <div className="story-glass">
         <Testimonials variant="default" />
         <IndustriesSection variant="alt" />
         <WhyChooseUs variant="default" />

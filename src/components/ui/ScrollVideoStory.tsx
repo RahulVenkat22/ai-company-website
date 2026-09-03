@@ -3,23 +3,27 @@ import { gsap, ScrollTrigger, prefersReducedMotion } from '@/lib/gsap'
 
 /**
  * Homepage scroll story: three robot videos pinned to the viewport behind
- * the page, revealed through the transparent "window" sections (Hero, both
- * ParallaxBands, FinalCTA — each tagged `data-video-window`). Page scroll
- * is split into three zones; crossing a boundary crossfades to that zone's
- * video.
+ * the page. Playback is SCRUBBED by scroll — each zone of the page maps
+ * onto one video's timeline, so scrolling down advances the footage,
+ * scrolling up rewinds it, and the frame always corresponds to the scroll
+ * position. Nothing plays on its own; when scrolling stops, the frame
+ * holds (and no decoding happens at all).
+ *
+ * The backdrop is visible everywhere: fully through the window sections
+ * (Hero, both ParallaxBands, FinalCTA — tagged `data-video-window`) and
+ * dimly through the `.story-glass` content wrappers in Home.tsx. A wash
+ * div here keeps the footage dark enough for the glass to stay legible.
  *
  * Zone boundaries are measured from where the window sections actually sit
- * (window i shows video min(i, 2)): each boundary is the midpoint of the
- * scroll stretch where the backdrop is fully covered by opaque content
- * between two windows, so the crossfade itself happens off-screen and a
- * cut is never visible. If the windows can't be found, boundaries fall
- * back to equal thirds of the page.
+ * (window i shows video min(i, 2)), at the midpoint of the covered stretch
+ * between windows, falling back to equal thirds if the windows can't be
+ * found. Crossing a boundary crossfades to the next video.
  *
- * Battery rules: only the active video plays, and everything pauses while
- * no window is on screen or the tab is hidden. A video resumes from where
- * it paused (element currentTime is preserved). Under
+ * Seeks are eased toward the scroll-derived target each ticker frame, so
+ * fast scrolling stays smooth instead of thrashing the decoder; a video
+ * whose frame already matches its target costs nothing. Under
  * prefers-reduced-motion this renders only video 1, paused, as a static
- * first-frame backdrop — no autoplay, no fades.
+ * first-frame backdrop — no scrubbing, no fades.
  */
 
 const VIDEOS = [
@@ -29,6 +33,18 @@ const VIDEOS = [
 ]
 
 const FADE_SECONDS = 0.9
+
+/**
+ * Per-tick easing toward the target frame. The story files are encoded
+ * all-intra (`ffmpeg -g 1 -bf 0`) so every frame is a keyframe and each
+ * seek decodes exactly one frame — that encoding, not this constant, is
+ * what makes scrubbing smooth; don't replace the videos with normally
+ * encoded ones.
+ */
+const SEEK_EASE = 0.22
+
+/** Within this many seconds of the target, seek exactly once and settle. */
+const SEEK_SNAP = 0.1
 
 export function ScrollVideoStory() {
   const rootRef = useRef<HTMLDivElement>(null)
@@ -55,7 +71,7 @@ export function ScrollVideoStory() {
       const next: number[] = []
       for (let i = 0; i < windows.length - 1; i++) {
         if (videoFor(i) === videoFor(i + 1)) continue
-        // Backdrop is hidden from "window i fully scrolled past" until
+        // Backdrop is fully covered from "window i scrolled past" until
         // "window i+1 enters the viewport" — fade at the midpoint.
         const covered = docTop(windows[i]) + windows[i].offsetHeight
         const entering = docTop(windows[i + 1]) - window.innerHeight
@@ -70,64 +86,56 @@ export function ScrollVideoStory() {
     const zoneAt = (scrollY: number) =>
       bounds.reduce((zone, b) => (scrollY > b ? zone + 1 : zone), 0)
 
+    // Scroll-derived timeline position (0..1) per video. A video before its
+    // zone rests on its first frame, after its zone on its last, so
+    // re-entering a zone from either direction is continuous.
+    const targets = VIDEOS.map(() => 0)
+    const updateTargets = (y: number) => {
+      const max = Math.max(1, ScrollTrigger.maxScroll(window))
+      const edges = [0, ...bounds, max]
+      for (let i = 0; i < videos.length; i++) {
+        const start = edges[i]
+        const end = Math.max(edges[i + 1], start + 1)
+        targets[i] = Math.min(1, Math.max(0, (y - start) / (end - start)))
+      }
+    }
+    updateTargets(window.scrollY)
+
     let active = zoneAt(window.scrollY)
-    let windowsOnScreen = true
-
-    const play = (video: HTMLVideoElement) => {
-      void video.play().catch(() => {})
-    }
-
-    // Single source of truth for playback: the active video plays while a
-    // window is on screen and the tab is visible; everything else pauses
-    // once it is no longer mid-crossfade. Called from every event that can
-    // change that state, so races between fades and scrolling self-heal.
-    const syncPlayback = () => {
-      videos.forEach((video, i) => {
-        if (i === active) {
-          if (windowsOnScreen && !document.hidden) {
-            if (video.paused) play(video)
-          } else {
-            video.pause()
-          }
-        } else if (!video.paused && !gsap.isTweening(video)) {
-          video.pause()
-        }
-      })
-    }
 
     const ctx = gsap.context(() => {
       // Start on the zone the page is already scrolled to (no fade-in).
       videos.forEach((v, i) => gsap.set(v, { autoAlpha: i === active ? 1 : 0 }))
-      play(videos[active])
 
       const applyZone = (zone: number) => {
         if (zone === active) return
         const from = videos[active]
         const to = videos[zone]
         active = zone
-        // Any third video is out of both zones — hide and pause it now.
         videos.forEach((v) => {
-          if (v !== from && v !== to) {
-            gsap.set(v, { autoAlpha: 0 })
-            v.pause()
-          }
+          if (v !== from && v !== to) gsap.set(v, { autoAlpha: 0 })
         })
-        if (windowsOnScreen && !document.hidden) play(to)
+        // One jump-seek onto the incoming video's scroll frame before it
+        // fades in; from here the tick loop scrubs it as the active video.
+        if (to.duration && !to.seeking) {
+          to.currentTime = targets[zone] * (to.duration - 0.06)
+        }
         gsap.to(to, { autoAlpha: 1, duration: FADE_SECONDS, overwrite: 'auto' })
-        gsap.to(from, {
-          autoAlpha: 0,
-          duration: FADE_SECONDS,
-          overwrite: 'auto',
-          // Keep it moving through the crossfade, then stop decoding.
-          onComplete: syncPlayback,
-        })
+        gsap.to(from, { autoAlpha: 0, duration: FADE_SECONDS, overwrite: 'auto' })
       }
 
       ScrollTrigger.create({
         start: 0,
         end: () => ScrollTrigger.maxScroll(window),
-        onUpdate: (self) => applyZone(zoneAt(self.scroll())),
-        onRefresh: computeBounds,
+        onUpdate: (self) => {
+          const y = self.scroll()
+          applyZone(zoneAt(y))
+          updateTargets(y)
+        },
+        onRefresh: (self) => {
+          computeBounds()
+          updateTargets(self.scroll())
+        },
       })
 
       // Slow push-in across the whole page — the backdrop's parallax drift.
@@ -146,30 +154,37 @@ export function ScrollVideoStory() {
       )
     }, root)
 
-    // Pause everything while no window section is on screen.
-    const visibleWindows = new Set<Element>()
-    const io = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) visibleWindows.add(entry.target)
-        else visibleWindows.delete(entry.target)
-      }
-      windowsOnScreen = visibleWindows.size > 0
-      syncPlayback()
-    })
-    windows.forEach((el) => io.observe(el))
-
-    document.addEventListener('visibilitychange', syncPlayback)
+    // Scrub loop: ease ONLY the visible video's currentTime toward its
+    // scroll target — one video seeking at a time keeps the decoder
+    // responsive (hidden videos get a single jump-seek in applyZone
+    // instead). A pending seek naturally throttles the writes; once within
+    // SEEK_SNAP the video lands exactly on target and settles, costing
+    // nothing while the page is idle.
+    const tick = () => {
+      const video = videos[active]
+      const duration = video.duration
+      if (!duration || video.readyState < 2 || video.seeking) return
+      const target = targets[active] * (duration - 0.06)
+      const delta = target - video.currentTime
+      if (Math.abs(delta) <= 0.02) return
+      // Steady scrolling produces tiny deltas → exact seeks every frame.
+      // A flick or zone jump leaves a big gap → land in one seek rather
+      // than easing through several expensive intermediate ones.
+      video.currentTime =
+        Math.abs(delta) <= SEEK_SNAP || Math.abs(delta) > 1.5
+          ? target
+          : video.currentTime + delta * SEEK_EASE
+    }
+    gsap.ticker.add(tick)
 
     return () => {
-      document.removeEventListener('visibilitychange', syncPlayback)
-      io.disconnect()
-      videos.forEach((v) => v.pause())
+      gsap.ticker.remove(tick)
       ctx.revert()
     }
   }, [])
 
   if (motionOff) {
-    // Static backdrop: first frame of video 1, never played.
+    // Static backdrop: first frame of video 1, never advanced.
     return (
       <div
         ref={rootRef}
@@ -184,6 +199,7 @@ export function ScrollVideoStory() {
           preload="metadata"
           tabIndex={-1}
         />
+        <div className="absolute inset-0 bg-[#0C0C1D]/35" />
       </div>
     )
   }
@@ -201,13 +217,14 @@ export function ScrollVideoStory() {
           style={{ opacity: i === 0 ? 1 : 0 }}
           src={src}
           muted
-          loop
           playsInline
-          autoPlay={i === 0}
-          preload={i === 0 ? 'auto' : 'metadata'}
+          // Scrubbing needs the whole file buffered, or seeks stall.
+          preload="auto"
           tabIndex={-1}
         />
       ))}
+      {/* Permanent wash so the footage reads as backdrop, not content. */}
+      <div className="absolute inset-0 bg-[#0C0C1D]/35" />
     </div>
   )
 }
