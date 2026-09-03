@@ -16,6 +16,11 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
   const location = useLocation()
+  const isHome = location.pathname === '/'
+  // Home only: the video hero runs edge-to-edge under the navbar, so while
+  // it is still behind us the bar stays transparent with explicit white
+  // text (theme tokens would be illegible over the dark footage).
+  const [overHero, setOverHero] = useState(isHome)
   const toggleRef = useRef<HTMLButtonElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -33,12 +38,19 @@ export function Navbar() {
       const y = window.scrollY
       setScrolled(y > 8)
       setHidden(y > lastY && y > 480 && !open)
+      setOverHero(isHome && y < window.innerHeight - 96)
       lastY = y
     }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [open])
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [open, isHome])
+
+  const overVideo = overHero && !open
 
   // Escape closes the menu; lock body scroll and make the covered page
   // content inert while open so Tab cannot reach hidden elements.
@@ -64,7 +76,15 @@ export function Navbar() {
   const linkBase =
     'whitespace-nowrap rounded-btn px-1.5 py-2 text-[13px] font-medium transition-colors duration-200 2xl:px-2.5 2xl:text-small'
   const desktopLink = ({ isActive }: { isActive: boolean }) =>
-    `${linkBase} ${isActive ? 'text-ink' : 'text-ink-muted hover:text-ink'}`
+    `${linkBase} ${
+      overVideo
+        ? isActive
+          ? 'text-white'
+          : 'text-white/75 hover:text-white'
+        : isActive
+          ? 'text-ink'
+          : 'text-ink-muted hover:text-ink'
+    }`
   const mobileLink = ({ isActive }: { isActive: boolean }) =>
     `block rounded-btn px-4 py-3 text-body font-medium transition-colors duration-200 ${
       isActive ? 'bg-surface-2 text-ink' : 'text-ink-muted hover:bg-surface-2 hover:text-ink'
@@ -75,13 +95,13 @@ export function Navbar() {
       className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-300 ease-premium focus-within:translate-y-0 motion-reduce:translate-y-0 ${
         hidden ? '-translate-y-full' : 'translate-y-0'
       } ${
-        scrolled || open
+        (scrolled || open) && !overVideo
           ? 'border-line bg-bg/90 backdrop-blur-md'
           : 'border-transparent bg-transparent'
       }`}
     >
       <nav aria-label="Main" className="container-site flex h-16 items-center justify-between gap-4 md:h-[72px]">
-        <Logo onClick={() => setOpen(false)} />
+        <Logo onClick={() => setOpen(false)} onDark={overVideo} />
 
         {/* Desktop navigation */}
         <div className="hidden items-center gap-0.5 xl:flex">
@@ -95,7 +115,7 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-2.5">
-          <ThemeToggle className="hidden md:inline-flex" />
+          <ThemeToggle className="hidden md:inline-flex" onDark={overVideo} />
           <Button
             to="/contact"
             size="sm"
@@ -117,7 +137,11 @@ export function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? 'Close menu' : 'Open menu'}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-btn border border-line text-ink transition-colors hover:border-line-strong xl:hidden"
+            className={`inline-flex h-10 w-10 items-center justify-center rounded-btn border transition-colors xl:hidden ${
+              overVideo
+                ? 'border-white/30 text-white hover:border-white/60'
+                : 'border-line text-ink hover:border-line-strong'
+            }`}
           >
             {open ? (
               <X className="h-5 w-5" aria-hidden="true" />

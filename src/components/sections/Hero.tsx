@@ -1,23 +1,21 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { ArrowRight, ChevronDown, Sparkles, Star } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
-import { useParallax } from '@/lib/useParallax'
-import { gsap, ScrollTrigger, prefersReducedMotion } from '@/lib/gsap'
+import { gsap, prefersReducedMotion } from '@/lib/gsap'
 
 /**
- * Homepage hero — a fixed-window abstract AI-network video background
- * (Mixkit free license, /public/videos/hero-network.mp4; muted, looping,
- * paused while off-screen) behind ONE orchestrated GSAP entrance (the
- * boldest motion moment on the page): badge → headline words → lead →
- * CTAs → social proof. Scrolling away scrubs the content up and out over
- * the pinned backdrop. Owns the only h1 on the home page. Content sits on
- * a dark backdrop, so colors here are explicit (white/amber), not theme
- * tokens.
+ * Homepage hero — a transparent window (`data-video-window`) onto the
+ * page-wide ScrollVideoStory backdrop, carrying only its dark gradient
+ * wash, behind ONE orchestrated GSAP entrance (the boldest motion moment
+ * on the page): badge → headline words → lead → CTAs → social proof.
+ * Scrolling away scrubs the content up and out over the pinned backdrop.
+ * Owns the only h1 on the home page. Content sits on a dark backdrop, so
+ * colors here are explicit (white/amber), not theme tokens.
  *
- * Under prefers-reduced-motion nothing animates: the video is replaced by
- * the hero photograph, the JSX below is already the final state and every
- * tween is skipped.
+ * Under prefers-reduced-motion nothing animates: the JSX below is already
+ * the final state, every tween is skipped, and the backdrop shows a static
+ * frame.
  */
 
 const HEADLINE: Array<{ text: string; gradient?: boolean }> = [
@@ -43,27 +41,10 @@ const AVATARS = [
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null)
-  const layerRef = useParallax<HTMLVideoElement>(0.3)
-  // Reduced motion: static photo instead of an autoplaying video.
-  const [motionOff] = useState(() => prefersReducedMotion())
 
   useEffect(() => {
     const section = sectionRef.current
     if (!section || prefersReducedMotion()) return
-
-    // Decode the video only while the hero can be seen.
-    const video = section.querySelector('video')
-    const videoToggle = video
-      ? ScrollTrigger.create({
-          trigger: section,
-          start: 'top bottom',
-          end: 'bottom top',
-          onToggle: (self) => {
-            if (self.isActive) void video.play().catch(() => {})
-            else video.pause()
-          },
-        })
-      : null
 
     const ctx = gsap.context(() => {
       // Entrance: one deliberate sequence, slightly overlapped.
@@ -107,40 +88,18 @@ export function Hero() {
       })
     }, section)
 
-    return () => {
-      videoToggle?.kill()
-      ctx.revert()
-    }
+    return () => ctx.revert()
   }, [])
 
   return (
     <section
       ref={sectionRef}
-      className="bg-window relative isolate flex min-h-[100svh] items-center overflow-hidden"
+      data-video-window
+      className="relative isolate -mt-16 flex min-h-[100svh] items-center overflow-hidden md:-mt-[72px]"
       aria-label="AI-first engineering for real business outcomes"
     >
-      {/* Fixed-window backdrop: abstract AI-network video (photo under
-          reduced motion) + cinematic overlay */}
-      {motionOff ? (
-        <div
-          className="parallax-layer hero-bg -z-20"
-          style={{ backgroundImage: 'url(/images/hero-team.jpg)' }}
-          aria-hidden="true"
-        />
-      ) : (
-        <video
-          ref={layerRef}
-          className="parallax-layer hero-bg -z-20 object-cover"
-          src="/videos/hero-network.mp4"
-          poster="/images/hero-team.jpg"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          aria-hidden="true"
-        />
-      )}
+      {/* Window onto the fixed ScrollVideoStory backdrop — this section only
+          carries the cinematic wash that keeps the copy legible. */}
       <div
         className="absolute inset-0 -z-10 bg-gradient-to-br from-[#0C0C1D]/95 via-[#141433]/80 to-[#0C0C1D]/60"
         aria-hidden="true"

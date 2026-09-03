@@ -6,7 +6,14 @@ import { site } from '@/config/site'
  * The mark is a simple abstract "node + connections" glyph consistent with
  * the technical visual language of the site.
  */
-export function Logo({ onClick }: { onClick?: () => void }) {
+export function Logo({
+  onClick,
+  onDark = false,
+}: {
+  onClick?: () => void
+  /** Explicit light colors for use over the dark video hero. */
+  onDark?: boolean
+}) {
   return (
     <Link
       to="/"
@@ -28,12 +35,16 @@ export function Logo({ onClick }: { onClick?: () => void }) {
         <circle cx="19.5" cy="16.5" r="2.4" className="fill-violet-acc" />
         <path
           d="M10.5 17.2 12.8 11M15.8 10.5l2.4 4.2M11.4 19h5.7"
-          className="stroke-ink-subtle"
+          className={onDark ? 'stroke-white/60' : 'stroke-ink-subtle'}
           strokeWidth="1.3"
           strokeLinecap="round"
         />
       </svg>
-      <span className="text-[17px] font-semibold tracking-tight text-ink">
+      <span
+        className={`text-[17px] font-semibold tracking-tight ${
+          onDark ? 'text-white' : 'text-ink'
+        }`}
+      >
         {site.wordmark}
       </span>
     </Link>

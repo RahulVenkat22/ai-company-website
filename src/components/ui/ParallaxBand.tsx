@@ -3,8 +3,12 @@ import { Container } from './Container'
 import { useParallax } from '@/lib/useParallax'
 
 interface ParallaxBandProps {
-  /** Background photo (public path, e.g. /images/band-collab.jpg). */
-  image: string
+  /**
+   * Background photo (public path, e.g. /images/band-collab.jpg). Omit to
+   * make the band a transparent window onto the page's ScrollVideoStory
+   * backdrop (homepage only) — the dark overlay still renders on top.
+   */
+  image?: string
   children: ReactNode
   id?: string
   className?: string
@@ -14,7 +18,7 @@ interface ParallaxBandProps {
 }
 
 /**
- * Full-bleed section acting as a window onto a viewport-fixed photograph:
+ * Full-bleed section acting as a window onto a viewport-fixed backdrop:
  * the page scrolls over the image while the image itself stays put, with a
  * slow scrubbed zoom (useParallax). Content is always rendered on dark, so
  * use explicit white/amber text classes rather than theme tokens.
@@ -33,14 +37,17 @@ export function ParallaxBand({
     <section
       id={id}
       aria-label={ariaLabel}
-      className={`bg-window relative isolate overflow-hidden scroll-mt-20 ${className}`.trim()}
+      data-video-window={image ? undefined : ''}
+      className={`${image ? 'bg-window ' : ''}relative isolate overflow-hidden scroll-mt-20 ${className}`.trim()}
     >
-      <div
-        ref={layerRef}
-        className="parallax-layer -z-10"
-        style={{ backgroundImage: `url(${image})` }}
-        aria-hidden="true"
-      />
+      {image && (
+        <div
+          ref={layerRef}
+          className="parallax-layer -z-10"
+          style={{ backgroundImage: `url(${image})` }}
+          aria-hidden="true"
+        />
+      )}
       <div
         className={`absolute inset-0 -z-10 ${
           overlay === 'strong'

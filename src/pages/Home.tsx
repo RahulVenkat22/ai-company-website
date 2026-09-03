@@ -26,6 +26,7 @@ import { FinalCTA } from '@/components/sections/FinalCTA'
 import { Testimonials } from '@/components/sections/Testimonials'
 import { PeopleCulture } from '@/components/sections/PeopleCulture'
 import { ParallaxBand } from '@/components/ui/ParallaxBand'
+import { ScrollVideoStory } from '@/components/ui/ScrollVideoStory'
 import { HeartHandshake, Lightbulb, ShieldCheck } from 'lucide-react'
 import { Reveal } from '@/components/ui/Reveal'
 
@@ -52,20 +53,25 @@ const HOME_JSONLD = {
  * how we solve them (services + capability deep-dives) → how we build
  * (stack, process) → evidence (stories, case studies, industries) →
  * why us (differentiators, security) → how to engage → invitation.
+ *
+ * A fixed three-video robot story (ScrollVideoStory) runs behind the whole
+ * page; the Hero, both ParallaxBands and the FinalCTA are transparent
+ * windows onto it, while every other stretch of content sits inside an
+ * opaque `bg-bg` wrapper so the backdrop never bleeds through body copy.
  */
 export default function Home() {
   return (
     <>
       <Seo title={TITLE} description={DESCRIPTION} path="/" jsonLd={HOME_JSONLD} />
+      <ScrollVideoStory />
       <Hero />
-      <CapabilityStrip />
-      <AIExpertise variant="alt" />
-      <WhatWeSolve variant="default" />
-      <ServicesOverview variant="alt" />
-      <ParallaxBand
-        image="/images/band-collab.jpg"
-        ariaLabel="Technology built by people, for people"
-      >
+      <div className="bg-bg">
+        <CapabilityStrip />
+        <AIExpertise variant="alt" />
+        <WhatWeSolve variant="default" />
+        <ServicesOverview variant="alt" />
+      </div>
+      <ParallaxBand ariaLabel="Technology built by people, for people">
         <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
           <h2 className="text-h2 text-balance text-white">
             Technology built <span className="text-gradient">by people, for people</span>
@@ -91,25 +97,23 @@ export default function Home() {
           </ul>
         </Reveal>
       </ParallaxBand>
-      <RAGSection variant="deep" />
-      <AgentsSection variant="default" />
-      <MachineLearningSection variant="alt" />
-      <AnalyticsBISection variant="default" />
-      <CloudSection variant="alt" />
-      <SoftwareSection variant="default" />
-      <AIAutomationSection variant="alt" />
-      <TestingSection variant="default" />
-      <AIArchitectureSection variant="alt" />
-      <TechnologyStackSection variant="default" />
-      <HowWeWork variant="alt" />
-      <PeopleCulture variant="default" />
-      <TechnologyStoriesSection variant="alt" />
-      <CaseStudiesSection variant="default" />
-      <ParallaxBand
-        image="/images/band-tech.jpg"
-        overlay="soft"
-        ariaLabel="From idea to production"
-      >
+      <div className="bg-bg">
+        <RAGSection variant="deep" />
+        <AgentsSection variant="default" />
+        <MachineLearningSection variant="alt" />
+        <AnalyticsBISection variant="default" />
+        <CloudSection variant="alt" />
+        <SoftwareSection variant="default" />
+        <AIAutomationSection variant="alt" />
+        <TestingSection variant="default" />
+        <AIArchitectureSection variant="alt" />
+        <TechnologyStackSection variant="default" />
+        <HowWeWork variant="alt" />
+        <PeopleCulture variant="default" />
+        <TechnologyStoriesSection variant="alt" />
+        <CaseStudiesSection variant="default" />
+      </div>
+      <ParallaxBand overlay="soft" ariaLabel="From idea to production">
         <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
           <p className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-caption font-semibold uppercase tracking-[0.14em] text-amber-300 backdrop-blur-sm">
             From idea to production
@@ -123,12 +127,14 @@ export default function Home() {
           </p>
         </Reveal>
       </ParallaxBand>
-      <Testimonials variant="default" />
-      <IndustriesSection variant="alt" />
-      <WhyChooseUs variant="default" />
-      <SecuritySection variant="deep" />
-      <EngagementModels variant="default" />
-      <FinalCTA />
+      <div className="bg-bg">
+        <Testimonials variant="default" />
+        <IndustriesSection variant="alt" />
+        <WhyChooseUs variant="default" />
+        <SecuritySection variant="deep" />
+        <EngagementModels variant="default" />
+      </div>
+      <FinalCTA background="story" />
     </>
   )
 }

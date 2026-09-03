@@ -4,15 +4,20 @@ import { Button } from '@/components/ui/Button'
 import { Reveal } from '@/components/ui/Reveal'
 
 /**
- * Pre-footer conversion band: full-bleed parallax photograph of a team at
- * work with the invitation on top. Both CTAs route to the contact page and
- * fire analytics events.
+ * Pre-footer conversion band: full-bleed parallax backdrop with the
+ * invitation on top. Both CTAs route to the contact page and fire
+ * analytics events. `background="story"` (homepage) drops the photo so the
+ * band becomes a window onto the ScrollVideoStory video backdrop.
  */
-export function FinalCTA() {
+export function FinalCTA({
+  background = 'photo',
+}: {
+  background?: 'photo' | 'story'
+} = {}) {
   return (
     <ParallaxBand
       id="final-cta"
-      image="/images/band-meeting.jpg"
+      image={background === 'photo' ? '/images/band-meeting.jpg' : undefined}
       ariaLabel="Start a project with us"
     >
       <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
