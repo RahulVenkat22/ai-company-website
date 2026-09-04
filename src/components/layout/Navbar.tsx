@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { ArrowRight, Menu, X } from 'lucide-react'
 import { navLinks } from '@/config/site'
 import { Button } from '@/components/ui/Button'
+import { useTheme } from '@/lib/theme'
 import { Logo } from './Logo'
 import { ThemeToggle } from './ThemeToggle'
 
@@ -50,7 +51,11 @@ export function Navbar() {
     }
   }, [open, isHome])
 
-  const overVideo = overHero && !open
+  const { theme } = useTheme()
+  // Explicit white nav colors are needed only while the DARK hero wash is
+  // behind the bar; the light theme veils the hero in paper, where normal
+  // ink tokens are the readable choice.
+  const overVideo = overHero && !open && theme === 'dark'
 
   // Escape closes the menu; lock body scroll and make the covered page
   // content inert while open so Tab cannot reach hidden elements.
@@ -126,7 +131,7 @@ export function Navbar() {
               <ArrowRight className="hidden h-4 w-4 2xl:block" aria-hidden="true" />
             }
           >
-            Let's Build Something Intelligent
+            Start a project
           </Button>
 
           {/* Mobile menu toggle */}
@@ -177,7 +182,7 @@ export function Navbar() {
               eventParams={{ location: 'mobile_menu' }}
               iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
             >
-              Let's Build Something Intelligent
+              Start a project
             </Button>
             <ThemeToggle />
           </div>

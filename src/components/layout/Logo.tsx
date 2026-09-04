@@ -29,7 +29,7 @@ export function Logo({
         aria-hidden="true"
         className="shrink-0"
       >
-        <rect x="1" y="1" width="26" height="26" rx="7" className="fill-primary/15 stroke-primary/60" />
+        <rect x="1" y="1" width="26" height="26" rx="5" className="fill-primary/10 stroke-primary/60" />
         <circle cx="9" cy="19" r="2.4" className="fill-accent" />
         <circle cx="14" cy="9" r="2.4" className="fill-primary" />
         <circle cx="19.5" cy="16.5" r="2.4" className="fill-violet-acc" />

@@ -1,4 +1,4 @@
-import { Info, Quote, Star } from 'lucide-react'
+import { Info } from 'lucide-react'
 import { Section } from '@/components/ui/Section'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
@@ -10,13 +10,13 @@ interface TestimonialsProps {
   variant?: 'default' | 'alt' | 'deep'
 }
 
-/** Happy-clients wall: smiling faces, five-star ratings and short quotes. */
+/** Client quotes: editorial pull-quote cards with plain attribution. */
 export function Testimonials({ variant = 'default' }: TestimonialsProps) {
   return (
     <Section id="testimonials" variant={variant} ariaLabel="What clients say">
       <SectionHeading
         align="center"
-        eyebrow="Happy Clients"
+        eyebrow="Kind words"
         title="People enjoy working with us — and it shows"
         lead="Real partnerships, plain language and systems that keep working after launch. Here is the kind of feedback we build for."
       />
@@ -27,18 +27,15 @@ export function Testimonials({ variant = 'default' }: TestimonialsProps) {
             {/* Columns drift at slightly different speeds (masonry-like depth) */}
             <Drift amp={[10, 30, 18][i % 3]} className="h-full">
               <Card interactive className="flex h-full flex-col gap-5 p-6">
-              <Quote className="h-7 w-7 text-primary/50" aria-hidden="true" />
-              <p className="flex-1 text-body text-ink-muted">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <div
-                className="flex items-center gap-1 text-accent"
-                aria-label="Five star rating"
+              <span
+                className="font-serif text-5xl leading-none text-primary/70"
+                aria-hidden="true"
               >
-                {Array.from({ length: 5 }, (_, s) => (
-                  <Star key={s} className="h-4 w-4 fill-current" aria-hidden="true" />
-                ))}
-              </div>
+                &ldquo;
+              </span>
+              <p className="-mt-4 flex-1 text-body text-ink-muted">
+                {t.quote}&rdquo;
+              </p>
               <div className="flex items-center gap-3 border-t border-line pt-5">
                 <img
                   src={t.image}

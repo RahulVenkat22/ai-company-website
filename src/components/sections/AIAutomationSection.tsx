@@ -3,6 +3,7 @@ import {
   ArrowDown,
   ArrowRight,
   BarChart3,
+  Bot,
   Cog,
   FileClock,
   FileSearch,
@@ -12,7 +13,6 @@ import {
   Mail,
   MessageSquare,
   Scale,
-  Sparkles,
   TrendingUp,
   Workflow,
   type LucideIcon,
@@ -44,7 +44,7 @@ const stages: TransformationStage[] = [
   {
     name: 'AI Automation',
     descriptor: 'Models take on the routine steps',
-    icon: Sparkles,
+    icon: Bot,
     cardClass: 'border border-line bg-surface',
     tileClass: 'bg-primary/10 text-primary',
     nameClass: 'text-ink-muted',
@@ -62,7 +62,7 @@ const stages: TransformationStage[] = [
     descriptor: 'Faster cycles, people on higher-value work',
     icon: TrendingUp,
     cardClass: 'border border-primary/40 bg-primary/10 shadow-card',
-    tileClass: 'bg-primary text-white',
+    tileClass: 'bg-primary text-ink-inverse',
     nameClass: 'text-ink',
   },
 ]
@@ -149,7 +149,7 @@ export function AIAutomationSection({ variant = 'default' }: AIAutomationSection
     <Section id="automation" variant={variant}>
       <SectionHeading
         eyebrow="AI Automation"
-        title="Automate Work. Amplify People."
+        title="Automate the work, amplify the people"
         lead="We automate the repetitive work that slows teams down — document handling, reporting, support, routine decisions — so your people spend their time on judgment, relationships and the problems software cannot solve."
       />
 

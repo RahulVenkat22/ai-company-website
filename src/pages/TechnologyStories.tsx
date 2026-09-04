@@ -65,7 +65,7 @@ export default function TechnologyStories() {
       />
       <PageHeader
         eyebrow="Technology Stories"
-        title="How Problems Become Systems"
+        title="How problems become systems"
         lead="Illustrative engineering narratives — not client references. Each story shows the pattern we follow when a class of business problem becomes a production system. Approved client case studies will be published separately."
       />
 

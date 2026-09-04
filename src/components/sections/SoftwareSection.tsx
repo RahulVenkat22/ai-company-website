@@ -55,7 +55,7 @@ export function SoftwareSection({ variant = 'alt' }: SoftwareSectionProps) {
     <Section id="software" variant={variant}>
       <SectionHeading
         eyebrow="Software Engineering"
-        title="From Idea to Production-Ready Application."
+        title="From idea to production-ready application"
         lead="Full-lifecycle engineering — architecture, build, integration and modernization — with the same production standards whether the application is AI-powered or not."
       />
 

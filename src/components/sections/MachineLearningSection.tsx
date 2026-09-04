@@ -14,8 +14,8 @@ import {
   Network,
   Rocket,
   SlidersHorizontal,
-  Sparkles,
   Tags,
+  ThumbsUp,
   TrendingUp,
   Workflow,
   type LucideIcon,
@@ -74,7 +74,7 @@ const services: MlService[] = [
     description: 'Time-series models for demand, capacity and financial planning.',
   },
   {
-    icon: Sparkles,
+    icon: ThumbsUp,
     name: 'Recommendation Systems',
     description: 'Personalized ranking and relevance that improve with every interaction.',
   },
@@ -123,7 +123,7 @@ export function MachineLearningSection({ variant = 'default' }: MachineLearningS
     <Section id="machine-learning" variant={variant}>
       <SectionHeading
         eyebrow="Machine Learning & Data Science"
-        title="Turn Data Into Predictive Intelligence."
+        title="Turn data into predictive intelligence"
         lead="We design, train and operate models that move decisions from hindsight to foresight — engineered for production from day one, not left behind in a notebook."
       />
 

@@ -28,18 +28,16 @@ interface ButtonProps {
 }
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-btn font-semibold ' +
+  'inline-flex items-center justify-center gap-2 rounded-btn font-medium ' +
   'transition-colors duration-200 ease-premium select-none ' +
   'disabled:pointer-events-none disabled:opacity-55'
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    'bg-gradient-to-r from-primary to-violet-acc text-white ' +
-    'hover:brightness-110 active:brightness-95 transition-[filter] ' +
-    'shadow-[0_1px_0_rgb(255_255_255/0.15)_inset,0_10px_24px_-8px_rgb(var(--c-primary)/0.6)]',
+    'bg-primary text-ink-inverse hover:bg-primary-hover active:bg-primary',
   secondary:
-    'border border-line-strong bg-surface text-ink hover:border-line-strong ' +
-    'hover:bg-surface-2 active:bg-surface-3',
+    'border border-line-strong bg-transparent text-ink ' +
+    'hover:border-ink/50 hover:bg-surface-2/60 active:bg-surface-3',
   ghost: 'text-ink-muted hover:text-ink hover:bg-surface-2 active:bg-surface-3',
 }
 

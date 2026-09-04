@@ -19,6 +19,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Card } from '@/components/ui/Card'
 import { Reveal } from '@/components/ui/Reveal'
 import { HowWeWork } from '@/components/sections/HowWeWork'
+import { PeopleCulture } from '@/components/sections/PeopleCulture'
 import { FinalCTA } from '@/components/sections/FinalCTA'
 import { Testimonials } from '@/components/sections/Testimonials'
 
@@ -197,6 +198,8 @@ export default function About() {
       </Section>
 
       <HowWeWork variant="alt" />
+
+      <PeopleCulture variant="default" />
 
       <Testimonials variant="alt" />
       <FinalCTA />

@@ -73,7 +73,7 @@ export function DataVizSection({ variant = 'default' }: DataVizSectionProps) {
     <Section id="visualization" variant={variant}>
       <SectionHeading
         eyebrow="Data Visualization"
-        title="Dashboards People Actually Use."
+        title="Dashboards people actually use"
         lead="A dashboard succeeds when someone checks it every morning. We design visual reporting around the decisions your teams make — not around how much data we can fit on one screen."
       />
 

@@ -30,7 +30,7 @@ export function CaseStudiesSection({
     <Section id="case-studies" variant={variant}>
       <SectionHeading
         eyebrow="Case Studies"
-        title="Engineering Work, End to End."
+        title="Engineering work, end to end"
         lead="Challenge, architecture, implementation and outcome — written the way we actually deliver. These projects are illustrative: no client names, no invented numbers."
       />
 
@@ -61,7 +61,7 @@ export function CaseStudiesSection({
                 {study.technologies.slice(0, 4).map((tech) => (
                   <li
                     key={tech}
-                    className="rounded-full border border-line bg-surface-2 px-2.5 py-0.5 text-caption text-ink-muted"
+                    className="rounded border border-line bg-surface-2 px-2.5 py-0.5 font-mono text-caption text-ink-muted"
                   >
                     {tech}
                   </li>

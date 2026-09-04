@@ -39,18 +39,19 @@ export function PageHeader({
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 -z-10 bg-gradient-to-br from-[#0C0C1D]/90 via-[#141433]/80 to-[#0C0C1D]/65"
+        className="absolute inset-0 -z-10 bg-gradient-to-br from-[#0A0A0B]/90 via-[#0A0A0B]/75 to-[#0A0A0B]/55"
         aria-hidden="true"
       />
       <Container className="relative py-24 md:py-28 lg:py-32">
         <Reveal className="flex max-w-3xl flex-col gap-5 pt-8">
           {eyebrow && (
-            <p className="inline-flex w-fit items-center rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-caption font-semibold uppercase tracking-[0.14em] text-amber-300 backdrop-blur-sm">
+            <p className="inline-flex w-fit items-center gap-3 font-mono text-caption uppercase tracking-[0.2em] text-white/70">
+              <span className="h-px w-7 bg-[#FF5E1C]" aria-hidden="true" />
               {eyebrow}
             </p>
           )}
           <h1 className="text-h1 text-white">{title}</h1>
-          {lead && <p className="max-w-2xl text-body-lg text-slate-200">{lead}</p>}
+          {lead && <p className="max-w-2xl text-body-lg text-white/75">{lead}</p>}
           {children && <div className="mt-2 flex flex-wrap gap-3">{children}</div>}
         </Reveal>
       </Container>

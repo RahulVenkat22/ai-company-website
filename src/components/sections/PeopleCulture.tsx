@@ -71,9 +71,9 @@ export function PeopleCulture({ variant = 'alt' }: PeopleCultureProps) {
             delay={350}
             className="absolute -bottom-5 left-1/2 -translate-x-1/2"
           >
-            <div className="animate-float-slow flex items-center gap-2 rounded-full border border-line bg-surface px-5 py-2.5 shadow-card">
+            <div className="animate-float-slow flex items-center gap-2.5 rounded border border-line bg-surface px-4 py-2.5 shadow-card">
               <Smile className="h-4 w-4 text-accent" aria-hidden="true" />
-              <span className="text-small font-semibold text-ink">
+              <span className="text-small font-medium text-ink">
                 Built by humans, powered by AI
               </span>
             </div>
@@ -83,9 +83,9 @@ export function PeopleCulture({ variant = 'alt' }: PeopleCultureProps) {
         {/* Copy */}
         <div className="flex flex-col gap-6">
           <Reveal className="flex flex-col gap-4">
-            <p className="eyebrow">People First</p>
+            <p className="eyebrow">People first</p>
             <h2 className="text-h2">
-              Great AI is built by <span className="text-gradient">happy people</span>,
+              Great AI is built by <span className="accent-word">happy people</span>,
               for happy people
             </h2>
             <p className="text-body-lg text-ink-muted">

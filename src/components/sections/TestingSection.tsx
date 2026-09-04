@@ -51,7 +51,7 @@ export function TestingSection({ variant = 'default' }: TestingSectionProps) {
     <Section id="testing" variant={variant}>
       <SectionHeading
         eyebrow="Testing & Quality Engineering"
-        title="Quality Engineered Into Every Release."
+        title="Quality engineered into every release"
         lead="Testing is not a gate at the end of a project. We build it into the pipeline, so every change ships with evidence that it works — and keeps working."
       />
 

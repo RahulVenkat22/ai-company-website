@@ -30,19 +30,28 @@ export function StackedCards({ children, top = 6 }: StackedCardsProps) {
         const next = items[i + 1]
         if (!next) return
         // As the next card approaches its sticky position, the covered card
-        // recedes: scaled down slightly and dimmed.
-        gsap.to(item.firstElementChild, {
-          scale: 0.94,
-          autoAlpha: 0.5,
-          transformOrigin: 'center top',
-          ease: 'none',
-          scrollTrigger: {
-            trigger: next,
-            start: 'top bottom',
-            end: 'top 20%',
-            scrub: true,
+        // recedes: scaled down slightly and darkened. Brightness, not
+        // opacity — a transparent card would expose the cards (and video
+        // backdrop) stacked beneath it. fromTo with explicit endpoints:
+        // a plain .to() re-captures its start from the already-dimmed
+        // value on ScrollTrigger refreshes, compounding the dim until
+        // deep cards render almost black.
+        gsap.fromTo(
+          item.firstElementChild,
+          { scale: 1, filter: 'brightness(1)' },
+          {
+            scale: 0.94,
+            filter: 'brightness(0.55)',
+            transformOrigin: 'center top',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: next,
+              start: 'top bottom',
+              end: 'top 20%',
+              scrub: true,
+            },
           },
-        })
+        )
       })
     }, root)
 

@@ -1,9 +1,9 @@
 import {
   ArrowRight,
+  Brain,
   MessagesSquare,
   Network,
   ScanText,
-  Sparkles,
   type LucideIcon,
 } from 'lucide-react'
 import { Seo } from '@/lib/seo'
@@ -34,7 +34,7 @@ const deliverables: Deliverable[] = [
     name: 'Generative AI applications',
     description:
       'LLM-powered products and features — generation, summarization and conversational interfaces built into real applications.',
-    icon: Sparkles,
+    icon: Brain,
     tileClass: 'bg-primary/10 text-primary',
   },
   {
@@ -103,7 +103,7 @@ export default function AISolutions() {
       <PageHeader
         image="/images/band-tech.jpg"
         eyebrow="AI Solutions"
-        title="AI Systems That Reach Production"
+        title="AI systems that reach production"
         lead="AI is not a feature we bolt on — it is what we engineer. We design and build AI agents, RAG systems and generative AI applications that move beyond the demo into dependable, secure production systems."
       >
         <Button
@@ -122,7 +122,7 @@ export default function AISolutions() {
       <Section id="what-we-deliver" variant="alt">
         <SectionHeading
           eyebrow="What we deliver"
-          title="Four Kinds of AI We Ship"
+          title="Four kinds of AI we ship"
           lead="Every engagement ends in working software. These are the AI systems we most often take from idea to production."
         />
         <ul className="grid list-none gap-6 sm:grid-cols-2 lg:grid-cols-4">

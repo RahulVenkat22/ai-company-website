@@ -3,6 +3,7 @@ import {
   ArrowDownWideNarrow,
   Binary,
   BookOpen,
+  Bot,
   Boxes,
   BrainCircuit,
   Check,
@@ -17,7 +18,6 @@ import {
   Quote,
   Scissors,
   SearchCheck,
-  Sparkles,
   User,
 } from 'lucide-react'
 import type { ReactNode } from 'react'
@@ -61,7 +61,7 @@ const pipelineSteps: PipelineStep[] = [
     tone: 'primary',
   },
   {
-    icon: Sparkles,
+    icon: Bot,
     label: 'Generate Answer',
     detail: 'The model writes from retrieved context',
     tone: 'primary',
@@ -364,7 +364,7 @@ export function RAGSection({ variant = 'deep' }: RAGSectionProps) {
       <Container className="relative">
         <SectionHeading
           eyebrow="RAG & Enterprise AI"
-          title="Give AI Access to Your Business Knowledge."
+          title="Give AI access to your business knowledge"
           lead="Retrieval-Augmented Generation connects language models to your documents, databases and internal knowledge — so answers reflect your business, stay current, and cite their sources."
         />
 

@@ -113,7 +113,7 @@ export default function ProcessShowcase() {
       <div className="lg:sticky lg:top-28 lg:self-start">
         <Reveal className="flex flex-col gap-4">
           <p className="eyebrow">How We Work</p>
-          <h2 className="text-h2">From Business Challenge to Production.</h2>
+          <h2 className="text-h2">From business challenge to production</h2>
           <p className="text-body-lg text-ink-muted">
             A disciplined path from first conversation to a system running in
             production — with checkpoints for architecture, security and quality
@@ -122,14 +122,14 @@ export default function ProcessShowcase() {
         </Reveal>
 
         <div className="mt-10 hidden items-end gap-5 lg:flex" aria-hidden="true">
-          <div className="relative h-28 w-1 overflow-hidden rounded-full bg-line">
+          <div className="relative h-28 w-px overflow-hidden bg-line">
             <div
               data-progress
-              className="absolute inset-0 origin-top rounded-full bg-gradient-to-b from-primary via-violet-acc to-accent"
+              className="absolute inset-0 origin-top bg-primary"
             />
           </div>
           <div>
-            <span className="block text-[5.5rem] font-semibold leading-none tracking-tight text-gradient">
+            <span className="block font-mono text-[5rem] font-medium leading-none tracking-tight text-primary">
               {STEPS[active].number}
             </span>
             <span className="mt-2 block text-h4 text-ink">{STEPS[active].title}</span>

@@ -88,7 +88,7 @@ export function WhatWeCanBuild({
     <Section id="what-we-can-build" variant={variant}>
       <SectionHeading
         eyebrow="Capabilities"
-        title="What We Can Build"
+        title="What we can build"
         lead="From agent platforms to analytics and enterprise applications — the systems we design, build and run in production."
       />
 

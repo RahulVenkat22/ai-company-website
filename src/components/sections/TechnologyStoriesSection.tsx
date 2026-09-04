@@ -21,7 +21,7 @@ export function TechnologyStoriesSection({
     <Section id="technology-stories" variant={variant}>
       <SectionHeading
         eyebrow="Technology Stories"
-        title="How Problems Become Systems."
+        title="How problems become systems"
         lead="Each story follows one engagement pattern from the first problem statement to a system running in production. All stories are illustrative — they show how we work, not past client projects."
       />
 

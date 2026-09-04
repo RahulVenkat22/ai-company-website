@@ -3,49 +3,49 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------ */
-/* Theme tokens — dark-first premium technology theme                  */
+/* Theme tokens — carbon neutrals with a single signal-orange accent   */
 /* Values are RGB triplets so Tailwind can apply alpha modifiers.      */
 /* ------------------------------------------------------------------ */
 
 :root {
-  /* Dark theme (default): deep indigo-violet night with warm accents */
-  --c-bg: 12 12 29; /* #0C0C1D deep indigo night */
-  --c-surface: 18 18 40; /* #121228 */
-  --c-surface-2: 26 26 54; /* #1A1A36 */
-  --c-surface-3: 36 36 70; /* #242446 */
-  --c-border: 46 46 84; /* #2E2E54 */
-  --c-border-strong: 66 66 112; /* #424270 */
-  --c-text: 240 240 250; /* #F0F0FA */
-  --c-text-muted: 178 180 208; /* #B2B4D0 */
-  --c-text-subtle: 128 130 162; /* #8082A2 */
-  --c-text-inverse: 14 14 30;
-  --c-primary: 109 106 245; /* #6D6AF5 vivid indigo */
-  --c-primary-hover: 135 132 250; /* #8784FA */
-  --c-primary-soft: 34 32 74; /* dark indigo wash */
-  --c-accent: 250 190 88; /* #FABE58 warm golden amber */
-  --c-accent-strong: 240 165 48; /* #F0A530 */
-  --c-violet: 186 148 250; /* #BA94FA soft violet accent */
+  /* Dark theme (default): near-black carbon, warm greys, signal orange */
+  --c-bg: 10 10 11; /* #0A0A0B carbon */
+  --c-surface: 17 17 19; /* #111113 */
+  --c-surface-2: 24 24 27; /* #18181B */
+  --c-surface-3: 32 32 36; /* #202024 */
+  --c-border: 39 39 42; /* #27272A */
+  --c-border-strong: 63 63 70; /* #3F3F46 */
+  --c-text: 244 244 240; /* #F4F4F0 warm white */
+  --c-text-muted: 168 168 161; /* #A8A8A1 */
+  --c-text-subtle: 120 120 114; /* #787872 */
+  --c-text-inverse: 12 12 13;
+  --c-primary: 255 94 28; /* #FF5E1C signal orange */
+  --c-primary-hover: 255 122 64; /* #FF7A40 */
+  --c-primary-soft: 42 22 12; /* dark ember wash */
+  --c-accent: 235 176 70; /* #EBB046 brass */
+  --c-accent-strong: 214 150 50; /* #D69632 */
+  --c-violet: 143 168 192; /* #8FA8C0 steel blue (cool counterpoint) */
 
   color-scheme: dark;
 }
 
 :root[data-theme='light'] {
-  --c-bg: 255 254 251; /* #FFFEFB warm white */
-  --c-surface: 250 248 244; /* #FAF8F4 warm ivory */
-  --c-surface-2: 244 241 235; /* #F4F1EB */
-  --c-surface-3: 236 232 226; /* #ECE8E2 */
-  --c-border: 231 227 219; /* #E7E3DB */
-  --c-border-strong: 208 203 194; /* #D0CBC2 */
-  --c-text: 24 22 43; /* #18162B */
-  --c-text-muted: 84 82 110; /* #54526E */
-  --c-text-subtle: 118 116 142; /* #76748E */
-  --c-text-inverse: 255 255 255;
-  --c-primary: 84 64 222; /* #5440DE vivid indigo */
-  --c-primary-hover: 67 48 197; /* #4330C5 */
-  --c-primary-soft: 236 233 254;
-  --c-accent: 176 108 12; /* #B06C0C amber, darkened for contrast */
-  --c-accent-strong: 146 88 8;
-  --c-violet: 124 58 237; /* #7C3AED */
+  --c-bg: 250 250 247; /* #FAFAF7 paper */
+  --c-surface: 255 255 255; /* #FFFFFF */
+  --c-surface-2: 243 242 238; /* #F3F2EE */
+  --c-surface-3: 234 233 227; /* #EAE9E3 */
+  --c-border: 228 227 220; /* #E4E3DC */
+  --c-border-strong: 200 198 189; /* #C8C6BD */
+  --c-text: 20 20 19; /* #141413 */
+  --c-text-muted: 87 86 82; /* #575652 */
+  --c-text-subtle: 121 120 114; /* #797872 */
+  --c-text-inverse: 255 255 253;
+  --c-primary: 204 58 0; /* #CC3A00 deep signal orange */
+  --c-primary-hover: 163 45 0; /* #A32D00 */
+  --c-primary-soft: 255 234 223;
+  --c-accent: 158 100 8; /* #9E6408 brass, darkened for contrast */
+  --c-accent-strong: 132 82 4;
+  --c-violet: 62 94 120; /* #3E5E78 steel blue */
 
   color-scheme: light;
 }
@@ -66,12 +66,12 @@
   }
 
   ::selection {
-    background: rgb(var(--c-primary) / 0.35);
+    background: rgb(var(--c-primary) / 0.3);
   }
 
   /* Visible, consistent focus states for keyboard navigation */
   :focus-visible {
-    outline: 2px solid rgb(var(--c-accent));
+    outline: 2px solid rgb(var(--c-primary));
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -113,35 +113,32 @@
     @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
   }
 
-  /* Eyebrow label above section headings — pill badge with gradient edge */
+  /* Eyebrow label above section headings — small mono index label with a
+     leading rule, instead of a badge. Works in both themes via tokens. */
   .eyebrow {
-    @apply inline-flex w-fit items-center rounded-full border border-primary/25 bg-primary/10 px-3.5 py-1.5 text-caption font-semibold uppercase tracking-[0.14em] text-primary;
+    @apply inline-flex w-fit items-center gap-3 font-mono text-caption font-medium uppercase tracking-[0.18em] text-accent;
   }
 
-  :root:not([data-theme='light']) .eyebrow {
-    @apply border-accent/25 bg-accent/10 text-accent;
+  .eyebrow::before {
+    content: '';
+    @apply h-px w-7 bg-accent/70;
   }
 
-  /* Gradient headline treatment for hero / band titles — the gradient pans
-     slowly, giving key words a living shimmer (stilled by reduced motion). */
-  .text-gradient {
-    background-image: linear-gradient(
-      100deg,
-      rgb(var(--c-primary)),
-      rgb(var(--c-violet)) 40%,
-      rgb(var(--c-accent)) 70%,
-      rgb(var(--c-primary))
-    );
-    background-size: 220% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: gradient-pan 7s ease-in-out infinite alternate;
+  /* Emphasis words inside headlines — italic serif in the signal color.
+     (Replaces the old animated gradient-text treatment.) */
+  .accent-word {
+    font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.05em;
+    letter-spacing: -0.01em;
+    color: rgb(var(--c-primary));
+    padding-right: 0.05em; /* italic overhang, avoids clipping in reveals */
   }
 
-  /* Photo card treatment — rounded, soft shadow, zoom on hover */
+  /* Photo card treatment — subtle radius, hairline edge, zoom on hover */
   .photo-frame {
-    @apply overflow-hidden rounded-2xl shadow-card;
+    @apply overflow-hidden rounded-card border border-line;
   }
 
   .photo-frame img {
@@ -150,11 +147,11 @@
 
   @media (hover: hover) {
     .photo-frame:hover img {
-      transform: scale(1.06);
+      transform: scale(1.04);
     }
   }
 
-  /* Subtle top border glow used to separate major dark sections */
+  /* Subtle top border used to separate major dark sections */
   .section-divider {
     background: linear-gradient(
       90deg,
@@ -182,8 +179,7 @@
 
 /* ------------------------------------------------------------------ */
 /* Scroll-reveal system (IntersectionObserver adds .is-visible)        */
-/* CSS-only transitions; Framer Motion is reserved for the hero        */
-/* visualization and the process timeline (prompt.md §43).             */
+/* CSS-only transitions; GSAP is reserved for scrubbed effects.        */
 /* ------------------------------------------------------------------ */
 
 .reveal {
@@ -213,7 +209,7 @@
    clip-path is the effect, and blurring large photos is expensive.) */
 .reveal.photo-frame {
   filter: none;
-  clip-path: inset(14% 10% 14% 10% round 1.5rem);
+  clip-path: inset(14% 10% 14% 10% round 0.75rem);
   transition:
     opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
@@ -222,7 +218,7 @@
 }
 
 .reveal.photo-frame.is-visible {
-  clip-path: inset(0 0 0 0 round 1rem);
+  clip-path: inset(0 0 0 0 round 0.5rem);
 }
 
 /* ------------------------------------------------------------------ */
@@ -324,25 +320,55 @@
   }
 }
 
-/* Homepage over-video glass: content stretches between the video windows
-   soften their opaque fills so the scroll-scrubbed backdrop stays visible
-   behind everything. Single-class override wins over the bg-* utilities
-   by appearing later at equal specificity within the wrapper. */
+/* ------------------------------------------------------------------ */
+/* Homepage over-video glass                                           */
+/* The scroll-scrubbed video backdrop is the page background: content  */
+/* stretches carry only a scrim, sections paint nothing, and cards     */
+/* become translucent panels. The glass follows the ACTIVE THEME so    */
+/* the toggle visibly works on the homepage too: dark theme keeps a    */
+/* thin carbon scrim (footage shines through), light theme uses a      */
+/* denser paper scrim so dark ink stays readable while the footage     */
+/* remains faintly present. The window sections (hero, bands, final    */
+/* CTA) always show the footage full-strength with explicit white      */
+/* text, like the interior photo headers.                              */
+/* Alphas are tuned: lower is unreadable over moving footage, higher   */
+/* hides the video.                                                    */
+/* ------------------------------------------------------------------ */
+
 .story-glass {
-  background-color: rgb(var(--c-bg) / 0.88);
+  background-color: rgb(var(--c-bg) / 0.45);
 }
 
+:root[data-theme='light'] .story-glass {
+  background-color: rgb(var(--c-bg) / 0.87);
+}
+
+/* Sections inside the glass paint no band fills of their own. */
+.story-glass section {
+  background-color: transparent;
+}
+
+/* Cards read as translucent glass panels over the footage. */
 .story-glass .bg-surface {
-  background-color: rgb(var(--c-surface) / 0.78);
+  background-color: rgb(var(--c-surface) / 0.55);
 }
 
-@keyframes gradient-pan {
-  from {
-    background-position: 0% 50%;
-  }
-  to {
-    background-position: 100% 50%;
-  }
+:root[data-theme='light'] .story-glass .bg-surface {
+  background-color: rgb(var(--c-surface) / 0.8);
+}
+
+/* Stacking cards cover each other, so their panels must stay near-opaque —
+   at glass alpha the covered card's text ghosts through the one on top.
+   (The light-theme rule repeats the selector at higher specificity so the
+   0.8 glass override above cannot win over it.) */
+.story-glass [data-stack-item] .bg-surface,
+:root[data-theme='light'] .story-glass [data-stack-item] .bg-surface {
+  background-color: rgb(var(--c-surface) / 0.94);
+}
+
+.story-glass .rounded-card.bg-surface {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 @keyframes float-slow {

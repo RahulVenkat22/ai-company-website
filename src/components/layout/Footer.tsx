@@ -20,8 +20,8 @@ export function Footer() {
               We combine AI, data, cloud and software engineering to build
               intelligent solutions for real business problems.
             </p>
-            <p className="mt-4 text-caption font-semibold uppercase tracking-[0.14em] text-ink-subtle">
-              AI • Data • Cloud • Automation • Engineering
+            <p className="mt-4 font-mono text-caption uppercase tracking-[0.16em] text-ink-subtle">
+              AI / Data / Cloud / Automation / Engineering
             </p>
             <div className="mt-6">
               <Button
@@ -32,7 +32,7 @@ export function Footer() {
                 eventParams={{ cta: 'footer_start_project', location: 'footer' }}
                 iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
               >
-                Start a Project
+                Start a project
               </Button>
             </div>
           </div>
@@ -41,7 +41,7 @@ export function Footer() {
           <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {footerLinkGroups.map((group) => (
               <div key={group.title}>
-                <h2 className="text-caption font-semibold uppercase tracking-[0.12em] text-ink-subtle">
+                <h2 className="font-mono text-caption uppercase tracking-[0.14em] text-ink-subtle">
                   {group.title}
                 </h2>
                 <ul className="mt-4 flex flex-col gap-2.5">

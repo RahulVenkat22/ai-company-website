@@ -42,8 +42,8 @@ export default {
       },
       fontFamily: {
         sans: [
-          'Inter Variable',
-          'Inter',
+          'Instrument Sans Variable',
+          'Instrument Sans',
           'ui-sans-serif',
           'system-ui',
           '-apple-system',
@@ -53,6 +53,7 @@ export default {
           'Arial',
           'sans-serif',
         ],
+        serif: ['Instrument Serif', 'Georgia', 'Times New Roman', 'serif'],
         mono: [
           'ui-monospace',
           'SFMono-Regular',
@@ -67,24 +68,24 @@ export default {
       fontSize: {
         // Typography scale (see prompt.md §41)
         display: [
-          'clamp(2.5rem, 1.5rem + 4.2vw, 4.5rem)',
-          { lineHeight: '1.05', letterSpacing: '-0.03em', fontWeight: '650' },
+          'clamp(2.75rem, 1.4rem + 5.4vw, 5.75rem)',
+          { lineHeight: '1.02', letterSpacing: '-0.035em', fontWeight: '590' },
         ],
         h1: [
-          'clamp(2.125rem, 1.4rem + 2.6vw, 3.25rem)',
-          { lineHeight: '1.1', letterSpacing: '-0.025em', fontWeight: '650' },
+          'clamp(2.25rem, 1.45rem + 3vw, 3.5rem)',
+          { lineHeight: '1.06', letterSpacing: '-0.03em', fontWeight: '590' },
         ],
         h2: [
-          'clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem)',
-          { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '640' },
+          'clamp(1.875rem, 1.35rem + 1.9vw, 2.75rem)',
+          { lineHeight: '1.1', letterSpacing: '-0.025em', fontWeight: '580' },
         ],
         h3: [
-          'clamp(1.375rem, 1.15rem + 0.8vw, 1.75rem)',
-          { lineHeight: '1.25', letterSpacing: '-0.015em', fontWeight: '620' },
+          'clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem)',
+          { lineHeight: '1.2', letterSpacing: '-0.02em', fontWeight: '560' },
         ],
         h4: [
           'clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem)',
-          { lineHeight: '1.35', letterSpacing: '-0.01em', fontWeight: '600' },
+          { lineHeight: '1.35', letterSpacing: '-0.01em', fontWeight: '560' },
         ],
         'body-lg': ['1.125rem', { lineHeight: '1.7' }],
         body: ['1rem', { lineHeight: '1.65' }],
@@ -95,14 +96,14 @@ export default {
         content: '80rem', // 1280px content width
       },
       borderRadius: {
-        card: '1rem',
-        btn: '9999px',
+        card: '0.5rem',
+        btn: '0.375rem',
       },
       boxShadow: {
-        card: '0 1px 2px 0 rgb(20 16 60 / 0.05), 0 12px 32px -14px rgb(20 16 60 / 0.28)',
+        card: '0 1px 2px 0 rgb(0 0 0 / 0.05), 0 10px 30px -18px rgb(0 0 0 / 0.35)',
         'card-hover':
-          '0 2px 4px 0 rgb(20 16 60 / 0.07), 0 22px 48px -16px rgb(var(--c-primary) / 0.35)',
-        glow: '0 0 0 1px rgb(var(--c-accent) / 0.25), 0 0 32px -8px rgb(var(--c-accent) / 0.35)',
+          '0 2px 6px 0 rgb(0 0 0 / 0.06), 0 18px 40px -20px rgb(0 0 0 / 0.45)',
+        glow: '0 0 0 1px rgb(var(--c-primary) / 0.3), 0 0 28px -10px rgb(var(--c-primary) / 0.35)',
       },
       transitionTimingFunction: {
         premium: 'cubic-bezier(0.22, 1, 0.36, 1)',

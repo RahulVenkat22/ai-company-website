@@ -16,7 +16,7 @@ Built to the requirements in [`prompt.md`](./prompt.md).
   process timeline (both lazy-loaded); every other animation is CSS
 - **lucide-react** — single icon library sitewide
 - **react-router-dom** with route-level code splitting
-- Self-hosted **Inter Variable** font (no external font CDN)
+- Self-hosted **Instrument Sans Variable + Instrument Serif** fonts (no external font CDN)
 
 ## Getting started
 

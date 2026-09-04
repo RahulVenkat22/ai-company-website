@@ -21,13 +21,15 @@ export function FinalCTA({
       ariaLabel="Start a project with us"
     >
       <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-        <span className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-caption font-semibold uppercase tracking-[0.14em] text-amber-300 backdrop-blur-sm">
+        <span className="inline-flex items-center gap-3 font-mono text-caption uppercase tracking-[0.2em] text-white/70">
+          <span className="h-px w-7 bg-[#FF5E1C]" aria-hidden="true" />
           Let&rsquo;s build together
         </span>
         <h2 className="text-h2 text-balance text-white">
-          Have a Technology Challenge? Let&rsquo;s Build the Solution.
+          Have a hard technology problem?{' '}
+          <span className="accent-word">Let&rsquo;s solve it.</span>
         </h2>
-        <p className="max-w-2xl text-body-lg text-slate-200">
+        <p className="max-w-2xl text-body-lg text-white/75">
           Whether you are exploring AI, modernizing your data platform,
           automating a business process or building a new application, our team
           can help turn the idea into a production-ready solution.
@@ -40,18 +42,18 @@ export function FinalCTA({
             eventParams={{ cta: 'start_conversation', location: 'final_cta' }}
             iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
           >
-            Start a Conversation
+            Start a conversation
           </Button>
           <Button
             size="lg"
             variant="secondary"
             to="/contact"
-            className="border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
+            className="border-white/30 text-white hover:border-white/70 hover:bg-white/10"
             eventName="consultation_cta_click"
             eventParams={{ location: 'final_cta' }}
             iconLeft={<MessageSquare className="h-4 w-4" aria-hidden="true" />}
           >
-            Request a Consultation
+            Request a consultation
           </Button>
         </div>
       </Reveal>

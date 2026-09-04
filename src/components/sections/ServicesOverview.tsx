@@ -1,6 +1,7 @@
 import {
   ArrowRight,
   BarChart3,
+  Bot,
   BrainCircuit,
   Cloud,
   Database,
@@ -8,7 +9,6 @@ import {
   MonitorCog,
   Network,
   ShieldCheck,
-  Sparkles,
   SquareTerminal,
   TestTubes,
   Workflow,
@@ -53,7 +53,7 @@ const groups: ServiceGroup[] = [
         blurb: 'Assistants grounded in your business knowledge, with citations.',
       },
       {
-        icon: Sparkles,
+        icon: Bot,
         label: 'Generative AI Applications',
         blurb: 'AI assistants, document intelligence and decision support.',
       },
@@ -146,7 +146,7 @@ export function ServicesOverview({
     <Section id="services" variant={variant}>
       <SectionHeading
         eyebrow="Services"
-        title="Technology Capabilities Built Around Your Business"
+        title="Technology capabilities built around your business"
         lead="Capabilities are organized the way we think: AI leads, data feeds it, and cloud and software engineering carry it into production."
       />
       <div className="grid gap-6 lg:grid-cols-3">

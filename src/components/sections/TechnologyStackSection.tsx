@@ -1,11 +1,11 @@
 import {
   BarChart3,
+  Bot,
   BrainCircuit,
   Cloud,
   Code2,
   Database,
   GitBranch,
-  Sparkles,
   Workflow,
   type LucideIcon,
 } from 'lucide-react'
@@ -18,7 +18,7 @@ import { techStack } from '@/data/techStack'
 /** Icon per stack group; keys must match `techStack` group names. */
 const groupIcons: Record<string, LucideIcon> = {
   'AI / ML': BrainCircuit,
-  'Generative AI': Sparkles,
+  'Generative AI': Bot,
   'AI Engineering': Workflow,
   Data: Database,
   'BI & Visualization': BarChart3,
@@ -44,7 +44,7 @@ export function TechnologyStackSection({
     <Section id="technology-stack" variant={variant}>
       <SectionHeading
         eyebrow="Technology Stack"
-        title="An Ecosystem, Not a Logo Wall."
+        title="An ecosystem, not a logo wall"
         lead="We do not lead with tools. Each engagement starts from the problem, and the stack is chosen to fit it — for quality, cost, security and the systems you already run. These are the technologies we reach for most often."
       />
 

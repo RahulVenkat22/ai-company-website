@@ -61,7 +61,7 @@ export default function Cloud() {
       />
       <PageHeader
         eyebrow="Cloud Engineering"
-        title="Cloud Engineering Without the Complexity."
+        title="Cloud engineering without the complexity"
         lead="Secure, scalable cloud foundations across AWS, Microsoft Azure and Google Cloud — designed for the applications, data platforms and AI workloads that run on them."
       >
         <Button
@@ -79,7 +79,7 @@ export default function Cloud() {
       <Section id="cloud-for-ai" variant="alt">
         <SectionHeading
           eyebrow="Cloud for AI Workloads"
-          title="The Substrate Under Every AI System"
+          title="The substrate under every AI system"
           lead="RAG platforms, agents and ML models are only as reliable as the infrastructure beneath them. We build the cloud layer with the AI workload in mind from day one."
         />
         <div className="grid gap-6 md:grid-cols-3">

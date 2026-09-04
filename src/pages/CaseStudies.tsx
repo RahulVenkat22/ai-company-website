@@ -144,7 +144,7 @@ export default function CaseStudies() {
       <PageHeader
         image="/images/team-meeting.jpg"
         eyebrow="Case Studies"
-        title="Engineering Deep-Dives"
+        title="Engineering deep-dives"
         lead="Illustrative projects that show how we take a business challenge through architecture, implementation and security to a production outcome. Real client case studies will be published here once provided and approved [TBD]."
       />
 
@@ -164,7 +164,7 @@ export default function CaseStudies() {
                   type="button"
                   aria-pressed={selected}
                   onClick={() => setActive(cat)}
-                  className={`rounded-full border px-4 py-2.5 text-small font-medium transition-colors duration-200 ${
+                  className={`rounded-btn border px-4 py-2.5 text-small font-medium transition-colors duration-200 ${
                     selected
                       ? 'border-primary bg-primary/10 text-primary'
                       : 'border-line text-ink-muted hover:border-line-strong hover:text-ink'

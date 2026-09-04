@@ -88,7 +88,7 @@ export function EngagementModels({
     <Section id="engagement-models" variant={variant}>
       <SectionHeading
         eyebrow="Engagement Models"
-        title="Ways to Work With Us"
+        title="Ways to work with us"
         lead="Different problems call for different shapes of engagement. Start with the one that fits — the model can change as the work does."
       />
 

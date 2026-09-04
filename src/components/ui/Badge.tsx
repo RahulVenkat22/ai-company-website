@@ -9,17 +9,17 @@ interface BadgeProps {
 }
 
 const tones: Record<BadgeTone, string> = {
-  neutral: 'border-line bg-surface-2 text-ink-muted',
-  accent: 'border-accent/30 bg-accent/10 text-accent',
-  primary: 'border-primary/30 bg-primary/10 text-primary',
-  violet: 'border-violet-acc/30 bg-violet-acc/10 text-violet-acc',
+  neutral: 'border-line text-ink-muted',
+  accent: 'border-accent/35 text-accent',
+  primary: 'border-primary/35 text-primary',
+  violet: 'border-violet-acc/35 text-violet-acc',
 }
 
-/** Small pill label for capabilities, technologies and section tags. */
+/** Small squared tag for capabilities, technologies and section labels. */
 export function Badge({ children, tone = 'neutral', className = '' }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-caption font-medium ${tones[tone]} ${className}`.trim()}
+      className={`inline-flex items-center gap-1.5 rounded border px-2.5 py-1 font-mono text-caption ${tones[tone]} ${className}`.trim()}
     >
       {children}
     </span>

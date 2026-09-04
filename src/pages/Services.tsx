@@ -9,6 +9,7 @@ import { Card } from '@/components/ui/Card'
 import { Reveal } from '@/components/ui/Reveal'
 import { Button } from '@/components/ui/Button'
 import { ServicesOverview } from '@/components/sections/ServicesOverview'
+import { IndustriesSection } from '@/components/sections/IndustriesSection'
 import { HowWeWork } from '@/components/sections/HowWeWork'
 import { EngagementModels } from '@/components/sections/EngagementModels'
 import { FinalCTA } from '@/components/sections/FinalCTA'
@@ -165,7 +166,7 @@ export default function Services() {
       <PageHeader
         image="/images/band-collab.jpg"
         eyebrow="Services"
-        title="Technology Capabilities Built Around Your Business"
+        title="Technology capabilities built around your business"
         lead="One team across AI, data, cloud and software engineering. AI leads our thinking, data feeds it, and cloud and engineering carry it into production — so you engage one partner, not four vendors."
       >
         <Button
@@ -183,7 +184,7 @@ export default function Services() {
       <Section id="capability-index" variant="alt">
         <SectionHeading
           eyebrow="Full Capability Index"
-          title="Every Service, One Engineering Partner"
+          title="Every service, one engineering partner"
           lead="The complete list of what we design, build and support. Each area links to the page where we explain how we approach it."
         />
         <div className="grid gap-6 lg:grid-cols-3">
@@ -223,8 +224,9 @@ export default function Services() {
         </div>
       </Section>
 
-      <HowWeWork variant="default" />
-      <EngagementModels variant="alt" />
+      <IndustriesSection variant="default" />
+      <HowWeWork variant="alt" />
+      <EngagementModels variant="default" />
       <FinalCTA />
     </>
   )

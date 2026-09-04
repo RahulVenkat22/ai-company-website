@@ -41,7 +41,7 @@ export function ScrollProgress() {
     >
       <div
         ref={barRef}
-        className="h-full origin-left scale-x-0 bg-gradient-to-r from-primary via-violet-acc to-accent"
+        className="h-full origin-left scale-x-0 bg-primary"
       />
     </div>
   )

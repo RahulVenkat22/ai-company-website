@@ -287,7 +287,7 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
     <Section id="contact-form" variant={variant}>
       <SectionHeading
         eyebrow="Contact"
-        title="Tell Us About Your Project"
+        title="Tell us about your project"
         lead="Share a few details about what you are trying to build or solve. We will review it and come back to you with a concrete next step — no obligation."
       />
       <Reveal>

@@ -2,29 +2,12 @@ import { Seo } from '@/lib/seo'
 import { site } from '@/config/site'
 import { Hero } from '@/components/sections/Hero'
 import { CapabilityStrip } from '@/components/sections/CapabilityStrip'
-import { AIExpertise } from '@/components/sections/AIExpertise'
 import { WhatWeSolve } from '@/components/sections/WhatWeSolve'
 import { ServicesOverview } from '@/components/sections/ServicesOverview'
-import { RAGSection } from '@/components/sections/RAGSection'
-import { AgentsSection } from '@/components/sections/AgentsSection'
-import { MachineLearningSection } from '@/components/sections/MachineLearningSection'
-import { AnalyticsBISection } from '@/components/sections/AnalyticsBISection'
-import { CloudSection } from '@/components/sections/CloudSection'
-import { SoftwareSection } from '@/components/sections/SoftwareSection'
-import { AIAutomationSection } from '@/components/sections/AIAutomationSection'
-import { TestingSection } from '@/components/sections/TestingSection'
-import { AIArchitectureSection } from '@/components/sections/AIArchitectureSection'
-import { TechnologyStackSection } from '@/components/sections/TechnologyStackSection'
-import { HowWeWork } from '@/components/sections/HowWeWork'
-import { TechnologyStoriesSection } from '@/components/sections/TechnologyStoriesSection'
 import { CaseStudiesSection } from '@/components/sections/CaseStudiesSection'
-import { IndustriesSection } from '@/components/sections/IndustriesSection'
 import { WhyChooseUs } from '@/components/sections/WhyChooseUs'
-import { SecuritySection } from '@/components/sections/SecuritySection'
-import { EngagementModels } from '@/components/sections/EngagementModels'
-import { FinalCTA } from '@/components/sections/FinalCTA'
 import { Testimonials } from '@/components/sections/Testimonials'
-import { PeopleCulture } from '@/components/sections/PeopleCulture'
+import { FinalCTA } from '@/components/sections/FinalCTA'
 import { ParallaxBand } from '@/components/ui/ParallaxBand'
 import { ScrollVideoStory } from '@/components/ui/ScrollVideoStory'
 import { HeartHandshake, Lightbulb, ShieldCheck } from 'lucide-react'
@@ -48,11 +31,12 @@ const HOME_JSONLD = {
 } as const
 
 /**
- * Homepage — implements the §5 story flow as one continuous narrative:
- * promise (Hero) → proof of breadth (strip, expertise) → problems we solve →
- * how we solve them (services + capability deep-dives) → how we build
- * (stack, process) → evidence (stories, case studies, industries) →
- * why us (differentiators, security) → how to engage → invitation.
+ * Homepage — a curated overview, not the whole story: promise (Hero) →
+ * breadth (strip) → outcomes we deliver (WhatWeSolve) → where to go deeper
+ * (ServicesOverview links to the service pages) → proof (case studies,
+ * differentiators, testimonials) → invitation. The capability deep-dives
+ * (RAG, agents, ML, cloud, stack, process…) live on their own pages:
+ * /ai-solutions, /data-analytics, /cloud, /technology, /services, /about.
  *
  * A fixed three-video robot story (ScrollVideoStory) runs behind the whole
  * page, its playback scrubbed by scroll position. The Hero, both
@@ -69,16 +53,15 @@ export default function Home() {
       <Hero />
       <div className="story-glass">
         <CapabilityStrip />
-        <AIExpertise variant="alt" />
         <WhatWeSolve variant="default" />
         <ServicesOverview variant="alt" />
       </div>
       <ParallaxBand ariaLabel="Technology built by people, for people">
         <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
           <h2 className="text-h2 text-balance text-white">
-            Technology built <span className="text-gradient">by people, for people</span>
+            Technology built <span className="accent-word">by people, for people</span>
           </h2>
-          <p className="max-w-2xl text-body-lg text-slate-200">
+          <p className="max-w-2xl text-body-lg text-white/75">
             Behind every AI system we ship is a team that listens first, explains
             its decisions in plain language and cares how the result feels to use.
           </p>
@@ -90,9 +73,9 @@ export default function Home() {
             ].map((chip) => (
               <li
                 key={chip.label}
-                className="flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-2 text-small font-medium text-white backdrop-blur-sm"
+                className="flex items-center gap-2.5 rounded border border-white/20 bg-black/25 px-3.5 py-2 text-small text-white/85 backdrop-blur-sm"
               >
-                <chip.icon className="h-4 w-4 text-amber-300" aria-hidden="true" />
+                <chip.icon className="h-4 w-4 text-[#EBB046]" aria-hidden="true" />
                 {chip.label}
               </li>
             ))}
@@ -100,30 +83,19 @@ export default function Home() {
         </Reveal>
       </ParallaxBand>
       <div className="story-glass">
-        <RAGSection variant="deep" />
-        <AgentsSection variant="default" />
-        <MachineLearningSection variant="alt" />
-        <AnalyticsBISection variant="default" />
-        <CloudSection variant="alt" />
-        <SoftwareSection variant="default" />
-        <AIAutomationSection variant="alt" />
-        <TestingSection variant="default" />
-        <AIArchitectureSection variant="alt" />
-        <TechnologyStackSection variant="default" />
-        <HowWeWork variant="alt" />
-        <PeopleCulture variant="default" />
-        <TechnologyStoriesSection variant="alt" />
         <CaseStudiesSection variant="default" />
+        <WhyChooseUs variant="alt" />
       </div>
       <ParallaxBand overlay="soft" ariaLabel="From idea to production">
         <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
-          <p className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-caption font-semibold uppercase tracking-[0.14em] text-amber-300 backdrop-blur-sm">
+          <p className="inline-flex items-center gap-3 font-mono text-caption uppercase tracking-[0.2em] text-white/70">
+            <span className="h-px w-7 bg-[#FF5E1C]" aria-hidden="true" />
             From idea to production
           </p>
           <h2 className="text-h2 text-balance text-white">
             Big ambitions deserve engineering that ships
           </h2>
-          <p className="max-w-2xl text-body-lg text-slate-200">
+          <p className="max-w-2xl text-body-lg text-white/75">
             We take AI from whiteboard to production — architected deliberately,
             tested thoroughly and deployed securely to the cloud.
           </p>
@@ -131,10 +103,6 @@ export default function Home() {
       </ParallaxBand>
       <div className="story-glass">
         <Testimonials variant="default" />
-        <IndustriesSection variant="alt" />
-        <WhyChooseUs variant="default" />
-        <SecuritySection variant="deep" />
-        <EngagementModels variant="default" />
       </div>
       <FinalCTA background="story" />
     </>

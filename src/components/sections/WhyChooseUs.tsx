@@ -70,7 +70,7 @@ export function WhyChooseUs({
     <Section id="why-choose-us" variant={variant}>
       <SectionHeading
         eyebrow="Why Us"
-        title="Why Technology Teams Choose Us"
+        title="Why technology teams choose us"
         lead="Not a list of buzzwords — the working principles that shape how every engagement is scoped, architected and delivered."
       />
 

@@ -29,23 +29,39 @@ website. The product requirements live in `prompt.md` at the repo root.
 
 ## Theme & color
 
-Semantic Tailwind colors only (never hardcode hex in components):
+Design language (2026-09-03 restyle): carbon neutrals + ONE signal accent —
+no gradients anywhere (backgrounds, buttons, text). Semantic Tailwind colors
+only (never hardcode hex in components):
 
 - Backgrounds: `bg-bg` (page), `bg-surface`, `bg-surface-2`, `bg-surface-3`
 - Borders: `border-line`, `border-line-strong`
 - Text: `text-ink` (primary), `text-ink-muted`, `text-ink-subtle`, `text-ink-inverse`
-- Brand: `primary` (blue: `bg-primary text-primary`…), `accent` (cyan),
-  `violet-acc` (purple — use sparingly), each usable with alpha: `bg-primary/10`
+- Brand: `primary` (signal orange — CTAs, links, key highlights), `accent`
+  (brass — eyebrows, small labels), `violet-acc` (steel blue — the cool
+  counterpoint in diagrams; use sparingly), each usable with alpha:
+  `bg-primary/10`
 - Status colors (fixed Tailwind hues) need light+dark: e.g.
   `text-emerald-800 dark:text-emerald-300`
 - Dark is the default theme; light mode via `:root[data-theme='light']` swaps
   the CSS variables. `dark:` variant utilities work (selector-based).
+- Over photos/video use explicit `text-white/…` + `#FF5E1C` / `#EBB046`
+  accents, never theme tokens.
 
 ## Typography
+
+Instrument Sans (variable) is the UI/body/heading face; Instrument Serif
+italic is reserved for emphasis words inside headlines via the
+`.accent-word` class (renders italic serif in the primary color — this
+replaced the old animated `.text-gradient`). Micro-labels (eyebrows, indexes,
+tags, footer group titles) are `font-mono` uppercase with wide tracking.
 
 Custom text sizes: `text-display`, `text-h1`, `text-h2`, `text-h3`, `text-h4`,
 `text-body-lg`, `text-body`, `text-small`, `text-caption`. Headings must follow
 document order (one h1 per page; sections use h2; sub-heads h3/h4).
+
+Copy style: visible headings and CTA labels are sentence case ("Start a
+conversation"), never Title Case; `<Seo title>` document titles may stay
+Title Case. No Sparkles/magic icons anywhere.
 
 ## Layout
 
@@ -53,8 +69,11 @@ document order (one h1 per page; sections use h2; sub-heads h3/h4).
   1280px `Container`). Variants: `default`, `alt` (surface band), `deep`.
 - `.container-site` class or `Container` for custom wrappers.
 - 8px spacing grid: use Tailwind spacing steps (4/6/8/10/12/16…, plus 18/22/30).
-- Radii: `rounded-card` (cards), `rounded-btn` (buttons/inputs), `rounded-full`
-  (pills). Shadows: `shadow-card`, `shadow-card-hover`.
+- Radii: `rounded-card` (8px, cards/photos), `rounded-btn` (6px,
+  buttons/inputs), `rounded` (4px, tags/chips). `rounded-full` is for avatars
+  and dots only — no pill buttons or pill badges. Shadows: `shadow-card`
+  (hover states; cards are flat + hairline-bordered at rest),
+  `shadow-card-hover`.
 - Mobile-first. No horizontal scroll at 320px. Grids collapse to 1 column.
 
 ## Shared primitives (import — do not re-create)

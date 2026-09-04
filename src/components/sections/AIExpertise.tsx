@@ -1,6 +1,7 @@
 import {
   AppWindow,
   Bot,
+  Brain,
   Building2,
   ChevronRight,
   DraftingCompass,
@@ -11,7 +12,6 @@ import {
   Network,
   Route,
   ScanText,
-  Sparkles,
   TrendingUp,
   Workflow,
   type LucideIcon,
@@ -44,7 +44,7 @@ const capabilities: Capability[] = [
     name: 'Generative AI',
     description:
       'Text, code and content generation on foundation models, tuned to your domain with guardrails.',
-    icon: Sparkles,
+    icon: Brain,
   },
   {
     name: 'AI Agents',
@@ -139,7 +139,7 @@ export function AIExpertise({
     <Section id="ai-expertise" variant={variant}>
       <SectionHeading
         eyebrow="AI Expertise"
-        title="AI That Goes Beyond the Chatbot"
+        title="AI that goes beyond the chatbot"
         lead="We work across the complete AI lifecycle — from strategy and architecture through data, models and retrieval to agents, applications, automation and deployment. One team owns the system end to end, so what ships is engineered for production, not a demo."
       />
 
@@ -154,8 +154,8 @@ export function AIExpertise({
               key={step}
               className="flex flex-col gap-2 md:flex-row md:items-center md:gap-3"
             >
-              <span className="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface-2 px-4 py-2 text-small font-medium text-ink">
-                <span aria-hidden="true" className="text-caption font-semibold text-accent">
+              <span className="inline-flex items-center gap-2.5 rounded border border-line bg-surface-2 px-3.5 py-2 text-small font-medium text-ink">
+                <span aria-hidden="true" className="font-mono text-caption text-accent">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 {step}

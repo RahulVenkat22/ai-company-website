@@ -112,7 +112,7 @@ export function WhatWeSolve({
     <Section id="what-we-solve" variant={variant}>
       <SectionHeading
         eyebrow="What We Solve"
-        title="What Can We Build for Your Business?"
+        title="What can we build for your business?"
         lead="Start from the business problem, not the technology. These are the outcomes teams most often ask us to deliver — each one backed by a specific engineering capability."
       />
 

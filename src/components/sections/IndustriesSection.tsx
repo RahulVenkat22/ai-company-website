@@ -44,7 +44,7 @@ export function IndustriesSection({
     <Section id="industries" variant={variant}>
       <SectionHeading
         eyebrow="Industries"
-        title="Technology Solutions Adaptable to Your Industry."
+        title="Technology that adapts to your industry"
         lead="The same architectural patterns — retrieval, agents, data platforms, cloud, testing — take different shapes under different constraints. Here is how they adapt."
       />
 

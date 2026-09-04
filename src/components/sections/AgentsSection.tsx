@@ -151,7 +151,7 @@ function FlowCell({
         <ChevronUp className="absolute left-1/2 top-0 h-3.5 w-3.5 -translate-x-1/2" />
       )}
       {chip && (
-        <span className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border border-accent/40 bg-surface-2 px-3 py-1 text-caption font-medium text-ink-muted">
+        <span className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded border border-accent/40 bg-surface-2 px-3 py-1 font-mono text-caption text-ink-muted">
           {chip}
         </span>
       )}
@@ -230,7 +230,7 @@ export function AgentsSection({ variant = 'default' }: AgentsSectionProps) {
     <Section id="agents" variant={variant}>
       <SectionHeading
         eyebrow="AI Agents & Agentic AI"
-        title="Build AI That Doesn’t Just Answer — It Acts."
+        title="AI that acts, not just answers"
         lead="Agentic systems pursue goals, not prompts. We build agents that reason about an objective, plan the work, call tools across your stack, and verify their own results — with the guardrails enterprises require."
       />
 
@@ -262,7 +262,7 @@ export function AgentsSection({ variant = 'default' }: AgentsSectionProps) {
           <div className="relative overflow-hidden rounded-card border border-accent/30 bg-surface p-6 shadow-card md:col-span-3">
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-primary/10"
+              className="pointer-events-none absolute inset-0 bg-accent/5"
             />
             <div className="relative flex h-full flex-col">
               <div className="flex flex-wrap items-center justify-between gap-3">

@@ -38,10 +38,10 @@ function StripRun() {
       {CAPABILITIES.map((capability) => (
         <li
           key={capability}
-          className="flex shrink-0 items-center text-caption font-semibold uppercase tracking-[0.22em] text-ink-subtle sm:text-small"
+          className="flex shrink-0 items-center font-mono text-caption uppercase tracking-[0.22em] text-ink-subtle sm:text-small"
         >
           <span className="px-6 sm:px-9">{capability}</span>
-          <span className="h-1 w-1 rounded-full bg-accent/60" />
+          <span className="h-1 w-1 bg-primary/70" />
         </li>
       ))}
     </ul>

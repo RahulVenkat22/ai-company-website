@@ -21,9 +21,9 @@ export function Card({
   const surface =
     variant === 'outline'
       ? 'border border-line bg-transparent'
-      : 'border border-line bg-surface shadow-card'
+      : 'border border-line bg-surface'
   const hover = interactive
-    ? 'card-lift hover:border-line-strong hover:shadow-card-hover'
+    ? 'card-lift hover:border-line-strong hover:shadow-card'
     : ''
   return (
     <Tag className={`rounded-card ${surface} ${hover} ${className}`.trim()}>

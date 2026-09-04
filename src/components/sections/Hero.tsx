@@ -1,42 +1,40 @@
 import { useEffect, useRef } from 'react'
-import { ArrowRight, ChevronDown, Sparkles, Star } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { gsap, prefersReducedMotion } from '@/lib/gsap'
 
 /**
  * Homepage hero — a transparent window (`data-video-window`) onto the
- * page-wide ScrollVideoStory backdrop, carrying only its dark gradient
- * wash, behind ONE orchestrated GSAP entrance (the boldest motion moment
- * on the page): badge → headline words → lead → CTAs → social proof.
- * Scrolling away scrubs the content up and out over the pinned backdrop.
- * Owns the only h1 on the home page. Content sits on a dark backdrop, so
- * colors here are explicit (white/amber), not theme tokens.
+ * page-wide ScrollVideoStory backdrop, carrying only its dark wash, behind
+ * ONE orchestrated GSAP entrance (the boldest motion moment on the page):
+ * label → headline words → lead → CTAs → footer meta. Scrolling away
+ * scrubs the content up and out over the pinned backdrop. Owns the only
+ * h1 on the home page. The wash div veils the footage per theme (paper in
+ * light, carbon in dark), so text uses ordinary theme tokens.
  *
  * Under prefers-reduced-motion nothing animates: the JSX below is already
  * the final state, every tween is skipped, and the backdrop shows a static
  * frame.
  */
 
-const HEADLINE: Array<{ text: string; gradient?: boolean }> = [
+const HEADLINE: Array<{ text: string; em?: boolean }> = [
   { text: 'We' },
   { text: 'turn' },
   { text: 'business' },
   { text: 'problems' },
   { text: 'into' },
-  { text: 'production', gradient: true },
-  { text: 'AI', gradient: true },
+  { text: 'production', em: true },
+  { text: 'AI', em: true },
   { text: 'people' },
   { text: 'love' },
   { text: 'using.' },
 ]
 
-const AVATARS = [
-  { src: '/images/client-3.jpg', alt: 'Smiling client portrait' },
-  { src: '/images/client-2.jpg', alt: 'Smiling client portrait' },
-  { src: '/images/client-5.jpg', alt: 'Smiling client portrait' },
-  { src: '/images/client-4.jpg', alt: 'Smiling client portrait' },
-  { src: '/images/client-6.jpg', alt: 'Smiling client portrait' },
+const META = [
+  { index: '01', label: 'AI agents & RAG' },
+  { index: '02', label: 'Data platforms' },
+  { index: '03', label: 'Cloud engineering' },
 ]
 
 export function Hero() {
@@ -99,9 +97,11 @@ export function Hero() {
       aria-label="AI-first engineering for real business outcomes"
     >
       {/* Window onto the fixed ScrollVideoStory backdrop — this section only
-          carries the cinematic wash that keeps the copy legible. */}
+          carries the wash that keeps the copy legible. It follows the theme:
+          light mode veils the dark footage in paper so ink-colored text
+          reads; dark mode keeps the cinematic carbon wash. */}
       <div
-        className="absolute inset-0 -z-10 bg-gradient-to-br from-[#0C0C1D]/95 via-[#141433]/80 to-[#0C0C1D]/60"
+        className="absolute inset-0 -z-10 bg-gradient-to-br from-[#FAFAF7]/95 via-[#FAFAF7]/80 to-[#FAFAF7]/55 dark:from-[#0A0A0B]/90 dark:via-[#0A0A0B]/55 dark:to-[#0A0A0B]/25"
         aria-hidden="true"
       />
       <div
@@ -110,22 +110,22 @@ export function Hero() {
       />
 
       <Container className="relative py-28 md:py-36">
-        <div data-hero="content" className="flex max-w-3xl flex-col items-start gap-6">
+        <div data-hero="content" className="flex max-w-4xl flex-col items-start gap-7">
           <span
             data-hero="badge"
-            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-caption font-semibold uppercase tracking-[0.14em] text-amber-300 backdrop-blur-sm"
+            className="inline-flex items-center gap-3 font-mono text-caption uppercase tracking-[0.22em] text-ink-muted"
           >
-            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-            AI-first engineering, human at heart
+            <span className="h-px w-8 bg-primary" aria-hidden="true" />
+            An applied-AI engineering studio
           </span>
 
-          <h1 className="text-display text-white">
+          <h1 className="text-display text-ink">
             {HEADLINE.map((word, i) => (
               <span key={i}>
                 <span className="inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom">
                   <span
                     className={`hero-word inline-block will-change-transform ${
-                      word.gradient ? 'text-gradient' : ''
+                      word.em ? 'accent-word' : ''
                     }`}
                   >
                     {word.text}
@@ -135,7 +135,7 @@ export function Hero() {
             ))}
           </h1>
 
-          <p data-hero="lead" className="max-w-2xl text-body-lg text-slate-200">
+          <p data-hero="lead" className="max-w-2xl text-body-lg text-ink-muted">
             AI agents, RAG systems, data platforms and cloud solutions — designed
             with your team, engineered to production standards, and improved long
             after launch.
@@ -143,7 +143,7 @@ export function Hero() {
 
           <div
             data-hero="ctas"
-            className="mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row"
+            className="mt-1 flex w-full flex-col gap-3 sm:w-auto sm:flex-row"
           >
             <Button
               size="lg"
@@ -152,48 +152,32 @@ export function Hero() {
               eventParams={{ cta: 'start_conversation', location: 'hero' }}
               iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
             >
-              Start a Conversation
+              Start a conversation
             </Button>
             <Button
               size="lg"
               variant="secondary"
               to="/services"
-              className="border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
               eventName="cta_click"
               eventParams={{ cta: 'explore_services', location: 'hero' }}
             >
-              Explore Our Services
+              See what we build
             </Button>
           </div>
 
-          {/* Social proof strip — faces + rating (illustrative placeholders) */}
-          <div data-hero="proof" className="mt-6 flex flex-wrap items-center gap-4">
-            <div className="flex -space-x-3">
-              {AVATARS.map((a) => (
-                <img
-                  key={a.src}
-                  src={a.src}
-                  alt={a.alt}
-                  loading="lazy"
-                  width={44}
-                  height={44}
-                  className="h-11 w-11 rounded-full border-2 border-white/80 object-cover"
-                />
-              ))}
-            </div>
-            <div className="flex flex-col">
-              <span
-                className="flex items-center gap-1 text-amber-300"
-                aria-label="Rated five stars by clients (illustrative)"
-              >
-                {Array.from({ length: 5 }, (_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-current" aria-hidden="true" />
-                ))}
+          {/* Practice areas — quiet mono index, not a badge wall */}
+          <div
+            data-hero="proof"
+            className="mt-8 flex w-full flex-wrap gap-x-10 gap-y-3 border-t border-ink/15 pt-5"
+          >
+            {META.map((item) => (
+              <span key={item.index} className="flex items-baseline gap-2.5">
+                <span className="font-mono text-caption text-primary">
+                  {item.index}
+                </span>
+                <span className="text-small text-ink-muted">{item.label}</span>
               </span>
-              <span className="text-small text-slate-300">
-                Teams who love working with us
-              </span>
-            </div>
+            ))}
           </div>
         </div>
       </Container>
@@ -202,10 +186,11 @@ export function Hero() {
       <a
         href="#capabilities"
         data-hero="cue"
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/70 transition-colors hover:text-white"
+        className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-ink-subtle transition-colors hover:text-ink"
         aria-label="Scroll to explore"
       >
-        <ChevronDown className="h-7 w-7 animate-bounce-cue" aria-hidden="true" />
+        <span className="font-mono text-[10px] uppercase tracking-[0.3em]">Scroll</span>
+        <span className="h-8 w-px bg-ink/40 animate-bounce-cue" aria-hidden="true" />
       </a>
     </section>
   )

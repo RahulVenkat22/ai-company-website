@@ -109,7 +109,7 @@ export function AIArchitectureSection({ variant = 'alt' }: AIArchitectureSection
     <Section id="architecture" variant={variant}>
       <SectionHeading
         eyebrow="AI Solution Architecture"
-        title="From AI Idea to Production Architecture"
+        title="From AI idea to production architecture"
         lead="As your AI solution architecture partner, we design the data, model, agent and infrastructure layers as one coherent system — so what you validate in a prototype reaches production without being rebuilt along the way."
       />
 

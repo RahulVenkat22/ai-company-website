@@ -114,7 +114,7 @@ export function AnalyticsBISection({ variant = 'alt' }: AnalyticsBISectionProps)
     <Section id="analytics-bi" variant={variant}>
       <SectionHeading
         eyebrow="Data Analytics & BI"
-        title="From Raw Data to Business Decisions."
+        title="From raw data to business decisions"
         lead="We build the full path from scattered source systems to trusted dashboards — engineered pipelines, governed warehouses, and reporting your teams actually rely on."
       />
 
