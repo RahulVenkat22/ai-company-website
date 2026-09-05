@@ -4,7 +4,6 @@ import { Reveal } from './Reveal'
 import { useParallax } from '@/lib/useParallax'
 
 interface PageHeaderProps {
-  eyebrow?: string
   title: ReactNode
   lead?: ReactNode
   /**
@@ -22,7 +21,6 @@ interface PageHeaderProps {
  * text colors here are explicit (white/amber) rather than theme tokens.
  */
 export function PageHeader({
-  eyebrow,
   title,
   lead,
   image = '/images/band-office.jpg',
@@ -44,12 +42,6 @@ export function PageHeader({
       />
       <Container className="relative py-24 md:py-28 lg:py-32">
         <Reveal className="flex max-w-3xl flex-col gap-5 pt-8">
-          {eyebrow && (
-            <p className="inline-flex w-fit items-center gap-3 font-mono text-caption uppercase tracking-[0.2em] text-white/70">
-              <span className="h-px w-7 bg-[#FF5E1C]" aria-hidden="true" />
-              {eyebrow}
-            </p>
-          )}
           <h1 className="text-h1 text-white">{title}</h1>
           {lead && <p className="max-w-2xl text-body-lg text-white/75">{lead}</p>}
           {children && <div className="mt-2 flex flex-wrap gap-3">{children}</div>}

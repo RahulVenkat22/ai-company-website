@@ -48,9 +48,10 @@ export function ParallaxBand({
           aria-hidden="true"
         />
       )}
-      {/* Windowed (video) mode keeps the overlay light so the band reads as
-          the footage opening up, not a darker stripe than the glass around
-          it; photo mode needs the heavier wash for legibility. */}
+      {/* Windowed (video) mode keeps the overlay light in the dark theme so
+          the band reads as the footage opening up; the light theme needs a
+          deeper floor so the white band copy stays readable even over the
+          footage's palest frames. Photo mode always gets the heavy wash. */}
       <div
         className={`absolute inset-0 -z-10 ${
           image
@@ -58,8 +59,8 @@ export function ParallaxBand({
               ? 'bg-gradient-to-b from-[#0A0A0B]/85 via-[#0A0A0B]/70 to-[#0A0A0B]/85'
               : 'bg-[#0A0A0B]/60'
             : overlay === 'strong'
-              ? 'bg-gradient-to-b from-[#0A0A0B]/40 via-[#0A0A0B]/25 to-[#0A0A0B]/40'
-              : 'bg-[#0A0A0B]/20'
+              ? 'bg-gradient-to-b from-[#0A0A0B]/65 via-[#0A0A0B]/55 to-[#0A0A0B]/65 dark:from-[#0A0A0B]/40 dark:via-[#0A0A0B]/25 dark:to-[#0A0A0B]/40'
+              : 'bg-[#0A0A0B]/60 dark:bg-[#0A0A0B]/20'
         }`}
         aria-hidden="true"
       />

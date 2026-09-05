@@ -1,24 +1,6 @@
-import {
-  AppWindow,
-  Bot,
-  Brain,
-  Building2,
-  ChevronRight,
-  DraftingCompass,
-  FileSearch,
-  GitBranch,
-  MessagesSquare,
-  MousePointerClick,
-  Network,
-  Route,
-  ScanText,
-  TrendingUp,
-  Workflow,
-  type LucideIcon,
-} from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import { Section } from '@/components/ui/Section'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { Card } from '@/components/ui/Card'
 import { Reveal } from '@/components/ui/Reveal'
 
 const lifecycleSteps = [
@@ -36,7 +18,8 @@ const lifecycleSteps = [
 interface Capability {
   name: string
   description: string
-  icon: LucideIcon
+  /** Background photograph (public path, /images/expertise). */
+  image: string
 }
 
 const capabilities: Capability[] = [
@@ -44,85 +27,85 @@ const capabilities: Capability[] = [
     name: 'Generative AI',
     description:
       'Text, code and content generation on foundation models, tuned to your domain with guardrails.',
-    icon: Brain,
+    image: '/images/expertise/generative-ai.jpg',
   },
   {
     name: 'AI Agents',
     description:
       'Autonomous agents that plan, call tools and complete tasks, with human oversight where it matters.',
-    icon: Bot,
+    image: '/images/expertise/ai-agents.jpg',
   },
   {
     name: 'Agentic AI',
     description:
       'Goal-driven systems that decompose work, reason over state and recover from failure mid-task.',
-    icon: Route,
+    image: '/images/expertise/agentic-ai.jpg',
   },
   {
     name: 'RAG',
     description:
       'Retrieval-augmented generation grounded in your documents, with citations and access control.',
-    icon: FileSearch,
+    image: '/images/expertise/rag.jpg',
   },
   {
     name: 'Enterprise AI',
     description:
       'AI integrated with identity, audit and data governance so it can run inside a regulated business.',
-    icon: Building2,
+    image: '/images/expertise/enterprise-ai.jpg',
   },
   {
     name: 'AI Assistants',
     description:
       'Role-specific copilots for support, sales and operations teams, connected to internal systems.',
-    icon: MessagesSquare,
+    image: '/images/expertise/ai-assistants.jpg',
   },
   {
     name: 'AI Automation',
     description:
       'Model-powered pipelines that classify, route and act on incoming work without manual triage.',
-    icon: Workflow,
+    image: '/images/expertise/ai-automation.jpg',
   },
   {
     name: 'AI Application Development',
     description:
       'Production web and mobile applications with AI in the core product loop, not bolted on.',
-    icon: AppWindow,
+    image: '/images/expertise/ai-app-dev.jpg',
   },
   {
     name: 'Computer-Using Agents',
     description:
       'Agents that operate real software UIs to complete multi-step tasks.',
-    icon: MousePointerClick,
+    image: '/images/expertise/computer-using-agents.jpg',
   },
   {
     name: 'Multi-Agent Systems',
     description:
       'Networks of specialised agents coordinating through shared state and defined protocols.',
-    icon: Network,
+    image: '/images/expertise/multi-agent.jpg',
   },
   {
     name: 'AI Solution Architecture',
     description:
       'Model selection, orchestration patterns, evaluation and cost design across the full system.',
-    icon: DraftingCompass,
+    image: '/images/expertise/solution-architecture.jpg',
   },
   {
     name: 'AI-Powered Workflows',
     description:
       'Business processes redesigned around model steps, approvals and structured handoffs.',
-    icon: GitBranch,
+    image: '/images/expertise/ai-workflows.jpg',
   },
   {
     name: 'Intelligent Document Processing',
     description:
       'Extraction, classification and validation across contracts, invoices and unstructured files.',
-    icon: ScanText,
+    image: '/images/expertise/document-processing.jpg',
   },
   {
     name: 'AI Decision Support',
     description:
       'Models and analytics that surface options, risk and evidence at the point of decision.',
-    icon: TrendingUp,
+    image: '/images/expertise/decision-support.jpg',
   },
 ]
 
@@ -173,21 +156,34 @@ export function AIExpertise({
 
       <h3 className="sr-only">AI capabilities</h3>
       <ul className="mt-12 grid list-none grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:mt-16">
-        {capabilities.map(({ name, description, icon: Icon }, i) => (
-          <Reveal as="li" key={name} delay={80 * (i % 3)}>
-            <Card
-              variant="outline"
-              interactive
-              className="flex h-full items-start gap-4 p-5"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-card bg-primary/10 text-primary">
-                <Icon aria-hidden="true" className="h-5 w-5" />
-              </span>
-              <span className="flex flex-col gap-1">
-                <h4 className="text-body font-semibold text-ink">{name}</h4>
-                <p className="text-small text-ink-muted">{description}</p>
-              </span>
-            </Card>
+        {capabilities.map(({ name, description, image }, i) => (
+          <Reveal
+            as="li"
+            key={name}
+            delay={80 * (i % 3)}
+            className={i === 0 ? 'lg:col-span-2' : ''}
+          >
+            {/* Photo tile: the image is the card. Text sits on a dark
+                bottom scrim, so colors are explicit white in both themes. */}
+            <div className="group card-lift relative h-full overflow-hidden rounded-card border border-line hover:border-line-strong hover:shadow-card">
+              <img
+                src={image}
+                alt=""
+                loading="lazy"
+                width={800}
+                height={450}
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-premium group-hover:scale-105"
+                aria-hidden="true"
+              />
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/35"
+                aria-hidden="true"
+              />
+              <div className="relative flex min-h-[15rem] flex-col justify-end gap-1.5 p-5">
+                <h4 className="text-body font-semibold text-white">{name}</h4>
+                <p className="text-small text-white/85">{description}</p>
+              </div>
+            </div>
           </Reveal>
         ))}
       </ul>

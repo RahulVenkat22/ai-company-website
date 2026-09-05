@@ -60,7 +60,6 @@ export default function Cloud() {
         jsonLd={jsonLd}
       />
       <PageHeader
-        eyebrow="Cloud Engineering"
         title="Cloud engineering without the complexity"
         lead="Secure, scalable cloud foundations across AWS, Microsoft Azure and Google Cloud — designed for the applications, data platforms and AI workloads that run on them."
       >

@@ -76,7 +76,6 @@ export default function PrivacyPolicy() {
       />
 
       <PageHeader
-        eyebrow="Legal"
         title="Privacy Policy"
         lead="How we collect, use and protect personal data on this website. Last updated: [TBD]."
       />

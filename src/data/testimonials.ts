@@ -1,7 +1,8 @@
 /**
- * Illustrative testimonials — placeholder people and quotes demonstrating the
- * layout. Replace with real client names, photos and quotes (with written
- * permission) before launch. Photos: Unsplash, stored in /public/images.
+ * Illustrative customer reviews — placeholder people and quotes
+ * demonstrating the layout. Replace with real customer names, photos and
+ * quotes (with written permission) before launch. Photos: Unsplash,
+ * stored in /public/images.
  */
 
 export interface Testimonial {
@@ -12,7 +13,7 @@ export interface Testimonial {
 }
 
 export const TESTIMONIALS_DISCLAIMER =
-  'Illustrative examples — replace with real client quotes before launch.'
+  'Illustrative examples — replace with real customer reviews before launch.'
 
 export const testimonials: Testimonial[] = [
   {
@@ -35,26 +36,5 @@ export const testimonials: Testimonial[] = [
     name: 'Priya Raman',
     role: 'VP of Operations, FinTech',
     image: '/images/client-5.jpg',
-  },
-  {
-    quote:
-      'They explained every architecture decision in plain language, involved our engineers at each step, and left us able to run the system ourselves.',
-    name: 'Daniel Osei',
-    role: 'Engineering Director, Healthcare',
-    image: '/images/client-4.jpg',
-  },
-  {
-    quote:
-      'The automation they delivered gave our analysts their evenings back. Work that took three days now happens before the morning stand-up.',
-    name: 'Sofia Lindqvist',
-    role: 'COO, Professional Services',
-    image: '/images/client-6.jpg',
-  },
-  {
-    quote:
-      'Security was never an afterthought. They designed for our compliance requirements from day one and walked our auditors through everything.',
-    name: 'James Whitfield',
-    role: 'CISO, Insurance Group',
-    image: '/images/client-7.jpg',
   },
 ]

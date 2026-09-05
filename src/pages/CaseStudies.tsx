@@ -143,7 +143,6 @@ export default function CaseStudies() {
       />
       <PageHeader
         image="/images/team-meeting.jpg"
-        eyebrow="Case Studies"
         title="Engineering deep-dives"
         lead="Illustrative projects that show how we take a business challenge through architecture, implementation and security to a production outcome. Real client case studies will be published here once provided and approved [TBD]."
       />

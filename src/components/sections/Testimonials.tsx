@@ -10,14 +10,13 @@ interface TestimonialsProps {
   variant?: 'default' | 'alt' | 'deep'
 }
 
-/** Client quotes: editorial pull-quote cards with plain attribution. */
+/** Customer reviews: editorial pull-quote cards with plain attribution. */
 export function Testimonials({ variant = 'default' }: TestimonialsProps) {
   return (
-    <Section id="testimonials" variant={variant} ariaLabel="What clients say">
+    <Section id="testimonials" variant={variant} ariaLabel="Customer reviews">
       <SectionHeading
         align="center"
-        eyebrow="Kind words"
-        title="People enjoy working with us — and it shows"
+        title="Customer reviews"
         lead="Real partnerships, plain language and systems that keep working after launch. Here is the kind of feedback we build for."
       />
 

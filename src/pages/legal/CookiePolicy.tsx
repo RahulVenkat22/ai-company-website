@@ -27,7 +27,6 @@ export default function CookiePolicy() {
       />
 
       <PageHeader
-        eyebrow="Legal"
         title="Cookie Policy"
         lead="What this website stores in your browser, and the choices you have. Last updated: [TBD]."
       />

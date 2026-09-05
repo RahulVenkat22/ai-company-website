@@ -64,7 +64,6 @@ export default function TechnologyStories() {
         jsonLd={jsonLd}
       />
       <PageHeader
-        eyebrow="Technology Stories"
         title="How problems become systems"
         lead="Illustrative engineering narratives — not client references. Each story shows the pattern we follow when a class of business problem becomes a production system. Approved client case studies will be published separately."
       />

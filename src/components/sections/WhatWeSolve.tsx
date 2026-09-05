@@ -138,7 +138,7 @@ export function WhatWeSolve({
             ))}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute right-6 top-5 text-h3 font-semibold text-ink-subtle/30"
+              className="pointer-events-none absolute right-6 top-5 text-h3 font-semibold text-ink/50"
             >
               {String(p + 1).padStart(2, '0')} / {String(pairs.length).padStart(2, '0')}
             </span>

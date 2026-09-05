@@ -103,7 +103,6 @@ export default function DataAnalytics() {
 
       <PageHeader
         image="/images/team-laptop.jpg"
-        eyebrow="Data & Analytics"
         title="From raw data to predictive intelligence"
         lead="One team owns the full data value chain — the pipelines and warehouse that organize your data, the models that predict what happens next, and the dashboards where decisions actually get made."
       >

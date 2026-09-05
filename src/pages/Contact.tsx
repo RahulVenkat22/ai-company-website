@@ -57,7 +57,6 @@ export default function Contact() {
       />
       <PageHeader
         image="/images/happy-handshake.jpg"
-        eyebrow="Contact"
         title="Have a hard technology problem? Let's solve it."
         lead="Whether you are exploring AI, modernizing your data platform, automating a business process or building a new application, our team can help turn the idea into a production-ready solution."
       />

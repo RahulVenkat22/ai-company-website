@@ -17,14 +17,16 @@
   --c-border-strong: 63 63 70; /* #3F3F46 */
   --c-text: 244 244 240; /* #F4F4F0 warm white */
   --c-text-muted: 168 168 161; /* #A8A8A1 */
-  --c-text-subtle: 120 120 114; /* #787872 */
+  --c-text-subtle: 138 138 132; /* #8A8A84 — ≥4.5:1 on every dark surface */
   --c-text-inverse: 12 12 13;
+  /* Single-accent palette: accent and violet-acc resolve to the same
+     signal orange as primary — the brand uses ONE color, everywhere. */
   --c-primary: 255 94 28; /* #FF5E1C signal orange */
   --c-primary-hover: 255 122 64; /* #FF7A40 */
   --c-primary-soft: 42 22 12; /* dark ember wash */
-  --c-accent: 235 176 70; /* #EBB046 brass */
-  --c-accent-strong: 214 150 50; /* #D69632 */
-  --c-violet: 143 168 192; /* #8FA8C0 steel blue (cool counterpoint) */
+  --c-accent: 255 94 28;
+  --c-accent-strong: 224 78 18; /* #E04E12 */
+  --c-violet: 255 94 28;
 
   color-scheme: dark;
 }
@@ -38,14 +40,14 @@
   --c-border-strong: 200 198 189; /* #C8C6BD */
   --c-text: 20 20 19; /* #141413 */
   --c-text-muted: 87 86 82; /* #575652 */
-  --c-text-subtle: 121 120 114; /* #797872 */
+  --c-text-subtle: 108 107 101; /* #6C6B65 — ≥4.5:1 on every light surface */
   --c-text-inverse: 255 255 253;
-  --c-primary: 204 58 0; /* #CC3A00 deep signal orange */
-  --c-primary-hover: 163 45 0; /* #A32D00 */
+  --c-primary: 192 54 0; /* #C03600 deep signal orange — ≥4.5:1 even on its own /10 tint */
+  --c-primary-hover: 150 42 0; /* #962A00 */
   --c-primary-soft: 255 234 223;
-  --c-accent: 158 100 8; /* #9E6408 brass, darkened for contrast */
-  --c-accent-strong: 132 82 4;
-  --c-violet: 62 94 120; /* #3E5E78 steel blue */
+  --c-accent: 192 54 0;
+  --c-accent-strong: 150 42 0;
+  --c-violet: 192 54 0;
 
   color-scheme: light;
 }

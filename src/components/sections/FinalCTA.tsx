@@ -46,9 +46,8 @@ export function FinalCTA({
           </Button>
           <Button
             size="lg"
-            variant="secondary"
+            variant="inverse"
             to="/contact"
-            className="border-white/30 text-white hover:border-white/70 hover:bg-white/10"
             eventName="consultation_cta_click"
             eventParams={{ location: 'final_cta' }}
             iconLeft={<MessageSquare className="h-4 w-4" aria-hidden="true" />}

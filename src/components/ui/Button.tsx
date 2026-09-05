@@ -2,7 +2,7 @@ import type { MouseEvent, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { trackEvent } from '@/lib/analytics'
 
-export type ButtonVariant = 'primary' | 'secondary' | 'ghost'
+export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'inverse'
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
 interface ButtonProps {
@@ -39,6 +39,11 @@ const variants: Record<ButtonVariant, string> = {
     'border border-line-strong bg-transparent text-ink ' +
     'hover:border-ink/50 hover:bg-surface-2/60 active:bg-surface-3',
   ghost: 'text-ink-muted hover:text-ink hover:bg-surface-2 active:bg-surface-3',
+  // For always-dark photo/video backdrops (PageHeader, bands), where theme
+  // tokens would go dark-on-dark in the light theme.
+  inverse:
+    'border border-white/35 bg-transparent text-white ' +
+    'hover:border-white/70 hover:bg-white/10 active:bg-white/15',
 }
 
 const sizes: Record<ButtonSize, string> = {

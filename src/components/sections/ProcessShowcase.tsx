@@ -146,14 +146,14 @@ export default function ProcessShowcase() {
               className={`rounded-card border p-6 transition-all duration-500 ease-premium md:p-8 ${
                 i === active || motionOff
                   ? 'border-primary/40 bg-surface shadow-card-hover'
-                  : 'border-line bg-surface/60 lg:opacity-60'
+                  : 'border-line bg-surface/60 lg:opacity-85'
               }`}
             >
               <div className="flex items-baseline gap-4">
                 <span
                   aria-hidden="true"
                   className={`text-h3 font-semibold leading-none tracking-tight transition-colors duration-500 ${
-                    i === active || motionOff ? 'text-primary' : 'text-ink-subtle/60'
+                    i === active || motionOff ? 'text-primary' : 'text-ink-subtle'
                   }`}
                 >
                   {step.number}
@@ -161,7 +161,7 @@ export default function ProcessShowcase() {
                 <h3 className="text-h4 text-ink">{step.title}</h3>
               </div>
               <p className="mt-3 text-body text-ink-muted">{step.description}</p>
-              <p className="mt-1.5 text-small text-ink-subtle">{step.detail}</p>
+              <p className="mt-1.5 text-small text-ink-muted">{step.detail}</p>
             </div>
           </Reveal>
         ))}

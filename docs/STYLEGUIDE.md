@@ -36,16 +36,17 @@ only (never hardcode hex in components):
 - Backgrounds: `bg-bg` (page), `bg-surface`, `bg-surface-2`, `bg-surface-3`
 - Borders: `border-line`, `border-line-strong`
 - Text: `text-ink` (primary), `text-ink-muted`, `text-ink-subtle`, `text-ink-inverse`
-- Brand: `primary` (signal orange — CTAs, links, key highlights), `accent`
-  (brass — eyebrows, small labels), `violet-acc` (steel blue — the cool
-  counterpoint in diagrams; use sparingly), each usable with alpha:
+- Brand: ONE color. `primary` is the signal orange; `accent` and
+  `violet-acc` resolve to the SAME orange (kept as aliases so existing
+  markup works — do not reintroduce second hues). Usable with alpha:
   `bg-primary/10`
 - Status colors (fixed Tailwind hues) need light+dark: e.g.
   `text-emerald-800 dark:text-emerald-300`
 - Dark is the default theme; light mode via `:root[data-theme='light']` swaps
   the CSS variables. `dark:` variant utilities work (selector-based).
-- Over photos/video use explicit `text-white/…` + `#FF5E1C` / `#EBB046`
-  accents, never theme tokens.
+- Over photos/video use explicit `text-white/…` + `#FF5E1C` accents,
+  never theme tokens.
+- PageHeader has NO eyebrow (removed by request) — pages open with the h1.
 
 ## Typography
 
@@ -83,7 +84,7 @@ import { Section } from '@/components/ui/Section'          // id?, variant?, ble
 import { Container } from '@/components/ui/Container'
 import { SectionHeading } from '@/components/ui/SectionHeading' // eyebrow?, title, lead?, align?, as?
 import { PageHeader } from '@/components/ui/PageHeader'    // page h1 block: eyebrow?, title, lead?, children?
-import { Button } from '@/components/ui/Button'            // variant: primary|secondary|ghost; size sm|md|lg; to|href; eventName?, eventParams?, iconLeft/iconRight
+import { Button } from '@/components/ui/Button'            // variant: primary|secondary|ghost|inverse (inverse = explicit white, for always-dark photo/video backdrops); size sm|md|lg; to|href; eventName?, eventParams?, iconLeft/iconRight
 import { Badge } from '@/components/ui/Badge'              // tone: neutral|accent|primary|violet
 import { Card } from '@/components/ui/Card'                // interactive?, variant: default|outline, as: div|article|li
 import { Reveal } from '@/components/ui/Reveal'            // CSS scroll reveal: as?, delay? (ms), variant: up|fade

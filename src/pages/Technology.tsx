@@ -27,7 +27,6 @@ export default function Technology() {
         jsonLd={jsonLd}
       />
       <PageHeader
-        eyebrow="Technology"
         title="The stack behind the solutions"
         lead="We choose proven technology per problem — not per trend. This is the ecosystem we build with, and the engineering practices that keep what we ship reliable long after launch."
       />

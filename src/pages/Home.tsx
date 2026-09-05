@@ -75,7 +75,7 @@ export default function Home() {
                 key={chip.label}
                 className="flex items-center gap-2.5 rounded border border-white/20 bg-black/25 px-3.5 py-2 text-small text-white/85 backdrop-blur-sm"
               >
-                <chip.icon className="h-4 w-4 text-[#EBB046]" aria-hidden="true" />
+                <chip.icon className="h-4 w-4 text-[#FF5E1C]" aria-hidden="true" />
                 {chip.label}
               </li>
             ))}
@@ -88,14 +88,14 @@ export default function Home() {
       </div>
       <ParallaxBand overlay="soft" ariaLabel="From idea to production">
         <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-5 text-center">
-          <p className="inline-flex items-center gap-3 font-mono text-caption uppercase tracking-[0.2em] text-white/70">
+          <p className="inline-flex items-center gap-3 font-mono text-caption uppercase tracking-[0.2em] text-white">
             <span className="h-px w-7 bg-[#FF5E1C]" aria-hidden="true" />
             From idea to production
           </p>
           <h2 className="text-h2 text-balance text-white">
             Big ambitions deserve engineering that ships
           </h2>
-          <p className="max-w-2xl text-body-lg text-white/75">
+          <p className="max-w-2xl text-body-lg text-white/90">
             We take AI from whiteboard to production — architected deliberately,
             tested thoroughly and deployed securely to the cloud.
           </p>

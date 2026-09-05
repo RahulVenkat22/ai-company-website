@@ -165,7 +165,6 @@ export default function Services() {
       />
       <PageHeader
         image="/images/band-collab.jpg"
-        eyebrow="Services"
         title="Technology capabilities built around your business"
         lead="One team across AI, data, cloud and software engineering. AI leads our thinking, data feeds it, and cloud and engineering carry it into production — so you engage one partner, not four vendors."
       >

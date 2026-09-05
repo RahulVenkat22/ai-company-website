@@ -102,7 +102,6 @@ export default function AISolutions() {
 
       <PageHeader
         image="/images/band-tech.jpg"
-        eyebrow="AI Solutions"
         title="AI systems that reach production"
         lead="AI is not a feature we bolt on — it is what we engineer. We design and build AI agents, RAG systems and generative AI applications that move beyond the demo into dependable, secure production systems."
       >
@@ -112,9 +111,9 @@ export default function AISolutions() {
           eventParams={{ cta: 'start_project', location: 'ai_solutions_header' }}
           iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
         >
-          Start a Project
+          Start a project
         </Button>
-        <Button variant="secondary" to="/about#how-we-work">
+        <Button variant="inverse" to="/about#how-we-work">
           How we work
         </Button>
       </PageHeader>

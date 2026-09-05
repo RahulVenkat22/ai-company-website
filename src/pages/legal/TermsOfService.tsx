@@ -72,7 +72,6 @@ export default function TermsOfService() {
       />
 
       <PageHeader
-        eyebrow="Legal"
         title="Terms of Service"
         lead="The terms that govern use of this website. Last updated: [TBD]."
       />
