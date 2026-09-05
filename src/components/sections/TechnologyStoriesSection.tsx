@@ -20,9 +20,8 @@ export function TechnologyStoriesSection({
   return (
     <Section id="technology-stories" variant={variant}>
       <SectionHeading
-        eyebrow="Technology Stories"
         title="How problems become systems"
-        lead="Each story follows one engagement pattern from the first problem statement to a system running in production. All stories are illustrative — they show how we work, not past client projects."
+        lead="Each story follows one engagement pattern from the first problem statement to a system running in production. All stories are illustrative: they show how we work, not past client projects."
       />
 
       <ul className="-mb-2 flex snap-x snap-mandatory list-none gap-4 overflow-x-auto pb-6 lg:mb-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:pb-0">
@@ -36,7 +35,7 @@ export function TechnologyStoriesSection({
             <Card interactive as="article" className="flex h-full flex-col gap-4 p-6">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge tone="primary">{story.category}</Badge>
-                <Badge tone="neutral">Illustrative Technology Story</Badge>
+                <Badge tone="neutral">Illustrative story</Badge>
               </div>
 
               <h3 className="text-h4 text-ink">{story.title}</h3>

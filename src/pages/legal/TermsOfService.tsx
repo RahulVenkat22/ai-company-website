@@ -28,7 +28,7 @@ const sections: PolicySection[] = [
   {
     title: 'Acceptable use',
     description:
-      '[TBD] Conduct that is not permitted — for example, attempting to disrupt the site or misuse the contact form.',
+      '[TBD] Conduct that is not permitted: for example, attempting to disrupt the site or misuse the contact form.',
   },
   {
     title: 'Content and information',
@@ -67,7 +67,7 @@ export default function TermsOfService() {
     <>
       <Seo
         title="Terms of Service"
-        description="The terms governing use of this website. Placeholder page — final terms to be provided by legal counsel."
+        description="The terms governing use of this website. Placeholder page: final terms to be provided by legal counsel."
         path="/terms-of-service"
       />
 
@@ -78,7 +78,7 @@ export default function TermsOfService() {
 
       <Section variant="default">
         <div className="mx-auto flex max-w-prose flex-col gap-10">
-          <Alert tone="info" title="[TBD — Replace with approved legal content]">
+          <Alert tone="info" title="[TBD: Replace with approved legal content]">
             This page is a placeholder and is not legal advice. The outline
             below shows the sections the final terms will contain.
           </Alert>

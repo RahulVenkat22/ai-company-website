@@ -33,7 +33,7 @@ export default function CookiePolicy() {
 
       <Section variant="default">
         <div className="mx-auto flex max-w-prose flex-col gap-10">
-          <Alert tone="info" title="[TBD — Replace with approved legal content]">
+          <Alert tone="info" title="[TBD: Replace with approved legal content]">
             This page is a placeholder and is not legal advice. The current
             behavior described below is accurate; the final wording will be
             provided by legal counsel.
@@ -60,9 +60,9 @@ export default function CookiePolicy() {
           </section>
 
           <section>
-            <h2 className="text-h3">Analytics cookies — only with your consent</h2>
+            <h2 className="text-h3">Analytics cookies: only with your consent</h2>
             <p className="mt-2 text-body text-ink-muted">
-              If — and only if — you accept analytics in the consent banner,
+              If (and only if) you accept analytics in the consent banner,
               this site loads Google Analytics 4 via Google Tag Manager, which
               may set cookies to measure how the site is used in aggregate. If
               you decline, or take no action, no analytics scripts are loaded and

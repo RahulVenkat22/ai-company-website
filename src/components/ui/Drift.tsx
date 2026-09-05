@@ -5,7 +5,7 @@ interface DriftProps {
   children: ReactNode
   /**
    * Vertical drift amplitude in px while the element crosses the viewport;
-   * negative values drift the opposite way. Keep it subtle (10–35).
+   * negative values drift the opposite way. Keep it subtle (10-35).
    */
   amp?: number
   className?: string

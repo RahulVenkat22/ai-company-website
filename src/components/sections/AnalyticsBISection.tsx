@@ -113,9 +113,8 @@ export function AnalyticsBISection({ variant = 'alt' }: AnalyticsBISectionProps)
   return (
     <Section id="analytics-bi" variant={variant}>
       <SectionHeading
-        eyebrow="Data Analytics & BI"
         title="From raw data to business decisions"
-        lead="We build the full path from scattered source systems to trusted dashboards — engineered pipelines, governed warehouses, and reporting your teams actually rely on."
+        lead="We build the full path from scattered source systems to trusted dashboards: engineered pipelines, governed warehouses, and reporting your teams actually rely on."
       />
 
       <div className="grid gap-10 lg:grid-cols-5 lg:gap-12">
@@ -137,7 +136,7 @@ export function AnalyticsBISection({ variant = 'alt' }: AnalyticsBISectionProps)
           <div className="h-full rounded-card border border-line bg-surface p-6">
             <h3 className="text-h4 text-ink">Technology</h3>
             <p className="mt-1 text-small text-ink-muted">
-              Proven, widely adopted tooling — chosen per project, never by default.
+              Proven, widely adopted tooling: chosen per project, never by default.
             </p>
             <ul className="mt-5 flex flex-wrap gap-2">
               {technologies.map((tech) => (

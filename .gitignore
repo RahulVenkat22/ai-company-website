@@ -16,3 +16,6 @@ npm-debug.log*
 .idea
 .DS_Store
 *.local
+
+# Rendered video frames (regenerate with: node tools/video/render.mjs full)
+tools/video/out/

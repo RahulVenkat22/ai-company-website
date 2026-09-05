@@ -1,4 +1,5 @@
 import { Moon, Sun } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useTheme } from '@/lib/theme'
 
 /** Light/dark toggle. Preference persists via ThemeProvider. */
@@ -7,11 +8,13 @@ export function ThemeToggle({
   onDark = false,
 }: {
   className?: string
-  /** Explicit light colors for use over the dark video hero. */
+  /** Explicit light colours for use over dark media in the light theme. */
   onDark?: boolean
 }) {
   const { theme, toggleTheme } = useTheme()
+  const reduce = useReducedMotion()
   const next = theme === 'dark' ? 'light' : 'dark'
+  const Icon = theme === 'dark' ? Sun : Moon
 
   return (
     <button
@@ -19,17 +22,24 @@ export function ThemeToggle({
       onClick={toggleTheme}
       aria-label={`Switch to ${next} theme`}
       title={`Switch to ${next} theme`}
-      className={`inline-flex h-10 w-10 items-center justify-center rounded-btn border transition-colors duration-200 ${
+      className={`relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-btn border transition-colors duration-200 ${
         onDark
-          ? 'border-white/30 text-white/90 hover:border-white/60 hover:text-white'
+          ? 'border-paper/25 text-paper/85 hover:border-paper/60 hover:text-paper'
           : 'border-line text-ink-muted hover:border-line-strong hover:text-ink'
       } ${className}`.trim()}
     >
-      {theme === 'dark' ? (
-        <Sun className="h-[18px] w-[18px]" aria-hidden="true" />
-      ) : (
-        <Moon className="h-[18px] w-[18px]" aria-hidden="true" />
-      )}
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={theme}
+          className="inline-flex"
+          initial={reduce ? false : { rotate: -40, opacity: 0, scale: 0.7 }}
+          animate={{ rotate: 0, opacity: 1, scale: 1 }}
+          exit={reduce ? undefined : { rotate: 40, opacity: 0, scale: 0.7 }}
+          transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Icon className="h-[17px] w-[17px]" aria-hidden="true" />
+        </motion.span>
+      </AnimatePresence>
     </button>
   )
 }

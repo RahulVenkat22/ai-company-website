@@ -5,8 +5,8 @@ interface SectionProps {
   children: ReactNode
   id?: string
   /**
-   * 'default' — page background; 'alt' — raised surface band;
-   * 'deep' — near-black band for high-contrast feature sections.
+   * 'default' (page background; 'alt') raised surface band;
+   * 'deep': near-black band for high-contrast feature sections.
    */
   variant?: 'default' | 'alt' | 'deep'
   className?: string

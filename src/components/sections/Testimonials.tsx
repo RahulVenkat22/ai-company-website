@@ -1,101 +1,95 @@
 import { useCallback, useState } from 'react'
-import { ArrowLeft, ArrowRight, Info } from 'lucide-react'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Section } from '@/components/ui/Section'
 import { Reveal } from '@/components/ui/Reveal'
-import { testimonials, TESTIMONIALS_DISCLAIMER } from '@/data/testimonials'
+import { testimonials } from '@/data/testimonials'
 
 interface TestimonialsProps {
   variant?: 'default' | 'alt' | 'deep'
 }
 
+const quoteVariants = {
+  visible: { opacity: 1, y: 0, visibility: 'visible' as const },
+  hidden: { opacity: 0, y: 10, transitionEnd: { visibility: 'hidden' as const } },
+}
+
 /**
- * Customer reviews — editorial slider: one serif pull-quote at a time with
- * the author's portrait alongside and circular prev/next controls. The
- * quote block is a live region so screen readers hear the change; the
- * fade between quotes is a keyed CSS transition, no animation library.
+ * Customer reviews: one pull-quote at a time with the author's portrait
+ * alongside and square prev/next controls. All quotes share one grid cell,
+ * so the block reserves the height of the LONGEST quote and the controls
+ * never move. The crossfade between quotes and the portrait swap are Framer
+ * Motion state transitions. The wrapper is a live region; hidden quotes end
+ * as visibility:hidden, which also removes them from the accessibility tree.
  */
 export function Testimonials({ variant = 'default' }: TestimonialsProps) {
   const [index, setIndex] = useState(0)
+  const reduce = useReducedMotion()
   const count = testimonials.length
-  const t = testimonials[index]
+  const active = testimonials[index]
 
-  const go = useCallback(
-    (dir: 1 | -1) => setIndex((i) => (i + dir + count) % count),
-    [count],
-  )
+  const go = useCallback((dir: 1 | -1) => setIndex((i) => (i + dir + count) % count), [count])
+
+  const controlClass =
+    'inline-flex h-11 w-11 items-center justify-center rounded-btn border border-line-strong text-ink transition-colors hover:border-ink/50 hover:bg-surface-2 active:scale-[0.98]'
 
   return (
     <Section id="testimonials" variant={variant} ariaLabel="Customer reviews">
-      <div className="grid items-center gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-20">
+      <div className="grid items-center gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:gap-20">
         <Reveal className="flex flex-col gap-8">
-          <p className="inline-flex items-center gap-3 font-mono text-caption uppercase tracking-[0.22em] text-accent">
-            <span className="h-px w-8 bg-accent/70" aria-hidden="true" />
-            Customer reviews
-          </p>
+          <p className="eyebrow">Customer reviews</p>
 
-          <div aria-live="polite">
-            {/* key remounts the block so the CSS reveal replays per quote */}
-            <blockquote key={index} className="reveal is-visible flex flex-col gap-7">
-              <p className="text-h2 text-ink">
-                <span className="text-primary" aria-hidden="true">
-                  &ldquo;
-                </span>
-                {t.quote}
-                <span className="text-primary" aria-hidden="true">
-                  &rdquo;
-                </span>
-              </p>
-              <footer>
-                <p className="text-body font-semibold text-ink">{t.name}</p>
-                <p className="mt-1 text-small text-ink-subtle">{t.role}</p>
-              </footer>
-            </blockquote>
+          <div aria-live="polite" className="grid">
+            {testimonials.map((t, i) => (
+              <motion.blockquote
+                key={t.name}
+                aria-hidden={i !== index}
+                className="col-start-1 row-start-1 flex flex-col gap-7"
+                initial={false}
+                animate={i === index ? 'visible' : 'hidden'}
+                variants={quoteVariants}
+                transition={{ duration: reduce ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <p className="text-h2 text-ink">&ldquo;{t.quote}&rdquo;</p>
+                <footer>
+                  <p className="text-body font-medium text-ink">{t.name}</p>
+                  <p className="mt-1 text-small text-ink-subtle">{t.role}</p>
+                </footer>
+              </motion.blockquote>
+            ))}
           </div>
 
           <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => go(-1)}
-              aria-label="Previous review"
-              className="grid h-12 w-12 place-items-center rounded-full border border-ink/25 text-ink transition-colors hover:border-ink hover:bg-surface-2"
-            >
-              <ArrowLeft className="h-5 w-5" aria-hidden="true" />
+            <button type="button" className={controlClass} onClick={() => go(-1)} aria-label="Previous review">
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             </button>
-            <button
-              type="button"
-              onClick={() => go(1)}
-              aria-label="Next review"
-              className="grid h-12 w-12 place-items-center rounded-full bg-primary text-ink-inverse transition-colors hover:bg-primary-hover"
-            >
-              <ArrowRight className="h-5 w-5" aria-hidden="true" />
+            <button type="button" className={controlClass} onClick={() => go(1)} aria-label="Next review">
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </button>
-            <p className="ml-2 font-serif text-xl text-ink-subtle">
-              {String(index + 1).padStart(2, '0')}
-              <span className="mx-2 text-ink-subtle/60">/</span>
-              {String(count).padStart(2, '0')}
+            <p className="tnum ml-2 text-small text-ink-subtle" aria-live="polite">
+              {index + 1} of {count}
             </p>
           </div>
         </Reveal>
 
-        <Reveal delay={120} className="photo-frame mx-auto aspect-[45/53] w-full max-w-sm lg:mx-0">
-          <img
-            key={t.image}
-            src={t.image}
-            alt={`Portrait of ${t.name}`}
-            loading="lazy"
-            width={480}
-            height={560}
-            className="h-full w-full object-cover"
-          />
+        <Reveal delay={120} className="photo-frame mx-auto aspect-[4/5] w-full max-w-sm lg:mx-0 lg:ml-auto">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.img
+              key={active.image}
+              src={active.image}
+              alt={`Portrait of ${active.name}`}
+              loading="lazy"
+              width={480}
+              height={600}
+              className="h-full w-full object-cover"
+              initial={reduce ? false : { opacity: 0, scale: 1.04 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={reduce ? undefined : { opacity: 0 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            />
+          </AnimatePresence>
         </Reveal>
       </div>
-
-      <Reveal variant="fade" className="mt-10">
-        <p className="inline-flex items-center gap-2 text-caption text-ink-subtle">
-          <Info className="h-3.5 w-3.5" aria-hidden="true" />
-          {TESTIMONIALS_DISCLAIMER}
-        </p>
-      </Reveal>
     </Section>
   )
 }

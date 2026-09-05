@@ -108,13 +108,12 @@ export function AIArchitectureSection({ variant = 'alt' }: AIArchitectureSection
   return (
     <Section id="architecture" variant={variant}>
       <SectionHeading
-        eyebrow="AI Solution Architecture"
         title="From AI idea to production architecture"
-        lead="As your AI solution architecture partner, we design the data, model, agent and infrastructure layers as one coherent system — so what you validate in a prototype reaches production without being rebuilt along the way."
+        lead="As your AI solution architecture partner, we design the data, model, agent and infrastructure layers as one coherent system: so what you validate in a prototype reaches production without being rebuilt along the way."
       />
 
       <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-14">
-        {/* Layered architecture diagram — a visible, ordered layer list. */}
+        {/* Layered architecture diagram: a visible, ordered layer list. */}
         <ol
           aria-label="AI solution architecture stack: ten layers from business requirements down to monitoring and security"
           className="min-w-0"

@@ -23,7 +23,7 @@ interface EngagementModel {
 
 const models: EngagementModel[] = [
   {
-    title: 'Project-Based Development',
+    title: 'Project-based development',
     description: 'Complete development of a defined solution.',
     goodFor: [
       'A defined product, platform or integration with a clear finish line',
@@ -33,7 +33,17 @@ const models: EngagementModel[] = [
     icon: ClipboardList,
   },
   {
-    title: 'AI / Technology Consulting',
+    title: 'Dedicated engineering team',
+    description: 'Specialized engineers working as an extension of your team.',
+    goodFor: [
+      'Long-running products that need sustained engineering capacity',
+      'Adding AI, data or cloud specialists to an existing team',
+      'Roadmaps that have outgrown the current team’s bandwidth',
+    ],
+    icon: Users,
+  },
+  {
+    title: 'AI and technology consulting',
     description: 'Architecture, strategy and technology guidance.',
     goodFor: [
       'Choosing an AI or data architecture before committing budget',
@@ -43,18 +53,7 @@ const models: EngagementModel[] = [
     icon: Compass,
   },
   {
-    title: 'Dedicated Engineering Team',
-    description:
-      'Specialized engineers working as an extension of the customer’s team.',
-    goodFor: [
-      'Long-running products that need sustained engineering capacity',
-      'Adding AI, data or cloud specialists to an existing team',
-      'Roadmaps that have outgrown the current team’s bandwidth',
-    ],
-    icon: Users,
-  },
-  {
-    title: 'Data & Analytics Consulting',
+    title: 'Data and analytics consulting',
     description: 'Data platforms, analytics and BI implementation.',
     goodFor: [
       'Consolidating fragmented sources into a governed data platform',
@@ -64,7 +63,7 @@ const models: EngagementModel[] = [
     icon: BarChart3,
   },
   {
-    title: 'Managed Technology Services',
+    title: 'Managed technology services',
     description: 'Ongoing application, website, cloud and technology support.',
     goodFor: [
       'Platforms that need monitoring, patching and steady improvement',
@@ -76,42 +75,33 @@ const models: EngagementModel[] = [
 ]
 
 /**
- * Five ways to engage, each with the situations it fits best, plus one
- * shared consultation CTA.
+ * Five ways to engage, laid out as a 2 + 3 grid (two lead models wide on
+ * top, three beside each other below) so every cell is filled, plus one
+ * shared contact action.
  */
-export function EngagementModels({
-  variant = 'default',
-}: {
-  variant?: 'default' | 'alt' | 'deep'
-}) {
+export function EngagementModels({ variant = 'default' }: { variant?: 'default' | 'alt' | 'deep' }) {
   return (
     <Section id="engagement-models" variant={variant}>
       <SectionHeading
-        eyebrow="Engagement Models"
         title="Ways to work with us"
-        lead="Different problems call for different shapes of engagement. Start with the one that fits — the model can change as the work does."
+        lead="Different problems call for different shapes of engagement. Start with the one that fits; the model can change as the work does."
       />
 
-      <ul className="grid list-none grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      <ul className="grid list-none gap-4 sm:grid-cols-2 lg:grid-cols-6">
         {models.map(({ title, description, goodFor, icon: Icon }, i) => (
-          <Reveal as="li" key={title} delay={80 * (i % 3)}>
-            <Card interactive className="flex h-full flex-col gap-4 p-6">
-              <span className="flex h-11 w-11 items-center justify-center rounded-card bg-accent/10 text-accent">
-                <Icon aria-hidden="true" className="h-5 w-5" />
+          <Reveal as="li" key={title} delay={70 * (i % 3)} className={i < 2 ? 'lg:col-span-3' : 'lg:col-span-2'}>
+            <Card className="flex h-full flex-col gap-4 p-6 md:p-7">
+              <span className="flex h-10 w-10 items-center justify-center rounded-btn bg-surface-3 text-ink">
+                <Icon aria-hidden="true" className="h-[18px] w-[18px]" />
               </span>
               <h3 className="text-h4 text-ink">{title}</h3>
               <p className="text-small text-ink-muted">{description}</p>
-              <div className="mt-1 flex flex-col gap-2 border-t border-line pt-4">
-                <p className="text-caption font-semibold uppercase tracking-wider text-ink-subtle">
-                  Good for
-                </p>
+              <div className="mt-1 flex flex-col gap-2.5 border-t border-line pt-4">
+                <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-subtle">Good for</p>
                 <ul className="flex list-none flex-col gap-2">
                   {goodFor.map((item) => (
                     <li key={item} className="flex items-start gap-2 text-small text-ink-muted">
-                      <Check
-                        aria-hidden="true"
-                        className="mt-0.5 h-4 w-4 shrink-0 text-accent"
-                      />
+                      <Check aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -122,20 +112,19 @@ export function EngagementModels({
         ))}
       </ul>
 
-      <Reveal className="mt-12 flex flex-col items-center gap-4 text-center">
+      <Reveal className="mt-12 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="max-w-xl text-body text-ink-muted">
-          Not sure which model fits? A short conversation about your problem is the
-          fastest way to find out.
+          Not sure which model fits? A short conversation about your problem is the fastest
+          way to find out.
         </p>
         <Button
-          variant="primary"
           size="lg"
           to="/contact"
           eventName="consultation_cta_click"
-          eventParams={{ cta: 'book_consultation', location: 'engagement_models' }}
-          iconRight={<ArrowRight aria-hidden="true" className="h-4 w-4" />}
+          eventParams={{ cta: 'start_project', location: 'engagement_models' }}
+          iconRight={<ArrowRight aria-hidden="true" />}
         >
-          Book a consultation
+          Start a project
         </Button>
       </Reveal>
     </Section>

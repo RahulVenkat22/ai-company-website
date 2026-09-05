@@ -45,9 +45,8 @@ export function WebsiteManagementSection({
   return (
     <Section id="website-management" variant={variant}>
       <SectionHeading
-        eyebrow="Website Management & Support"
         title="Keep your digital platforms secure, fast and continuously improving."
-        lead="Ongoing engineering care for the platforms you already run — maintained, monitored and steadily modernized."
+        lead="Ongoing engineering care for the platforms you already run: maintained, monitored and steadily modernized."
       />
 
       <ul className="grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -87,9 +87,8 @@ export function WhatWeCanBuild({
   return (
     <Section id="what-we-can-build" variant={variant}>
       <SectionHeading
-        eyebrow="Capabilities"
         title="What we can build"
-        lead="From agent platforms to analytics and enterprise applications — the systems we design, build and run in production."
+        lead="From agent platforms to analytics and enterprise applications: the systems we design, build and run in production."
       />
 
       <div className="flex flex-col gap-10">
@@ -101,7 +100,7 @@ export function WhatWeCanBuild({
             <ul className="flex list-none flex-wrap gap-2.5">
               {group.items.map(({ label, icon: Icon }) => (
                 <li key={label}>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-small font-medium text-ink-muted transition-colors duration-200 ease-premium hover:border-line-strong hover:text-ink">
+                  <span className="inline-flex items-center gap-2 rounded-btn border border-line bg-surface px-4 py-2 text-small font-medium text-ink-muted transition-colors duration-200 ease-premium hover:border-line-strong hover:text-ink">
                     <Icon
                       aria-hidden="true"
                       className={`h-4 w-4 ${group.iconClass}`}

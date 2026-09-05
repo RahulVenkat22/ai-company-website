@@ -2,7 +2,7 @@
  * Analytics: Google Tag Manager + Google Analytics 4.
  *
  * The IDs below are placeholders. Until they are replaced with real IDs the
- * loader is a no-op, so no third-party scripts are ever requested — keeping
+ * loader is a no-op, so no third-party scripts are ever requested: keeping
  * the site fast and privacy-safe by default. Events are still pushed to
  * window.dataLayer so GTM picks them up once configured.
  *
@@ -38,7 +38,7 @@ export function setConsent(state: Exclude<ConsentState, null>): void {
   try {
     localStorage.setItem(CONSENT_KEY, state)
   } catch {
-    /* storage unavailable — continue without persisting */
+    /* storage unavailable: continue without persisting */
   }
   if (state === 'granted') loadAnalytics()
 }
@@ -64,7 +64,7 @@ export function loadAnalytics(): void {
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`
     document.head.appendChild(script)
     // gtag.js only executes commands pushed as an Arguments object (the
-    // official snippet pattern) — a plain array or object is ignored.
+    // official snippet pattern): a plain array or object is ignored.
     function gtag(..._args: unknown[]) {
       void _args
       // eslint-disable-next-line prefer-rest-params
@@ -73,7 +73,7 @@ export function loadAnalytics(): void {
     gtag('js', new Date())
     gtag('config', GA4_ID)
   }
-  // With placeholder IDs nothing is loaded — intentional.
+  // With placeholder IDs nothing is loaded: intentional.
 }
 
 /** Called once at startup: resumes analytics if consent was already granted. */

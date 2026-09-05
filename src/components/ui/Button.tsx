@@ -1,5 +1,6 @@
 import type { MouseEvent, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { motion, useReducedMotion } from 'framer-motion'
 import { trackEvent } from '@/lib/analytics'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'inverse'
@@ -9,15 +10,15 @@ interface ButtonProps {
   children: ReactNode
   variant?: ButtonVariant
   size?: ButtonSize
-  /** Internal route — renders a react-router Link. */
+  /** Internal route: renders a react-router Link. */
   to?: string
-  /** External URL — renders an anchor. */
+  /** External URL: renders an anchor. */
   href?: string
   type?: 'button' | 'submit'
   disabled?: boolean
   onClick?: (e: MouseEvent<HTMLElement>) => void
   className?: string
-  /** Icon rendered after the label. */
+  /** Icon rendered after the label (nudges right on hover). */
   iconRight?: ReactNode
   /** Icon rendered before the label. */
   iconLeft?: ReactNode
@@ -28,78 +29,40 @@ interface ButtonProps {
 }
 
 const base =
-  'inline-flex items-center justify-center gap-2.5 rounded-full font-medium ' +
-  'transition-colors duration-200 ease-premium select-none ' +
-  'disabled:pointer-events-none disabled:opacity-55'
+  'inline-flex items-center justify-center gap-2 rounded-btn font-medium ' +
+  'transition-colors duration-200 ease-premium select-none whitespace-nowrap ' +
+  'disabled:pointer-events-none disabled:opacity-50'
 
 const variants: Record<ButtonVariant, string> = {
-  primary:
-    'bg-primary text-ink-inverse hover:bg-primary-hover active:bg-primary',
+  primary: 'bg-primary text-ink-inverse hover:bg-primary-hover',
   secondary:
-    'border border-ink/30 bg-transparent text-ink ' +
-    'hover:border-ink hover:bg-surface-2/60 active:bg-surface-3',
-  ghost: 'text-ink-muted hover:text-ink hover:bg-surface-2 active:bg-surface-3',
-  // For always-dark photo/video backdrops (PageHeader, bands), where theme
-  // tokens would go dark-on-dark in the light theme.
+    'border border-line-strong bg-transparent text-ink hover:border-ink/50 hover:bg-surface-2',
+  ghost: 'text-ink-muted hover:text-ink hover:bg-surface-2',
+  // For always-dark photo/video scenes, where theme tokens would flip in the
+  // light theme.
   inverse:
-    'border border-white/35 bg-white/5 text-white backdrop-blur-sm ' +
-    'hover:border-white/70 hover:bg-white/15 active:bg-white/20',
+    'border border-paper/30 bg-paper/5 text-paper backdrop-blur-sm ' +
+    'hover:border-paper/60 hover:bg-paper/10',
 }
 
 const sizes: Record<ButtonSize, string> = {
-  sm: 'h-9 px-4 text-small',
+  sm: 'h-9 px-3.5 text-small',
   md: 'h-11 px-5 text-small',
-  lg: 'h-[3.25rem] px-6 text-body',
+  lg: 'h-12 px-6 text-body',
 }
 
-/* Icons sit inside a small circular chip, echoing the editorial pill CTA. */
-const chipBySize: Record<ButtonSize, string> = {
-  sm: 'h-6 w-6 [&>svg]:h-3.5 [&>svg]:w-3.5',
-  md: 'h-7 w-7',
-  lg: 'h-8 w-8',
-}
+const MotionLink = motion.create(Link)
 
-const chipByVariant: Record<ButtonVariant, string> = {
-  primary: 'bg-white/20 text-current',
-  secondary: 'bg-primary/10 text-primary',
-  ghost: '',
-  inverse: 'bg-white/15 text-current',
-}
-
-const chipMargin: Record<ButtonSize, { left: string; right: string }> = {
-  sm: { left: '-ml-1.5', right: '-mr-1.5' },
-  md: { left: '-ml-2', right: '-mr-2' },
-  lg: { left: '-ml-2.5', right: '-mr-2.5' },
-}
-
-function IconChip({
-  children,
-  variant,
-  size,
-  side,
-}: {
-  children: ReactNode
-  variant: ButtonVariant
-  size: ButtonSize
-  side: 'left' | 'right'
-}) {
-  if (variant === 'ghost') return <>{children}</>
-  return (
-    <span
-      aria-hidden="true"
-      className={`grid shrink-0 place-items-center rounded-full ${chipBySize[size]} ${
-        chipByVariant[variant]
-      } ${side === 'left' ? chipMargin[size].left : chipMargin[size].right}`}
-    >
-      {children}
-    </span>
-  )
+const iconVariants = {
+  rest: { x: 0 },
+  hover: { x: 3 },
 }
 
 /**
  * Unified button/link. Renders a router Link when `to` is given, an anchor
- * when `href` is given, otherwise a native button. Minimum touch target is
- * maintained by size heights.
+ * when `href` is given, otherwise a native button. Press feedback and the
+ * icon nudge are Framer Motion; scroll-driven motion never targets this
+ * element, so the two libraries never share a node.
  */
 export function Button({
   children,
@@ -117,62 +80,77 @@ export function Button({
   eventParams,
   ariaLabel,
 }: ButtonProps) {
+  const reduce = useReducedMotion()
   const classes = `${base} ${variants[variant]} ${sizes[size]} ${className}`.trim()
-
-  const left = iconLeft ? (
-    <IconChip variant={variant} size={size} side="left">
-      {iconLeft}
-    </IconChip>
-  ) : null
-  const right = iconRight ? (
-    <IconChip variant={variant} size={size} side="right">
-      {iconRight}
-    </IconChip>
-  ) : null
 
   const handleClick = (e: MouseEvent<HTMLElement>) => {
     if (eventName) trackEvent(eventName, eventParams)
     onClick?.(e)
   }
 
+  const motionProps = reduce
+    ? {}
+    : {
+        initial: 'rest',
+        animate: 'rest',
+        whileHover: 'hover',
+        whileTap: { scale: 0.98 },
+        transition: { type: 'spring' as const, stiffness: 420, damping: 28 },
+      }
+
+  const iconClass = 'inline-flex shrink-0 items-center [&>svg]:h-4 [&>svg]:w-4'
+  const content = (
+    <>
+      {iconLeft && <span className={iconClass}>{iconLeft}</span>}
+      <span>{children}</span>
+      {iconRight && (
+        <motion.span className={iconClass} variants={reduce ? undefined : iconVariants}>
+          {iconRight}
+        </motion.span>
+      )}
+    </>
+  )
+
   if (to) {
     return (
-      <Link to={to} className={classes} onClick={handleClick} aria-label={ariaLabel}>
-        {left}
-        {children}
-        {right}
-      </Link>
+      <MotionLink
+        to={to}
+        className={classes}
+        onClick={handleClick}
+        aria-label={ariaLabel}
+        {...motionProps}
+      >
+        {content}
+      </MotionLink>
     )
   }
 
   if (href) {
     return (
-      <a
+      <motion.a
         href={href}
         className={classes}
         onClick={handleClick}
         aria-label={ariaLabel}
         target="_blank"
         rel="noopener noreferrer"
+        {...motionProps}
       >
-        {left}
-        {children}
-        {right}
-      </a>
+        {content}
+      </motion.a>
     )
   }
 
   return (
-    <button
+    <motion.button
       type={type}
       disabled={disabled}
       className={classes}
       onClick={handleClick}
       aria-label={ariaLabel}
+      {...motionProps}
     >
-      {left}
-      {children}
-      {right}
-    </button>
+      {content}
+    </motion.button>
   )
 }

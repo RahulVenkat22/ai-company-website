@@ -61,7 +61,7 @@ const services: MlService[] = [
   {
     icon: LineChart,
     name: 'Regression',
-    description: 'Estimate continuous values — demand, price, duration, cost.',
+    description: 'Estimate continuous values: demand, price, duration, cost.',
   },
   {
     icon: Boxes,
@@ -96,7 +96,7 @@ const services: MlService[] = [
   {
     icon: Compass,
     name: 'Data Science Consulting',
-    description: 'Pragmatic guidance on where models create value — and where they do not.',
+    description: 'Pragmatic guidance on where models create value: and where they do not.',
   },
 ]
 
@@ -122,9 +122,8 @@ export function MachineLearningSection({ variant = 'default' }: MachineLearningS
   return (
     <Section id="machine-learning" variant={variant}>
       <SectionHeading
-        eyebrow="Machine Learning & Data Science"
         title="Turn data into predictive intelligence"
-        lead="We design, train and operate models that move decisions from hindsight to foresight — engineered for production from day one, not left behind in a notebook."
+        lead="We design, train and operate models that move decisions from hindsight to foresight: engineered for production from day one, not left behind in a notebook."
       />
 
       <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -147,7 +146,7 @@ export function MachineLearningSection({ variant = 'default' }: MachineLearningS
         <div className="rounded-card border border-line bg-surface-2/60 p-6 md:p-8">
           <h3 className="text-h4 text-ink">Model lifecycle</h3>
           <p className="mt-1 text-small text-ink-muted">
-            Every engagement follows the same disciplined loop — models are monitored and retrained, not shipped and forgotten.
+            Every engagement follows the same disciplined loop: models are monitored and retrained, not shipped and forgotten.
           </p>
           <ol className="mt-6 flex flex-col md:flex-row md:items-stretch">
             {lifecycle.map((step, i) => (

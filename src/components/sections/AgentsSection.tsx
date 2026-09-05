@@ -66,7 +66,7 @@ const architectureNodes: FlowNode[] = [
     tone: 'accent',
     live: true,
   },
-  { icon: Wrench, label: 'Tools', caption: 'MCP · function calling', tone: 'primary' },
+  { icon: Wrench, label: 'Tools', caption: 'MCP, function calling', tone: 'primary' },
   { icon: Globe, label: 'APIs', caption: 'Internal & external services', tone: 'primary' },
   { icon: Database, label: 'Database', caption: 'Reads & writes data', tone: 'primary' },
   { icon: AppWindow, label: 'Applications', caption: 'Operates software directly', tone: 'primary' },
@@ -224,14 +224,13 @@ interface AgentsSectionProps {
   variant?: 'default' | 'alt' | 'deep'
 }
 
-/** AI Agents & Agentic AI — contrast panel, agent loop and architecture flow. */
+/** AI Agents & Agentic AI: contrast panel, agent loop and architecture flow. */
 export function AgentsSection({ variant = 'default' }: AgentsSectionProps) {
   return (
     <Section id="agents" variant={variant}>
       <SectionHeading
-        eyebrow="AI Agents & Agentic AI"
         title="AI that acts, not just answers"
-        lead="Agentic systems pursue goals, not prompts. We build agents that reason about an objective, plan the work, call tools across your stack, and verify their own results — with the guardrails enterprises require."
+        lead="Agentic systems pursue goals, not prompts. We build agents that reason about an objective, plan the work, call tools across your stack, and verify their own results: with the guardrails enterprises require."
       />
 
       {/* Traditional vs agentic contrast */}
@@ -241,20 +240,20 @@ export function AgentsSection({ variant = 'default' }: AgentsSectionProps) {
             <h3 className="text-h4 text-ink-muted">Traditional AI</h3>
             <p className="mt-1 text-caption text-ink-subtle">Answers, then stops.</p>
             <ol className="mt-6 flex flex-wrap items-center gap-2">
-              <li className="flex items-center gap-1.5 rounded-full border border-line bg-surface-2 px-3 py-1.5 text-small text-ink-muted">
+              <li className="flex items-center gap-1.5 rounded-btn border border-line bg-surface-2 px-3 py-1.5 text-small text-ink-muted">
                 <MessageCircleQuestion className="h-4 w-4 text-ink-subtle" aria-hidden="true" />
                 Question
               </li>
               <li aria-hidden="true">
                 <ChevronRight className="h-4 w-4 text-ink-subtle" />
               </li>
-              <li className="flex items-center gap-1.5 rounded-full border border-line bg-surface-2 px-3 py-1.5 text-small text-ink-muted">
+              <li className="flex items-center gap-1.5 rounded-btn border border-line bg-surface-2 px-3 py-1.5 text-small text-ink-muted">
                 <MessageSquare className="h-4 w-4 text-ink-subtle" aria-hidden="true" />
                 Answer
               </li>
             </ol>
             <p className="mt-auto pt-6 text-small text-ink-muted">
-              A single prompt in, a single response out — limited to what the model already knows,
+              A single prompt in, a single response out: limited to what the model already knows,
               with no tools and no follow-through.
             </p>
           </Card>
@@ -279,7 +278,7 @@ export function AgentsSection({ variant = 'default' }: AgentsSectionProps) {
                         aria-hidden="true"
                       />
                     )}
-                    <span className="flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-small font-medium text-ink">
+                    <span className="flex items-center gap-1.5 rounded-btn border border-accent/30 bg-accent/10 px-3 py-1.5 text-small font-medium text-ink">
                       <step.icon className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
                       {step.label}
                     </span>
@@ -288,7 +287,7 @@ export function AgentsSection({ variant = 'default' }: AgentsSectionProps) {
               </ol>
               <p className="mt-auto flex items-start gap-2 pt-6 text-small text-ink-muted">
                 <RefreshCw className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                If verification fails, the agent re-plans and tries again — the loop runs until the
+                If verification fails, the agent re-plans and tries again: the loop runs until the
                 goal is met.
               </p>
             </div>
@@ -333,7 +332,7 @@ export function AgentsSection({ variant = 'default' }: AgentsSectionProps) {
                     <FlowCell
                       colorClass="text-accent/70"
                       segments={horizontalRTL}
-                      chip="observe · verify · re-plan"
+                      chip="observe, verify, re-plan"
                     />
                     <FlowCell colorClass="text-accent/70" segments={horizontalRTL} />
                     <FlowCell colorClass="text-accent/70" segments={horizontalRTL} />
@@ -410,7 +409,7 @@ export function AgentsSection({ variant = 'default' }: AgentsSectionProps) {
             <h3 className="text-h4 text-ink">We build with</h3>
             <p className="mt-2 text-small text-ink-muted">
               Frameworks, protocols and model platforms we work with today. Recommendations follow
-              your requirements and constraints — not vendor defaults.
+              your requirements and constraints: not vendor defaults.
             </p>
             <ul className="mt-5 flex flex-wrap gap-2">
               {technologies.map((tech) => (

@@ -11,55 +11,52 @@ interface Reason {
 
 const reasons: Reason[] = [
   {
-    title: 'AI-First Thinking',
+    title: 'AI-first thinking',
     description:
-      'We identify opportunities where AI can create meaningful business value. Just as importantly, we say clearly when a simpler system will serve you better.',
+      'We identify where AI creates real business value, and say clearly when a simpler system will serve you better.',
   },
   {
-    title: 'Architecture Before Implementation',
+    title: 'Architecture before implementation',
     description:
-      'We design the right solution before building it. Data flows, integration points and failure modes are worked out on paper while changing them is still cheap.',
+      'Data flows, integration points and failure modes are worked out on paper while changing them is still cheap.',
   },
   {
-    title: 'Data-Driven Engineering',
+    title: 'Data-driven engineering',
     description:
-      'We transform fragmented data into useful intelligence. Governed models and single metric definitions come first, so every dashboard and AI feature stands on trusted ground.',
+      'Governed models and single metric definitions come first, so every dashboard and AI feature stands on trusted ground.',
   },
   {
-    title: 'Production Mindset',
+    title: 'Production mindset',
     description:
-      'We build solutions designed for real-world environments. Monitoring, error handling, evaluation and rollback paths are part of the build, not an afterthought.',
+      'Monitoring, error handling, evaluation and rollback paths are part of the build, not an afterthought.',
   },
   {
-    title: 'Security by Design',
+    title: 'Security by design',
     description:
-      'Security and data protection are considered throughout the lifecycle. Access control, encryption and audit trails are designed in from the first architecture diagram.',
+      'Access control, encryption and audit trails are designed in from the first architecture diagram.',
   },
   {
-    title: 'End-to-End Capability',
+    title: 'End-to-end capability',
     description:
-      'From AI and data to applications, cloud, testing and ongoing support. One team carries the work from problem statement to production and stays accountable after launch.',
+      'One team carries the work from problem statement to production and stays accountable after launch.',
   },
 ]
 
 const pad = (n: number) => String(n + 1).padStart(2, '0')
 
 /**
- * Why-choose-us — the editorial "pinned background" pattern: the section is
- * a window onto a viewport-fixed photograph (bg-window + parallax) with the
- * serif heading sticky on the left while six numbered glass cards scroll
- * past on the right. Like ProcessShowcase, a ScrollTrigger per card marks
- * the one crossing the viewport middle as active: the sticky rail shows a
- * giant serif counter + title that change with scroll, a progress line
- * fills alongside (scrubbed), and the active card is highlighted. Mobile
- * keeps the plain list; reduced motion renders everything in final state.
- * Always rendered on dark, so text colors are explicit white.
+ * Principles as a scroll-tracked list over a viewport-fixed photograph
+ * (bg-window + parallax). The intro is sticky on the left with a large
+ * counter that follows whichever principle is crossing the middle of the
+ * viewport, and a progress line fills alongside (scrubbed). The list itself
+ * is glass panels; the active one is highlighted. Mobile keeps the plain
+ * list; reduced motion renders everything in its final state. Always on a
+ * dark scene, so colours are the fixed scene/paper/signal set.
  */
 export function WhyChooseUs() {
   const layerRef = useParallax<HTMLDivElement>(0.25)
   const rootRef = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState(0)
-  // With reduced motion there is no scroll tracking, so never dim cards.
   const [motionOff] = useState(() => prefersReducedMotion())
 
   useEffect(() => {
@@ -67,7 +64,6 @@ export function WhyChooseUs() {
     if (!root || prefersReducedMotion()) return
 
     const ctx = gsap.context(() => {
-      // Highlight the reason crossing the middle of the viewport.
       gsap.utils.toArray<HTMLElement>('[data-reason]', root).forEach((el, i) => {
         gsap.timeline({
           scrollTrigger: {
@@ -79,7 +75,6 @@ export function WhyChooseUs() {
         })
       })
 
-      // Progress fill alongside the sticky intro, scrubbed over the list.
       gsap.fromTo(
         '[data-reasons-progress]',
         { scaleY: 0 },
@@ -100,9 +95,6 @@ export function WhyChooseUs() {
   }, [])
 
   return (
-    // No overflow-hidden on the section — an overflow ancestor disables the
-    // sticky rail; the fixed parallax layer is contained by .bg-window's
-    // clip-path instead.
     <Section
       id="why-choose-us"
       bleed
@@ -116,76 +108,61 @@ export function WhyChooseUs() {
         aria-hidden="true"
       />
       <div
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-[#130F0D]/85 via-[#130F0D]/60 to-[#130F0D]/45"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-scene/90 via-scene/70 to-scene/55"
         aria-hidden="true"
       />
 
       <div
         ref={rootRef}
-        className="container-site grid gap-14 py-20 md:py-28 lg:grid-cols-[1.1fr_1fr] lg:gap-20"
+        className="container-site grid gap-14 py-24 md:py-32 lg:grid-cols-[1.1fr_1fr] lg:gap-20"
       >
-        {/* Sticky editorial intro + scroll-driven counter */}
         <div className="lg:sticky lg:top-32 lg:self-start">
           <Reveal className="flex max-w-xl flex-col gap-5">
-            <p className="inline-flex items-center gap-3 font-mono text-caption uppercase tracking-[0.22em] text-white/70">
-              <span className="h-px w-8 bg-[#FF5E1C]" aria-hidden="true" />
-              Why choose us
-            </p>
-            <h2 className="text-h1 text-white">
-              Why technology teams <span className="accent-word !text-[#FF5E1C]">choose us</span>
+            <h2 className="text-h1 text-paper">
+              Why technology teams <span className="text-signal">choose us</span>
             </h2>
-            <p className="max-w-lg text-body-lg text-white/80">
-              Not a list of buzzwords — the working principles that shape how
-              every engagement is scoped, architected and delivered.
+            <p className="max-w-lg text-body-lg text-paper/75">
+              Not a list of buzzwords. The working principles that shape how every
+              engagement is scoped, architected and delivered.
             </p>
           </Reveal>
 
-          {/* Giant counter follows the card crossing the viewport middle. */}
-          <div className="mt-10 hidden items-end gap-5 lg:flex" aria-hidden="true">
-            <div className="relative h-28 w-px overflow-hidden bg-white/25">
-              <div
-                data-reasons-progress
-                className="absolute inset-0 origin-top bg-[#FF5E1C]"
-              />
+          {/* Counter follows the principle crossing the viewport middle. */}
+          <div className="mt-12 hidden items-end gap-5 lg:flex" aria-hidden="true">
+            <div className="relative h-24 w-px overflow-hidden bg-paper/20">
+              <div data-reasons-progress className="absolute inset-0 origin-top bg-signal" />
             </div>
             <div>
-              <span className="block font-serif text-[5rem] leading-none tracking-tight text-[#FF5E1C]">
-                {pad(active)}.
+              <span className="tnum block text-[4.5rem] font-medium leading-none tracking-[-0.045em] text-signal">
+                {pad(active)}
               </span>
-              <span className="mt-2 block text-h4 text-white">
-                {reasons[active].title}
-              </span>
+              <span className="mt-2 block text-h4 text-paper">{reasons[active].title}</span>
             </div>
           </div>
         </div>
 
-        {/* Numbered glass cards */}
-        <ul data-reasons className="flex list-none flex-col gap-5">
+        <ol data-reasons className="flex list-none flex-col gap-4">
           {reasons.map(({ title, description }, i) => (
             <Reveal as="li" key={title} delay={60}>
               <div
                 data-reason
-                className={`rounded-card border p-7 backdrop-blur-md transition-all duration-500 ease-premium md:p-8 ${
-                  i === active || motionOff
-                    ? 'border-[#FF5E1C]/50 bg-white/15'
-                    : 'border-white/15 bg-white/10 lg:opacity-80'
+                className={`glass rounded-card p-7 transition-all duration-500 ease-premium md:p-8 ${
+                  i === active || motionOff ? '!border-signal/50 !bg-paper/10' : 'lg:opacity-75'
                 }`}
               >
                 <p
-                  className={`font-serif text-2xl transition-colors duration-500 ${
-                    i === active || motionOff ? 'text-[#FF5E1C]' : 'text-white/50'
+                  className={`tnum font-mono text-[11px] tracking-[0.12em] transition-colors duration-500 ${
+                    i === active || motionOff ? 'text-signal' : 'text-paper/50'
                   }`}
                 >
-                  {pad(i)}.
+                  {pad(i)}
                 </p>
-                <h3 className="mt-4 text-h3 text-white">{title}</h3>
-                <p className="mt-3 text-small leading-relaxed text-white/75">
-                  {description}
-                </p>
+                <h3 className="mt-4 text-h3 text-paper">{title}</h3>
+                <p className="mt-3 text-small leading-relaxed text-paper/70">{description}</p>
               </div>
             </Reveal>
           ))}
-        </ul>
+        </ol>
       </div>
     </Section>
   )

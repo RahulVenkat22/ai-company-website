@@ -22,13 +22,13 @@ export default function Technology() {
     <>
       <Seo
         title="Technology Stack & Engineering Practices"
-        description="Our technology ecosystem — Python, React, TypeScript, LangChain, LangGraph, Spark, Power BI, Docker, Kubernetes and more — plus the software, testing and support practices behind it."
+        description="Our technology ecosystem (Python, React, TypeScript, LangChain, LangGraph, Spark, Power BI, Docker, Kubernetes and more) plus the software, testing and support practices behind it."
         path="/technology"
         jsonLd={jsonLd}
       />
       <PageHeader
         title="The stack behind the solutions"
-        lead="We choose proven technology per problem — not per trend. This is the ecosystem we build with, and the engineering practices that keep what we ship reliable long after launch."
+        lead="We choose proven technology per problem: not per trend. This is the ecosystem we build with, and the engineering practices that keep what we ship reliable long after launch."
       />
 
       <TechnologyStackSection variant="default" />

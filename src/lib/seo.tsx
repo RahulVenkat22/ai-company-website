@@ -4,7 +4,7 @@ import { site } from '@/config/site'
 type JsonLd = Record<string, unknown>
 
 export interface SeoProps {
-  /** Page title — rendered as "<title> | <site name>". */
+  /** Page title: rendered as "<title> | <site name>". */
   title: string
   description: string
   /** Route path beginning with "/" used for the canonical URL. */
@@ -104,7 +104,7 @@ export function Seo({
     upsertMeta(
       'property',
       'og:image:alt',
-      'Engineering Intelligence for the Modern Enterprise — AI Agents, Agentic AI, RAG, Data, Cloud, Engineering',
+      'Engineering Intelligence for the Modern Enterprise. AI Agents, Agentic AI, RAG, Data, Cloud, Engineering',
     )
 
     // Twitter / X

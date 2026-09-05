@@ -22,7 +22,7 @@ export interface CaseStudy {
   technologies: string[]
   implementation: string
   security: string
-  /** Qualitative only — no numbers, per credibility rules. */
+  /** Qualitative only: no numbers, per credibility rules. */
   outcome: string
   illustrative: true
 }
@@ -34,7 +34,7 @@ export const caseStudies: CaseStudy[] = [
     category: 'AI / RAG',
     sector: 'Healthcare provider (illustrative)',
     challenge:
-      'Clinical and administrative staff need fast, reliable answers from a large body of care protocols, formulary documents and internal policies. Getting an answer today means searching a document portal, opening several PDFs and hoping the version found is current — which is slow for staff and risky for compliance.',
+      'Clinical and administrative staff need fast, reliable answers from a large body of care protocols, formulary documents and internal policies. Getting an answer today means searching a document portal, opening several PDFs and hoping the version found is current: which is slow for staff and risky for compliance.',
     existingProblem:
       'Knowledge lives in thousands of PDFs and intranet pages with inconsistent structure and duplicated, sometimes contradictory versions. Full-text search cannot distinguish superseded guidance from current guidance, and there is no way to restrict answers to the documents a given role is cleared to read.',
     requirements: [
@@ -78,7 +78,7 @@ export const caseStudies: CaseStudy[] = [
     category: 'Agentic AI',
     sector: 'Insurance services firm (illustrative)',
     challenge:
-      'A claims operations team handles a continuous inbound stream of forms, emails and attachments. Every item must be classified, keyed into a core system and routed — work that is repetitive at the median and genuinely difficult at the edges. The business wants throughput without giving up control over decisions.',
+      'A claims operations team handles a continuous inbound stream of forms, emails and attachments. Every item must be classified, keyed into a core system and routed: work that is repetitive at the median and genuinely difficult at the edges. The business wants throughput without giving up control over decisions.',
     existingProblem:
       'Intake is fully manual: staff re-type data from documents into the claims platform, and routing depends on individual experience. Errors surface days later as rework, rules live in people’s heads rather than in software, and there is no structured record of why an item was routed the way it was.',
     requirements: [
@@ -123,7 +123,7 @@ export const caseStudies: CaseStudy[] = [
     challenge:
       'Merchandising, e-commerce and store operations each report performance from their own extracts, so the same week can look like growth in one deck and decline in another. Leadership wants a single, trusted view of sales, stock and margin that refreshes without an analyst in the loop.',
     existingProblem:
-      'Data is fragmented across a point-of-sale database, an e-commerce platform, a legacy ERP and long-lived Excel workbooks. Metric definitions differ by team, refresh is manual, and lineage is unknowable — when a number looks wrong there is no way to trace where it came from.',
+      'Data is fragmented across a point-of-sale database, an e-commerce platform, a legacy ERP and long-lived Excel workbooks. Metric definitions differ by team, refresh is manual, and lineage is unknowable: when a number looks wrong there is no way to trace where it came from.',
     requirements: [
       'A governed warehouse consolidating POS, e-commerce and ERP data',
       'One tested definition per business metric in a shared semantic layer',
@@ -133,7 +133,7 @@ export const caseStudies: CaseStudy[] = [
       'Documented lineage from dashboard figure back to source system',
     ],
     approach:
-      'We built an ELT platform: raw source data lands in a cloud warehouse, dbt models transform it into a documented dimensional model, and a semantic layer defines each metric once with tests attached. Power BI datasets are built on the semantic layer only — no report connects to raw tables — so every dashboard, from executive summary to category deep-dive, agrees by construction.',
+      'We built an ELT platform: raw source data lands in a cloud warehouse, dbt models transform it into a documented dimensional model, and a semantic layer defines each metric once with tests attached. Power BI datasets are built on the semantic layer only (no report connects to raw tables) so every dashboard, from executive summary to category deep-dive, agrees by construction.',
     architecture: [
       'Source systems (POS, e-commerce platform, ERP)',
       'ELT ingestion into cloud warehouse',
@@ -164,7 +164,7 @@ export const caseStudies: CaseStudy[] = [
     category: 'Cloud Migration',
     sector: 'Logistics operator (illustrative)',
     challenge:
-      'A core shipment-management platform runs on aging on-premises servers approaching end of support. The business needs the reliability and elasticity of cloud infrastructure — and a foundation for planned AI features — without pausing operations that run around the clock.',
+      'A core shipment-management platform runs on aging on-premises servers approaching end of support. The business needs the reliability and elasticity of cloud infrastructure (and a foundation for planned AI features) without pausing operations that run around the clock.',
     existingProblem:
       'The platform is a monolith with a shared database, deployed manually a few times a year because releases are risky. Hardware capacity is sized for peak season and idle otherwise, disaster recovery has never been fully tested, and environment differences make every deployment an event.',
     requirements: [
@@ -176,7 +176,7 @@ export const caseStudies: CaseStudy[] = [
       'A demonstrably testable disaster-recovery capability',
     ],
     approach:
-      'We used a strangler migration rather than a lift-and-shift big bang. The monolith moved first onto cloud infrastructure behind an API gateway largely unchanged, establishing networking, identity and observability. High-change domains — tracking, notifications, rating — were then carved out as services with their own data stores, with the gateway routing traffic progressively and both paths kept runnable until each cutover proved stable.',
+      'We used a strangler migration rather than a lift-and-shift big bang. The monolith moved first onto cloud infrastructure behind an API gateway largely unchanged, establishing networking, identity and observability. High-change domains (tracking, notifications, rating) were then carved out as services with their own data stores, with the gateway routing traffic progressively and both paths kept runnable until each cutover proved stable.',
     architecture: [
       'Edge & API gateway with progressive routing',
       'Rehosted core application (containerized monolith)',
@@ -207,7 +207,7 @@ export const caseStudies: CaseStudy[] = [
     category: 'AI Automation',
     sector: 'Professional services firm (illustrative)',
     challenge:
-      'A finance operations group receives invoices, statements and remittance advice in every conceivable format. Each document must be read, coded and entered into the accounting system, then matched against expected payments — high-volume work where accuracy matters and month-end pressure is constant.',
+      'A finance operations group receives invoices, statements and remittance advice in every conceivable format. Each document must be read, coded and entered into the accounting system, then matched against expected payments: high-volume work where accuracy matters and month-end pressure is constant.',
     existingProblem:
       'Processing is manual end to end. Layout differences defeat the template-based OCR tool that was previously trialled, exceptions accumulate in shared inboxes, and matching against open items is done by eye. Errors are found late, during reconciliation, when they are most expensive to unwind.',
     requirements: [
@@ -282,7 +282,7 @@ export const caseStudies: CaseStudy[] = [
     implementation:
       'The first milestone put an API smoke suite into CI so the pipeline produced a quality signal within weeks. Coverage then grew feature by feature, prioritized by incident history. Manual testers moved from executing scripts to designing cases and exploratory testing, with pairing sessions building automation skills inside the existing team.',
     security:
-      'Test environments use synthetic data only — the provisioning service generates realistic records so production data never leaves production. CI secrets are scoped per environment, and the suites include checks for authorization boundaries so permission regressions fail the build like any functional defect.',
+      'Test environments use synthetic data only: the provisioning service generates realistic records so production data never leaves production. CI secrets are scoped per environment, and the suites include checks for authorization boundaries so permission regressions fail the build like any functional defect.',
     outcome:
       'Releases are now gated by a fast automated verdict instead of a manual testing week, and red builds are trusted because flaky tests are quarantined rather than ignored. Regression risk no longer accumulates between large releases, and the quality conversation shifted from “did we test it?” to evidence in the pipeline.',
     illustrative: true,

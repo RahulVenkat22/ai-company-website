@@ -50,9 +50,8 @@ export function TestingSection({ variant = 'default' }: TestingSectionProps) {
   return (
     <Section id="testing" variant={variant}>
       <SectionHeading
-        eyebrow="Testing & Quality Engineering"
         title="Quality engineered into every release"
-        lead="Testing is not a gate at the end of a project. We build it into the pipeline, so every change ships with evidence that it works — and keeps working."
+        lead="Testing is not a gate at the end of a project. We build it into the pipeline, so every change ships with evidence that it works: and keeps working."
       />
 
       <Reveal>
@@ -114,7 +113,7 @@ export function TestingSection({ variant = 'default' }: TestingSectionProps) {
                   vectorEffect="non-scaling-stroke"
                 />
               </svg>
-              <span className="absolute left-1/2 top-[34px] inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1 text-caption font-medium text-ink-muted">
+              <span className="absolute left-1/2 top-[34px] inline-flex -translate-x-1/2 -translate-y-1/2 items-center gap-1.5 rounded-btn border border-line bg-surface px-3 py-1 text-caption font-medium text-ink-muted">
                 <RefreshCw size={12} className="text-accent" />
                 Continuous loop
               </span>
@@ -140,7 +139,7 @@ export function TestingSection({ variant = 'default' }: TestingSectionProps) {
             ))}
             <li className="mt-4 flex items-center gap-2 text-caption text-ink-muted">
               <RefreshCw size={13} className="text-accent" />
-              Back to develop — the loop never stops
+              Back to develop: the loop never stops
             </li>
           </ol>
         </div>

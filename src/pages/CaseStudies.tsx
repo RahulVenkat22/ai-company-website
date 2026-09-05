@@ -27,7 +27,7 @@ const jsonLd = {
 function DetailBlock({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="text-caption font-semibold uppercase tracking-[0.12em] text-accent">
+      <h3 className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-subtle">
         {label}
       </h3>
       <div className="mt-2 text-small leading-relaxed text-ink-muted">{children}</div>
@@ -39,15 +39,11 @@ function DetailBlock({ label, children }: { label: string; children: React.React
 function ArchitectureStack({ layers, title }: { layers: string[]; title: string }) {
   return (
     <ol
-      aria-label={`${title} — architecture, top to bottom`}
+      aria-label={`${title}: architecture, top to bottom`}
       className="relative flex flex-col gap-2 border-l border-line-strong pl-5"
     >
       {layers.map((layer, i) => (
         <li key={layer} className="relative">
-          <span
-            aria-hidden="true"
-            className="absolute -left-[26px] top-2 h-2 w-2 rounded-full bg-primary"
-          />
           <span className="text-small text-ink-muted">
             <span className="mr-2 font-mono text-caption text-ink-subtle">
               {String(i + 1).padStart(2, '0')}
@@ -66,7 +62,7 @@ function CaseStudyArticle({ cs }: { cs: CaseStudy }) {
       <Card className="p-6 sm:p-8 md:p-10">
         <div className="flex flex-wrap items-center gap-2.5">
           <Badge tone="primary">{cs.category}</Badge>
-          <Badge>Illustrative Project</Badge>
+          <Badge>Illustrative project</Badge>
         </div>
         <h2 className="mt-4 text-h3">{cs.title}</h2>
         <p className="mt-1.5 text-small text-ink-subtle">{cs.sector}</p>
@@ -136,8 +132,8 @@ export default function CaseStudies() {
   return (
     <>
       <Seo
-        title="Case Studies — Illustrative Projects"
-        description="Illustrative engineering deep-dives across RAG, agentic AI, analytics, cloud migration, AI automation and test automation — challenge, architecture, technologies and outcome."
+        title="Case Studies. Illustrative projects"
+        description="Illustrative engineering deep-dives across RAG, agentic AI, analytics, cloud migration, AI automation and test automation: challenge, architecture, technologies and outcome."
         path="/case-studies"
         jsonLd={jsonLd}
       />
@@ -165,7 +161,7 @@ export default function CaseStudies() {
                   onClick={() => setActive(cat)}
                   className={`rounded-btn border px-4 py-2.5 text-small font-medium transition-colors duration-200 ${
                     selected
-                      ? 'border-primary bg-primary/10 text-primary'
+                      ? 'border-primary bg-primary text-ink-inverse'
                       : 'border-line text-ink-muted hover:border-line-strong hover:text-ink'
                   }`}
                 >

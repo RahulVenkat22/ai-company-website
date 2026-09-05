@@ -68,9 +68,9 @@ export default function NotFound() {
               variant="secondary"
               iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
               eventName="cta_click"
-              eventParams={{ cta: 'talk-to-us', location: 'not-found' }}
+              eventParams={{ cta: 'start_project', location: 'not-found' }}
             >
-              Talk to us
+              Start a project
             </Button>
           </div>
         </Reveal>

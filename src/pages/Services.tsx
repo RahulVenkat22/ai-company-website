@@ -14,7 +14,7 @@ import { HowWeWork } from '@/components/sections/HowWeWork'
 import { EngagementModels } from '@/components/sections/EngagementModels'
 import { FinalCTA } from '@/components/sections/FinalCTA'
 
-/* Full capability index (prompt.md §12, §16–§24) grouped by the §2 hierarchy. */
+/* Full capability index (prompt.md §12, §16-§24) grouped by the §2 hierarchy. */
 interface IndexGroup {
   title: string
   subgroups: { heading: string; to: string; items: string[] }[]
@@ -158,15 +158,15 @@ export default function Services() {
   return (
     <>
       <Seo
-        title="Services — AI, Data, Cloud & Software Engineering"
-        description="AI agent development, RAG, machine learning, analytics and BI, cloud engineering, software development and testing — organized around your business problem."
+        title="Services. AI, Data, Cloud & Software Engineering"
+        description="AI agent development, RAG, machine learning, analytics and BI, cloud engineering, software development and testing: organized around your business problem."
         path="/services"
         jsonLd={jsonLd}
       />
       <PageHeader
         image="/images/band-collab.jpg"
         title="Technology capabilities built around your business"
-        lead="One team across AI, data, cloud and software engineering. AI leads our thinking, data feeds it, and cloud and engineering carry it into production — so you engage one partner, not four vendors."
+        lead="One team across AI, data, cloud and software engineering. AI leads our thinking, data feeds it, and cloud and engineering carry it into production: so you engage one partner, not four vendors."
       >
         <Button
           to="/contact"
@@ -182,7 +182,6 @@ export default function Services() {
 
       <Section id="capability-index" variant="alt">
         <SectionHeading
-          eyebrow="Full Capability Index"
           title="Every service, one engineering partner"
           lead="The complete list of what we design, build and support. Each area links to the page where we explain how we approach it."
         />

@@ -5,150 +5,169 @@ website. The product requirements live in `prompt.md` at the repo root.
 
 ## Stack & hard rules
 
-- React 18 + TypeScript (strict) + Vite + Tailwind CSS. Path alias `@/` → `src/`.
+- React 18 + TypeScript (strict) + Vite + Tailwind CSS 3.4. Path alias `@/` maps to `src/`.
 - Icons: **lucide-react only**. Always `aria-hidden="true"` on decorative icons.
-- Motion system (updated 2026-09-01, framer-motion removed): **GSAP +
-  ScrollTrigger** for scroll-scrubbed/pinned/orchestrated effects over NATIVE
-  scrolling (Lenis smooth-scroll was tried and removed — the user disliked
-  hijacked scrolling; do not reintroduce it). Import gsap/ScrollTrigger only
-  via `src/lib/gsap.ts`. Every GSAP effect must run inside `gsap.context()`
-  scoped to its component and `ctx.revert()` on unmount. Simple entrance reveals stay on the
-  CSS `.reveal` system — do not duplicate them in GSAP.
-- Photography lives in `public/images/` (Unsplash); the hero background video
-  in `public/videos/hero-network.mp4` (Mixkit free license — muted, looping,
-  paused off-screen, photo fallback under reduced motion). No other external
-  CDNs — remaining visuals are inline SVG or CSS.
-- Respect `prefers-reduced-motion`: the global CSS already disables transitions
-  and reveals; for bespoke JS-driven motion, check
-  `window.matchMedia('(prefers-reduced-motion: reduce)')`.
-- Credibility (prompt.md §45): never invent clients, metrics, certifications,
-  partnerships or numbers. Label invented examples **“Illustrative”** and use
-  `[TBD]` for unknown company facts. No fake statistics anywhere.
+- Motion system (2026-09-05): two libraries with a strict split.
+  - **GSAP + ScrollTrigger** for everything tied to scroll: the scrubbed
+    video backdrop, pinning, parallax, count-ups, scroll-tracked counters.
+    Import only via `src/lib/gsap.ts`; every effect runs inside
+    `gsap.context()` scoped to its component and is reverted on unmount.
+    Native scrolling only. No smooth-scroll libraries (Lenis was tried and
+    removed; do not reintroduce scroll hijacking).
+  - **Framer Motion** (`framer-motion`) for component-level state
+    transitions: button hover/press, menu open/close (`AnimatePresence`),
+    accordion expand, testimonial crossfade, consent card enter/exit, hover
+    photo reveals. Always read `useReducedMotion()` and collapse to static.
+  - **Never drive the same DOM node with both.** GSAP animates wrappers and
+    scroll containers; Framer animates the interactive leaf.
+  - Simple entrance reveals stay on the CSS `.reveal` system.
+- Photography lives in `public/images/` (Unsplash). No third-party products
+  or trademarks in photos. Abstract tiles (`public/images/expertise/system-*.jpg`)
+  are stills from the generated brand footage.
+- Backdrop footage: `public/videos/backdrop-1280.mp4` / `backdrop-854.mp4` +
+  `backdrop-poster.jpg`. Current footage is a two-clip sequence (the headline's
+  "intelligence, then production"): (1) Pexels "Abstract Neural Network
+  Connections Animation" by Nicola Narracci, pexels.com/video/29184317, Pexels
+  License (free commercial use, no attribution), `--grade neural`; crossfading
+  into (2) Mixkit "High tech circuit board with processor",
+  mixkit.co/free-stock-video/high-tech-circuit-board-with-processor-47051/,
+  Mixkit Stock Video Free License, `--grade muted --sat 0.6`. Produce the files
+  ONLY through `tools/video/encode.mjs`
+  (any source clip, with optional graphite/orange grade and trim) or
+  `tools/video/render.mjs` (the generator in `tools/video/scene.html`). Both
+  write all-intra H.264 (every frame a keyframe), which is what keeps scroll
+  scrubbing smooth. Never drop in a normally encoded export.
+- Respect `prefers-reduced-motion`: global CSS disables transitions and
+  reveals; JS-driven motion checks `prefersReducedMotion()` (GSAP) or
+  `useReducedMotion()` (Framer).
+- Credibility (prompt.md 45): never invent clients, metrics, certifications,
+  partnerships or numbers. Label invented examples "Illustrative" and use
+  `[TBD]` for unknown company facts.
+- Copy: no em-dashes or en-dashes anywhere in visible text (use a comma,
+  colon, period or parentheses). No middle-dot separators. Sentence case for
+  headings, labels and CTAs. One label per intent: the contact action is
+  always "Start a project".
 - Every file must pass `tsc` strict + eslint with zero errors/warnings.
-  Do not use `any`. Remove unused imports (noUnusedLocals is on).
 
 ## Theme & color
 
-Design language (2026-09-05 editorial restyle, Luxterra-inspired): warm
-ivory "gallery" ground + espresso ink + ONE signal-orange accent, giant
-editorial serif display type, and full-bleed dark photographic/video scenes
-between cream content stretches. No gradients as decoration (dark photo
-scrims are the only gradients). Semantic Tailwind colors only (never
-hardcode hex in components — the only sanctioned literals are the
-always-dark scene colors below):
+Design language (2026-09-05 "graphite + signal"): dark-first cool graphite
+ground, off-white ink, ONE desaturated signal-orange accent, precise sans
+display type, cinematic media scenes. Semantic Tailwind colours only:
 
 - Backgrounds: `bg-bg` (page), `bg-surface`, `bg-surface-2`, `bg-surface-3`
 - Borders: `border-line`, `border-line-strong`
-- Text: `text-ink` (primary), `text-ink-muted`, `text-ink-subtle`, `text-ink-inverse`
-- Brand: ONE color. `primary` is the signal orange (deep `#C03600` in light,
-  `#FF5E1C` in dark); `accent` and `violet-acc` resolve to the SAME orange.
-  Usable with alpha: `bg-primary/10`
-- Status colors (fixed Tailwind hues) need light+dark: e.g.
-  `text-emerald-800 dark:text-emerald-300`
-- **Light (ivory) is the default theme**; dark ("espresso carbon") via
-  `:root[data-theme='dark']`. `dark:` variant utilities work
-  (selector-based). System preference is not auto-applied — ivory is the
-  brand default; the toggle stores an explicit choice.
-- Over photos/video use explicit `text-white/…` + `#FF5E1C` accents and
-  `#130F0D` (espresso) scrims, never theme tokens. Always-dark UI panels
-  (footer, question card) use `#191310` with `#F4EEE3` text.
-- PageHeader = tall editorial photo hero (min-h 68svh, bottom-aligned
-  `text-display` serif h1, optional mono `kicker`).
+- Text: `text-ink`, `text-ink-muted`, `text-ink-subtle`, `text-ink-inverse`
+  (ink-inverse is the text colour ON the accent: dark in the dark theme,
+  white in the light theme)
+- Brand: `primary` is the signal orange (`#E8632B` dark, `#C24A17` light);
+  `accent` and `violet-acc` are aliases of it. One accent, whole site.
+- Fixed scene colours for always-dark media (photo/video backdrops, footer):
+  `scene` (#0B0C0F scrims), `paper` (#ECEEF2 text), `signal` (#E8632B).
+  Never hardcode hex in components; use these three names.
+- **Dark is the default theme**; light ("cool paper") via
+  `:root[data-theme='light']`. `dark:` variants work (selector-based).
+  System preference is not auto-applied; the toggle stores an explicit choice.
+- Contrast: 4.5:1 minimum everywhere (axe-core color-contrast scan of all
+  routes in both themes is clean; keep it that way). Over dark scenes use
+  `text-paper/70` or stronger for body, `/60` minimum for 11px labels.
+- Surfaces: flat, hairline-bordered panels. `.glass` for translucent panels
+  over media (blur + inner highlight, solid fallback under
+  `prefers-reduced-transparency`). `.grain` is the single fixed film-grain layer.
 
 ## Typography
 
-Editorial two-face system: **Instrument Serif (400)** is the display face —
-`text-display-xl`, `text-display`, `text-h1`, `text-h2`, `text-h3` all
-render serif automatically (family attached in index.css; near-zero
-tracking, tight leading). **Instrument Sans** covers `text-h4` and below,
-body, UI. `.accent-word` = italic serif emphasis in the primary color
-inside headlines (over dark scenes add `!text-[#FF5E1C]`). Micro-labels
-(eyebrows, indexes, tags, footer group titles) are `font-mono` uppercase
-with wide tracking. Giant serif is also used for: word marquee
-(CapabilityStrip), stat numerals (StatsBand), footer watermark, FAQ
-questions, Write/Call/Visit contact rows.
+One family: **Geist Variable** (weights via `font-medium` 500 for all display
+sizes, 400 body). **Geist Mono Variable** for micro-labels, tags, tabular
+numerals (`.tnum`). Display scale (config `fontSize`, weight 500, tight
+negative tracking): `text-display-xl` (home hero only), `text-display`,
+`text-h1`, `text-h2`, `text-h3`, `text-h4`; body: `text-body-lg`,
+`text-body`, `text-small`, `text-caption`. Emphasis inside a headline is
+colour only (`.accent-word`, or `text-signal` over dark scenes), same family.
 
-Custom text sizes: `text-display-xl` (hero only), `text-display`,
-`text-h1`, `text-h2`, `text-h3`, `text-h4`, `text-body-lg`, `text-body`,
-`text-small`, `text-caption`. Headings must follow document order (one h1
-per page; sections use h2; sub-heads h3/h4).
-
-Copy style: visible headings and CTA labels are sentence case ("Start a
-conversation"), never Title Case; `<Seo title>` document titles may stay
-Title Case. No Sparkles/magic icons anywhere.
+Micro-labels: `font-mono text-[11px] uppercase tracking-[0.14em]`. They are
+RATIONED: at most one label above a section heading per three sections on a
+page (the `.eyebrow` class / `SectionHeading eyebrow` prop exist but are
+mostly unused). No section numbering in labels, no scroll cues, no
+decoration text strips.
 
 ## Layout
 
-- `Section` component = standard section wrapper (adds `.section-pad` rhythm +
-  1280px `Container`). Variants: `default`, `alt` (surface band), `deep`.
-- `.container-site` class or `Container` for custom wrappers.
-- 8px spacing grid: use Tailwind spacing steps (4/6/8/10/12/16…, plus 18/22/30).
-- Radii: `rounded-card` (16px, cards/photos), `rounded-btn` (10px, inputs),
-  `rounded` (4px, tags/chips). **Buttons are pills** (`rounded-full`, built
-  into `Button` with a circular icon chip) — part of the 2026-09-05
-  editorial restyle; circular controls (prev/next, FAQ chevrons) are
-  `rounded-full` too. Shadows: `shadow-card` (hover states; cards are flat +
-  hairline-bordered at rest), `shadow-card-hover`.
-- Signature scroll patterns (all reduced-motion safe):
-  `PinnedShowcase` (sticky full-screen crossfade slideshow),
-  `WhyChooseUs` (fixed-window photo + sticky serif intro + numbered glass
-  cards), `StackedCards` (What we solve), `StatsBand` (count-up facts),
-  `CapabilityStrip` (giant serif word marquee with inline photos),
-  `ScrollVideoStory` (homepage scrubbed video backdrop).
-- Mobile-first. No horizontal scroll at 320px. Grids collapse to 1 column.
+- `Section` = standard wrapper (`.section-pad` rhythm + 1344px `Container`).
+  Variants: `default`, `alt` (surface band), `deep`.
+- Spacing: 8px grid (Tailwind steps plus 18/22/30/36). Sections breathe:
+  `py-20 md:py-28 lg:py-36`.
+- Radii (shape lock): `rounded-card` 10px for panels and photos,
+  `rounded-btn` 6px for buttons, inputs, chips and icon tiles. No pills.
+  Small dots stay round only when they carry meaning (chart legends).
+- Layout families are not repeated on one page. Homepage set: window hero
+  (bottom-left copy) > single marquee strip > statement > stacked photo
+  panels (`StackedCards`) > stat row > pinned slideshow (`PinnedShowcase`) >
+  three-cell bento (`ServicesOverview`) > horizontal scroll-snap row
+  (`CaseStudiesSection`) > sticky rail over fixed photo (`WhyChooseUs`) >
+  hairline three-cell grid (`ProcessTeaser`) > quote + portrait
+  (`Testimonials`) > window CTA (`FinalCTA`). Max one marquee per page.
+- No three-equal-card feature rows; asymmetric grids, bento, hairline grids
+  or scroll-snap rows instead. Grids have exactly as many cells as items.
+- Mobile-first. No horizontal page scroll at 320px. Grids collapse to one column.
 
-## Shared primitives (import — do not re-create)
+## Shared primitives (import; do not re-create)
 
 ```tsx
 import { Section } from '@/components/ui/Section'          // id?, variant?, bleed?, ariaLabel?
 import { Container } from '@/components/ui/Container'
-import { SectionHeading } from '@/components/ui/SectionHeading' // eyebrow?, title, lead?, align?, as?
-import { PageHeader } from '@/components/ui/PageHeader'    // page h1 block: eyebrow?, title, lead?, children?
-import { Button } from '@/components/ui/Button'            // variant: primary|secondary|ghost|inverse (inverse = explicit white, for always-dark photo/video backdrops); size sm|md|lg; to|href; eventName?, eventParams?, iconLeft/iconRight
-import { Badge } from '@/components/ui/Badge'              // tone: neutral|accent|primary|violet
-import { Card } from '@/components/ui/Card'                // interactive?, variant: default|outline, as: div|article|li
+import { SectionHeading } from '@/components/ui/SectionHeading' // eyebrow? (rationed), title, lead?, align?, as?
+import { PageHeader } from '@/components/ui/PageHeader'    // interior h1 over a photo: title, lead?, image?, kicker?, children?
+import { Button } from '@/components/ui/Button'            // variant: primary|secondary|ghost|inverse (inverse = paper outline for dark scenes); size sm|md|lg; to|href; eventName?, eventParams?, iconLeft/iconRight. Framer hover/press built in.
+import { Badge } from '@/components/ui/Badge'
+import { Card } from '@/components/ui/Card'                // interactive?, variant: default|outline, as
 import { Reveal } from '@/components/ui/Reveal'            // CSS scroll reveal: as?, delay? (ms), variant: up|fade
+import { ParallaxBand } from '@/components/ui/ParallaxBand' // fixed-window photo band; omit image for a window onto the video
 import { TextInput, SelectInput, TextArea } from '@/components/ui/Field'
-import { Alert } from '@/components/ui/Alert'              // tone: success|error|info
-import { Seo } from '@/lib/seo'                            // title, description, path, jsonLd?
+import { Alert } from '@/components/ui/Alert'
+import { Seo } from '@/lib/seo'
 import { trackEvent } from '@/lib/analytics'
 import { site } from '@/config/site'
 ```
 
-Buttons that are business CTAs must fire analytics: use `eventName`
-(`cta_click`, `consultation_cta_click`, `nav_cta_click`) with
-`eventParams={{ cta: '<slug>', location: '<section>' }}`.
+Business CTAs fire analytics: `eventName` (`cta_click`, `consultation_cta_click`,
+`nav_cta_click`) with `eventParams={{ cta: '<slug>', location: '<section>' }}`.
+
+## Scroll-video backdrop (homepage)
+
+`ScrollVideoStory` renders one fixed full-viewport video behind the page.
+Page progress (top until the footer enters) maps linearly onto the video's
+timeline; a `gsap.ticker` loop chases forward scroll with real playback at a
+proportional rate and seeks on rewinds. The Hero and FinalCTA are open
+windows (`data-video-window`); other stretches sit in `.story-glass`
+wrappers (graphite scrim, translucent panels). A poster image sits under the
+video and is the only thing rendered under reduced motion.
+
+To change the footage: edit `tools/video/scene.html`, run
+`npm i playwright ffmpeg-static --no-save`, then
+`node tools/video/render.mjs preview` (contact sheet) and
+`node tools/video/render.mjs full` (encodes + poster), then `npm prune`.
 
 ## Animation utilities (CSS)
 
-- Scroll reveal: wrap in `<Reveal delay={80 * i}>` for staggered entrances.
-- SVG flow lines: `className="animate-flow"` (dashed line march) or
-  `animate-flow-slow`; node pulse: `animate-node-glow`; soft pulse:
-  `animate-pulse-soft`; card hover: `card-lift` (pair with
-  `hover:border-line-strong hover:shadow-card-hover`).
-- Marquee strip: `animate-marquee` (duplicate content 2× inside a
-  `overflow-hidden` wrapper; pause is not required but keep it subtle).
-- Easing: `ease-premium` (cubic-bezier(0.22, 1, 0.36, 1)); durations 200–700ms.
-- `.grid-backdrop` = subtle technical grid background layer (absolute inset-0,
-  `aria-hidden="true"`).
+- Scroll reveal: `<Reveal delay={80 * i}>` for staggered entrances.
+- SVG flow lines: `animate-flow` / `animate-flow-slow`; node pulse
+  `animate-node-glow`; soft pulse `animate-pulse-soft`; card hover `card-lift`.
+- Marquee: `animate-marquee` (one per page).
+- Easing: `ease-premium` (cubic-bezier(0.22, 1, 0.36, 1)); durations 200 to 700ms.
+- `.grid-backdrop` = subtle technical grid layer; `.scrollbar-none` hides
+  scrollbars on scroll-snap rows.
 
 ## Diagram/SVG conventions
 
-Architecture diagrams are inline SVG or CSS grid “node” layouts:
-
-- Nodes: `rounded-card border border-line bg-surface-2` boxes with a lucide
-  icon tile (`bg-primary/10 text-primary` or accent) + label.
-- Connectors: SVG `<line>/<path>` with `stroke="currentColor"` inside a
-  `text-line-strong` wrapper, or the `animate-flow` dashed style; arrows via
-  small chevron/triangle markers.
-- Every diagram needs an accessible description: `role="img"` +
-  `aria-label="…"` on the wrapper (and `aria-hidden` on decorative internals),
-  or visible step lists next to it.
-- Diagrams must simplify on mobile: switch to vertical stacking below `md:`.
-  Never cause horizontal overflow.
+Architecture diagrams are inline SVG or CSS grid node layouts: nodes are
+`rounded-card border border-line bg-surface-2` boxes with a lucide icon tile
+and label; connectors use `stroke="currentColor"` or the `animate-flow`
+dashed style. Every diagram has an accessible description (`role="img"` +
+`aria-label`, or a visible step list). Diagrams stack vertically below `md:`.
 
 ## Tone of copy
 
-Confident, technical, concrete, outcome-focused; no hype ("revolutionary",
-"cutting-edge"), no fake numbers, no exclamation marks. Short sentences.
-British/US neutral English. CTAs are invitations, not pressure.
+Confident, technical, concrete, outcome-focused. No hype words, no fake
+numbers, no exclamation marks, no em-dashes. Short sentences. CTAs are
+invitations, not pressure.

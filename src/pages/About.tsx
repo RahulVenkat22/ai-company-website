@@ -34,13 +34,13 @@ const beliefs = [
     icon: DraftingCompass,
     title: 'Architecture before implementation',
     description:
-      'The right architecture decides whether a system survives contact with production. We design the AI, data and cloud architecture deliberately — then build to that design.',
+      'The right architecture decides whether a system survives contact with production. We design the AI, data and cloud architecture deliberately: then build to that design.',
   },
   {
     icon: Rocket,
     title: 'Build for production, deploy securely',
     description:
-      'A prototype is not a product. We engineer solutions to production standards, test them thoroughly and deploy them securely to the cloud — with security treated as a requirement, not a feature.',
+      'A prototype is not a product. We engineer solutions to production standards, test them thoroughly and deploy them securely to the cloud: with security treated as a requirement, not a feature.',
   },
   {
     icon: RefreshCw,
@@ -67,7 +67,7 @@ const disciplines = [
     icon: Cpu,
     title: 'ML Engineers',
     description:
-      'Take models from notebook to production — training, serving, evaluation and monitoring.',
+      'Take models from notebook to production: training, serving, evaluation and monitoring.',
   },
   {
     icon: Cloud,
@@ -96,10 +96,10 @@ const disciplines = [
 ] as const
 
 const companyFacts = [
-  { label: 'Founded', value: '[TBD — to be provided]' },
-  { label: 'Locations', value: '[TBD — to be provided]' },
-  { label: 'Team size', value: '[TBD — to be provided]' },
-  { label: 'Legal entity', value: '[TBD — to be provided]' },
+  { label: 'Founded', value: '[TBD: to be provided]' },
+  { label: 'Locations', value: '[TBD: to be provided]' },
+  { label: 'Team size', value: '[TBD: to be provided]' },
+  { label: 'Legal entity', value: '[TBD: to be provided]' },
 ] as const
 
 export default function About() {
@@ -119,15 +119,14 @@ export default function About() {
 
       <Section variant="default">
         <SectionHeading
-          eyebrow="What We Believe"
           title="One narrative runs through everything we build."
-          lead="Understand the problem, design the architecture, build the solution, deploy it securely, and keep improving it. Every engagement — AI, data, cloud or software — follows that discipline."
+          lead="Understand the problem, design the architecture, build the solution, deploy it securely, and keep improving it. Every engagement (AI, data, cloud or software) follows that discipline."
         />
         <ul className="grid list-none grid-cols-1 gap-6 sm:grid-cols-2">
           {beliefs.map(({ icon: Icon, title, description }, i) => (
             <Reveal key={title} as="li" delay={80 * i}>
               <Card as="div" className="h-full p-6 md:p-8">
-                <span className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-btn bg-primary/10 text-primary">
+                <span className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-btn bg-surface-3 text-ink">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <h3 className="mb-2 text-h4">{title}</h3>
@@ -140,20 +139,19 @@ export default function About() {
 
       <Section variant="alt">
         <SectionHeading
-          eyebrow="Our Team"
           title="Multidisciplinary by design."
-          lead="Real systems cross boundaries — models need pipelines, pipelines need infrastructure, infrastructure needs software, and all of it needs testing. So we build teams that cross those boundaries too."
+          lead="Real systems cross boundaries: models need pipelines, pipelines need infrastructure, infrastructure needs software, and all of it needs testing. So we build teams that cross those boundaries too."
         />
-        <ul className="grid list-none grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid list-none grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {disciplines.map(({ icon: Icon, title, description }, i) => (
-            <Reveal key={title} as="li" delay={60 * i}>
+            <Reveal key={title} as="li" delay={60 * i} className={i === 0 ? 'lg:col-span-2' : ''}>
               <Card
                 as="div"
                 variant="outline"
                 interactive
                 className="flex h-full items-start gap-4 p-5"
               >
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-btn bg-accent/10 text-accent">
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-btn bg-surface-3 text-ink">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <div>
@@ -177,7 +175,7 @@ export default function About() {
                 <h2 className="text-h4">Company facts</h2>
                 <p className="mt-1 text-small text-ink-muted">
                   We publish only verified company information. The details
-                  below will be added once provided — nothing here is invented.
+                  below will be added once provided: nothing here is invented.
                 </p>
               </div>
             </div>

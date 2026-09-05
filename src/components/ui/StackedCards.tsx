@@ -11,7 +11,7 @@ interface StackedCardsProps {
  * Stacking-cards scroller: each card sticks below the navbar and the next
  * one slides up to cover it, while the covered card scales back and dims
  * (GSAP scrub). The stacking itself is plain CSS `position: sticky`, so with
- * reduced motion (or without JS) it still reads as an ordinary card list —
+ * reduced motion (or without JS) it still reads as an ordinary card list:
  * cards simply cover each other without the scale-away polish.
  *
  * Children must have an opaque background (e.g. <Card>): a covered card sits
@@ -31,7 +31,7 @@ export function StackedCards({ children, top = 6 }: StackedCardsProps) {
         if (!next) return
         // As the next card approaches its sticky position, the covered card
         // recedes: scaled down slightly and darkened. Brightness, not
-        // opacity — a transparent card would expose the cards (and video
+        // opacity: a transparent card would expose the cards (and video
         // backdrop) stacked beneath it. fromTo with explicit endpoints:
         // a plain .to() re-captures its start from the already-dimmed
         // value on ScrollTrigger refreshes, compounding the dim until

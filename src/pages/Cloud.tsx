@@ -15,7 +15,7 @@ const aiWorkloadCards = [
   {
     icon: Cpu,
     title: 'AI infrastructure',
-    body: 'GPU and managed-model capacity, vector stores, model endpoints and inference gateways — provisioned as code across AWS Bedrock, Azure AI and Vertex AI.',
+    body: 'GPU and managed-model capacity, vector stores, model endpoints and inference gateways: provisioned as code across AWS Bedrock, Azure AI and Vertex AI.',
   },
   {
     icon: Boxes,
@@ -55,13 +55,13 @@ export default function Cloud() {
     <>
       <Seo
         title="Cloud Engineering on AWS, Azure & Google Cloud"
-        description="Cloud architecture, migration, serverless, AI infrastructure, data platforms, DevOps and cost optimization — secure cloud engineering across AWS, Azure and Google Cloud."
+        description="Cloud architecture, migration, serverless, AI infrastructure, data platforms, DevOps and cost optimization: secure cloud engineering across AWS, Azure and Google Cloud."
         path="/cloud"
         jsonLd={jsonLd}
       />
       <PageHeader
         title="Cloud engineering without the complexity"
-        lead="Secure, scalable cloud foundations across AWS, Microsoft Azure and Google Cloud — designed for the applications, data platforms and AI workloads that run on them."
+        lead="Secure, scalable cloud foundations across AWS, Microsoft Azure and Google Cloud: designed for the applications, data platforms and AI workloads that run on them."
       >
         <Button
           to="/contact"
@@ -77,7 +77,6 @@ export default function Cloud() {
 
       <Section id="cloud-for-ai" variant="alt">
         <SectionHeading
-          eyebrow="Cloud for AI Workloads"
           title="The substrate under every AI system"
           lead="RAG platforms, agents and ML models are only as reliable as the infrastructure beneath them. We build the cloud layer with the AI workload in mind from day one."
         />

@@ -37,7 +37,7 @@ const EMPTY_FORM: ContactFormData = {
   requirement: '',
 }
 
-/** Tab/reading order — used to focus the first invalid field on submit. */
+/** Tab/reading order: used to focus the first invalid field on submit. */
 const FIELD_ORDER: readonly FieldName[] = [
   'name',
   'company',
@@ -105,14 +105,14 @@ function validateField(field: FieldName, value: string): string | undefined {
       if (!v) return undefined // optional
       const digits = v.replace(/\D/g, '')
       if (!PHONE_CHARS_RE.test(v) || digits.length < 7) {
-        return 'Enter a valid phone number — digits, spaces and + only, at least 7 digits.'
+        return 'Enter a valid phone number: digits, spaces and + only, at least 7 digits.'
       }
       return undefined
     }
     case 'projectType':
       return v ? undefined : 'Select the type of project.'
     case 'scope':
-      return v ? undefined : 'Select an estimated scope — "Not sure yet" is fine.'
+      return v ? undefined : 'Select an estimated scope. "Not sure yet" is fine.'
     case 'requirement':
       if (!v) return 'Tell us briefly what you want to build or solve.'
       return v.length >= MIN_REQUIREMENT_LENGTH
@@ -133,7 +133,7 @@ function validateAll(data: ContactFormData): FieldErrors {
 }
 
 /* ------------------------------------------------------------------ */
-/* Submission — no backend exists yet; this simulates a request so the */
+/* Submission: no backend exists yet; this simulates a request so the */
 /* full UX (loading, success, error) is real. A production endpoint    */
 /* slots into this one function.                                       */
 /* ------------------------------------------------------------------ */
@@ -171,7 +171,7 @@ function writeLastSubmitAt(ts: number): void {
   try {
     localStorage.setItem(RATE_LIMIT_KEY, String(ts))
   } catch {
-    /* storage unavailable — continue without persisting */
+    /* storage unavailable: continue without persisting */
   }
 }
 
@@ -286,20 +286,19 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
   return (
     <Section id="contact-form" variant={variant}>
       <SectionHeading
-        eyebrow="Contact"
         title={
           <>
             Tell us about your <span className="accent-word">project</span>
           </>
         }
-        lead="Share a few details about what you are trying to build or solve. We will review it and come back to you with a concrete next step — no obligation."
+        lead="Share a few details about what you are trying to build or solve. We will review it and come back to you with a concrete next step: no obligation."
       />
       <div className="grid items-start gap-10 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
       <Reveal>
         <Card className="p-6 sm:p-8 md:p-10">
           {status === 'success' ? (
             <div className="flex flex-col items-start gap-6">
-              <Alert tone="success" title="Thanks — we received your message.">
+              <Alert tone="success" title="Thanks: we received your message.">
                 <p>
                   A member of our team will review your requirement and respond
                   at the email address you provided.
@@ -318,7 +317,7 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
               onSubmit={(e) => void handleSubmit(e)}
               onFocus={handleFirstFocus}
             >
-              {/* Honeypot — hidden from real visitors; bots that fill it are
+              {/* Honeypot: hidden from real visitors; bots that fill it are
                   silently ignored. */}
               <div
                 aria-hidden="true"
@@ -379,7 +378,7 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
                     type="tel"
                     autoComplete="tel"
                     inputMode="tel"
-                    hint="Optional — include your country code."
+                    hint="Optional: include your country code."
                     value={data.phone}
                     error={errors.phone}
                     onChange={(e) => setField('phone', e.target.value)}
@@ -390,7 +389,7 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
                 <div className="grid gap-5 sm:grid-cols-2">
                   <SelectInput
                     id={FIELD_IDS.projectType}
-                    label="Project Type"
+                    label="Project type"
                     required
                     placeholder="Select a project type"
                     options={PROJECT_TYPE_OPTIONS}
@@ -401,7 +400,7 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
                   />
                   <SelectInput
                     id={FIELD_IDS.scope}
-                    label="Estimated Scope"
+                    label="Estimated scope"
                     required
                     placeholder="Select an estimated scope"
                     options={SCOPE_OPTIONS}
@@ -441,7 +440,7 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
                   </Button>
                   <p className="text-caption text-ink-subtle">
                     We only use your details to respond to this enquiry. You can
-                    also email us directly at {site.email} [TBD — form delivery
+                    also email us directly at {site.email} [TBD: form delivery
                     endpoint pending configuration].
                   </p>
                 </div>
@@ -451,7 +450,7 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
         </Card>
       </Reveal>
 
-      {/* Editorial contact column — serif Write / Call / Visit rows */}
+      {/* Editorial contact column: serif Write / Call / Visit rows */}
       <Reveal delay={120} className="flex flex-col lg:sticky lg:top-32">
         {(
           [
@@ -464,7 +463,7 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
             key={row.label}
             className="flex items-baseline justify-between gap-6 border-t border-line py-7 first:border-t-0 first:pt-0"
           >
-            <p className="font-serif text-h2 text-ink">{row.label}</p>
+            <p className="text-h2 text-ink">{row.label}</p>
             <div className="text-right">
               {row.lines.map((line) => (
                 <p key={line} className="text-small text-ink-muted">
@@ -475,7 +474,7 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
           </div>
         ))}
         <p className="border-t border-line pt-6 text-caption text-ink-subtle">
-          [TBD] placeholders — replace with approved company details before
+          [TBD] placeholders: replace with approved company details before
           launch.
         </p>
       </Reveal>

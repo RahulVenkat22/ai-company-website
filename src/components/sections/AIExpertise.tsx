@@ -27,19 +27,19 @@ const capabilities: Capability[] = [
     name: 'Generative AI',
     description:
       'Text, code and content generation on foundation models, tuned to your domain with guardrails.',
-    image: '/images/expertise/generative-ai.jpg',
+    image: '/images/expertise/system-lattice.jpg',
   },
   {
     name: 'AI Agents',
     description:
       'Autonomous agents that plan, call tools and complete tasks, with human oversight where it matters.',
-    image: '/images/expertise/ai-agents.jpg',
+    image: '/images/expertise/system-assembly.jpg',
   },
   {
     name: 'Agentic AI',
     description:
       'Goal-driven systems that decompose work, reason over state and recover from failure mid-task.',
-    image: '/images/expertise/agentic-ai.jpg',
+    image: '/images/expertise/system-flow.jpg',
   },
   {
     name: 'RAG',
@@ -121,9 +121,8 @@ export function AIExpertise({
   return (
     <Section id="ai-expertise" variant={variant}>
       <SectionHeading
-        eyebrow="AI Expertise"
         title="AI that goes beyond the chatbot"
-        lead="We work across the complete AI lifecycle — from strategy and architecture through data, models and retrieval to agents, applications, automation and deployment. One team owns the system end to end, so what ships is engineered for production, not a demo."
+        lead="We work across the complete AI lifecycle: from strategy and architecture through data, models and retrieval to agents, applications, automation and deployment. One team owns the system end to end, so what ships is engineered for production, not a demo."
       />
 
       <Reveal>
@@ -138,9 +137,6 @@ export function AIExpertise({
               className="flex flex-col gap-2 md:flex-row md:items-center md:gap-3"
             >
               <span className="inline-flex items-center gap-2.5 rounded border border-line bg-surface-2 px-3.5 py-2 text-small font-medium text-ink">
-                <span aria-hidden="true" className="font-mono text-caption text-accent">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
                 {step}
               </span>
               {i < lifecycleSteps.length - 1 && (
@@ -176,12 +172,12 @@ export function AIExpertise({
                 aria-hidden="true"
               />
               <div
-                className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/35"
+                className="absolute inset-0 bg-gradient-to-t from-scene/90 via-scene/55 to-scene/35"
                 aria-hidden="true"
               />
               <div className="relative flex min-h-[15rem] flex-col justify-end gap-1.5 p-5">
-                <h4 className="text-body font-semibold text-white">{name}</h4>
-                <p className="text-small text-white/85">{description}</p>
+                <h4 className="text-body font-semibold text-paper">{name}</h4>
+                <p className="text-small text-paper/85">{description}</p>
               </div>
             </div>
           </Reveal>
@@ -190,8 +186,8 @@ export function AIExpertise({
 
       <Reveal>
         <blockquote className="mt-14 max-w-3xl border-l-2 border-accent pl-6 md:mt-18 md:pl-8">
-          <p className="text-h3 font-semibold text-ink">
-            We engineer AI systems for real business workflows — not just
+          <p className="text-h3 text-ink">
+            We engineer AI systems for real business workflows: not just
             demonstrations.
           </p>
         </blockquote>

@@ -1,30 +1,30 @@
 /**
  * Central brand/company configuration.
  *
- * IMPORTANT (prompt.md §46 — Brand Placeholders):
+ * IMPORTANT (prompt.md §46. Brand Placeholders):
  * All company details below are placeholders. Replace every [TBD] value with
  * approved company information before launch. Do not invent company details.
  */
 
 export const site = {
-  /** Company name — replace before launch. */
+  /** Company name: replace before launch. */
   name: '[TBD] Company',
   /** Short name used in the navbar wordmark. */
   wordmark: 'Company[TBD]',
-  legalName: '[TBD — Registered Legal Entity Name]',
+  legalName: '[TBD: Registered Legal Entity Name]',
   tagline: 'AI. Data. Cloud. Automation. Engineering.',
   description:
-    'AI-first technology company engineering AI agents, agentic AI, RAG systems, data platforms, cloud solutions and intelligent applications — from business problem to production.',
-  /** Canonical production origin — replace with the real domain before launch. */
+    'AI-first technology company engineering AI agents, agentic AI, RAG systems, data platforms, cloud solutions and intelligent applications: from business problem to production.',
+  /** Canonical production origin: replace with the real domain before launch. */
   url: 'https://www.example-tbd-domain.com',
   email: 'hello@[yourdomain].com',
   privacyEmail: 'privacy@[yourdomain].com',
-  phone: '[TBD — Phone Number]',
-  address: '[TBD — Registered Address]',
+  phone: '[TBD: Phone Number]',
+  address: '[TBD: Registered Address]',
   social: {
-    linkedin: '[TBD — LinkedIn URL]',
-    x: '[TBD — X/Twitter URL]',
-    github: '[TBD — GitHub URL]',
+    linkedin: '[TBD: LinkedIn URL]',
+    x: '[TBD: X/Twitter URL]',
+    github: '[TBD: GitHub URL]',
   },
 } as const
 

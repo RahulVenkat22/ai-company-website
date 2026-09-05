@@ -13,7 +13,6 @@ import {
 } from 'lucide-react'
 import { Section } from '@/components/ui/Section'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { Card } from '@/components/ui/Card'
 import { Reveal } from '@/components/ui/Reveal'
 import { industries } from '@/data/industries'
 
@@ -31,44 +30,35 @@ const industryIcons: Record<string, LucideIcon> = {
 }
 
 /**
- * Compact industry grid. Copy is deliberately about adaptability of the
- * architectures — it makes no claims of prior industry experience or
- * client work.
+ * Industry index as one hairline grid (ten cells, no card chrome). Copy is
+ * about how the architectures adapt to each domain; it makes no claims of
+ * prior industry experience or client work.
  */
-export function IndustriesSection({
-  variant = 'default',
-}: {
-  variant?: 'default' | 'alt' | 'deep'
-}) {
+export function IndustriesSection({ variant = 'default' }: { variant?: 'default' | 'alt' | 'deep' }) {
   return (
     <Section id="industries" variant={variant}>
       <SectionHeading
-        eyebrow="Industries"
         title="Technology that adapts to your industry"
-        lead="The same architectural patterns — retrieval, agents, data platforms, cloud, testing — take different shapes under different constraints. Here is how they adapt."
+        lead="The same architectural patterns (retrieval, agents, data platforms, cloud, testing) take different shapes under different constraints."
       />
 
-      <ul className="grid list-none grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <ul className="grid list-none gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
         {industries.map(({ name, adapts }, i) => {
           const Icon = industryIcons[name] ?? Briefcase
           return (
-            <Reveal as="li" key={name} delay={60 * (i % 5)}>
-              <Card interactive className="flex h-full flex-col gap-3 p-5">
-                <span className="flex h-10 w-10 items-center justify-center rounded-card bg-accent/10 text-accent">
-                  <Icon aria-hidden="true" className="h-5 w-5" />
-                </span>
-                <h3 className="text-body font-semibold text-ink">{name}</h3>
-                <p className="text-caption text-ink-muted">{adapts}</p>
-              </Card>
+            <Reveal as="li" key={name} delay={50 * (i % 5)} className="flex h-full flex-col gap-3 bg-surface p-5 md:p-6">
+              <Icon aria-hidden="true" className="h-5 w-5 text-ink-subtle" />
+              <h3 className="text-body font-medium text-ink">{name}</h3>
+              <p className="text-caption text-ink-muted">{adapts}</p>
             </Reveal>
           )
         })}
       </ul>
 
-      <Reveal className="mt-8">
+      <Reveal className="mt-6">
         <p className="text-caption text-ink-subtle">
-          Listed as domains these architectures are designed to adapt to — not as claims
-          of prior industry engagements.
+          Listed as domains these architectures are designed to adapt to, not as claims of
+          prior industry engagements.
         </p>
       </Reveal>
     </Section>

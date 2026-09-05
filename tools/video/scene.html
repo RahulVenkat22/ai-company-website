@@ -1,0 +1,276 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Generative backdrop: "the system assembles"</title>
+<style>html,body{margin:0;background:#0B0C0F;overflow:hidden}canvas{display:block}</style>
+</head>
+<body>
+<canvas id="c" width="1600" height="900"></canvas>
+<script>
+/*
+ * Brand backdrop footage, rendered frame-by-frame (deterministic) and encoded
+ * by render.mjs. Narrative in three overlapping phases, mapped to page scroll:
+ *   A  dispersed particles drifting in a slow flow field  (the problem: noise)
+ *   B  a 3D lattice assembles; particles are drawn onto its nodes, edges grow
+ *      (architecture forming)
+ *   C  the structure locks, brightens; signal pulses route through it
+ *      (production)
+ * Scrubbed in either direction it reads naturally: forward = assembly,
+ * backward = disassembly. The composition keeps the focal mass right of
+ * centre so hero copy sits on the calmer left third.
+ */
+const W = 1600, H = 900, FPS = 24, DURATION = 12;
+const FRAMES = FPS * DURATION;
+window.FRAMES = FRAMES;
+
+const BG = [11, 12, 15];
+const INK = [222, 225, 232];
+const SIGNAL = [232, 99, 43];
+
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const smooth = (t) => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
+const easeInOut = (t) => { t = clamp(t, 0, 1); return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+const rgba = (c, a) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+
+const main = document.getElementById('c');
+const ctx = main.getContext('2d');
+const trail = document.createElement('canvas');
+trail.width = W; trail.height = H;
+const tctx = trail.getContext('2d');
+
+/* ---------------- lattice ---------------- */
+const NX = 9, NY = 5, NZ = 6, S = 1.0;
+let rnd = mulberry32(20260905);
+const nodes = [];
+for (let ix = 0; ix < NX; ix++)
+  for (let iy = 0; iy < NY; iy++)
+    for (let iz = 0; iz < NZ; iz++)
+      nodes.push({ ix, iy, iz, x: (ix - (NX - 1) / 2) * S, y: (iy - (NY - 1) / 2) * S * 0.9, z: (iz - (NZ - 1) / 2) * S, r: rnd(), glow: 0, hot: rnd() < 0.07 });
+const idx = (ix, iy, iz) => (ix * NY + iy) * NZ + iz;
+const edges = [];
+const adj = nodes.map(() => []);
+for (const n of nodes) {
+  const a = idx(n.ix, n.iy, n.iz);
+  const cands = [];
+  if (n.ix + 1 < NX) cands.push(idx(n.ix + 1, n.iy, n.iz));
+  if (n.iy + 1 < NY) cands.push(idx(n.ix, n.iy + 1, n.iz));
+  if (n.iz + 1 < NZ) cands.push(idx(n.ix, n.iy, n.iz + 1));
+  for (let ci = 0; ci < cands.length; ci++) {
+    const b = cands[ci];
+    const prob = ci === 1 ? 0.38 : 0.72; // vertical edges rarer: floors and planes, not a cube
+    if (rnd() < prob) { const e = { a, b, r: rnd(), g: 0 }; edges.push(e); adj[a].push(edges.length - 1); adj[b].push(edges.length - 1); }
+  }
+}
+
+/* ---------------- camera ---------------- */
+const F = 1000;
+function camera(t) {
+  const e = easeInOut(t);
+  return {
+    yaw: lerp(-1.05, -0.42, e),
+    pitch: lerp(0.40, 0.20, e),
+    dist: lerp(15.5, 7.6, e),
+    cx: lerp(0.66, 0.60, e) * W,
+    cy: lerp(0.50, 0.48, e) * H,
+  };
+}
+function project(n, cam) {
+  const cy = Math.cos(cam.yaw), sy = Math.sin(cam.yaw);
+  const cp = Math.cos(cam.pitch), sp = Math.sin(cam.pitch);
+  let x = n.x * cy - n.z * sy, z = n.x * sy + n.z * cy, y = n.y;
+  let y2 = y * cp - z * sp, z2 = y * sp + z * cp;
+  z2 += cam.dist;
+  const s = F / z2;
+  return { x: x * s + cam.cx, y: y2 * s + cam.cy, z: z2, s };
+}
+
+/* ---------------- flow field ---------------- */
+function flow(x, y, t) {
+  const s = 0.0016;
+  const a = Math.sin(x * s * 1.3 + t * 0.35) * Math.cos(y * s * 1.1 - t * 0.27)
+          + 0.5 * Math.sin((x + y) * s * 0.7 + t * 0.5);
+  return a * Math.PI * 1.15 + 0.55;
+}
+
+/* ---------------- particles ---------------- */
+let ambient = [], core = [], walkers = [];
+let frame = -1;
+function reset() {
+  rnd = mulberry32(777);
+  ambient = [];
+  for (let i = 0; i < 1500; i++) ambient.push({ x: rnd() * W, y: rnd() * H, sp: 1.0 + rnd() * 1.5, a: 0.3 + rnd() * 0.45 });
+  core = nodes.map((n) => ({ x: rnd() * W, y: rnd() * H, sp: 1.2 + rnd() * 1.2, r: n.r }));
+  walkers = [];
+  for (let i = 0; i < 9; i++) walkers.push({ e: -1, p: rnd(), dir: 1, sp: 0.016 + rnd() * 0.012, seed: rnd() * 1e6 });
+  for (const n of nodes) n.glow = 0;
+  for (const e of edges) e.g = 0;
+  tctx.fillStyle = rgba(BG, 1); tctx.fillRect(0, 0, W, H);
+  // pre-roll so trails already exist on the first frame
+  for (let k = 0; k < 40; k++) {
+    tctx.fillStyle = rgba(BG, 0.09); tctx.fillRect(0, 0, W, H);
+    for (const p of ambient) { advance(p, -k / FPS); tctx.fillStyle = rgba(INK, p.a); tctx.fillRect(p.x, p.y, 1.7, 1.7); }
+    for (const c of core) { advance(c, -k / FPS); tctx.fillStyle = rgba(INK, 0.6); tctx.beginPath(); tctx.arc(c.x, c.y, 1.5, 0, Math.PI * 2); tctx.fill(); }
+  }
+  frame = -1;
+}
+
+function advance(p, t) {
+  const ang = flow(p.x, p.y, t);
+  p.x += Math.cos(ang) * p.sp + 0.35;
+  p.y += Math.sin(ang) * p.sp * 0.8;
+  if (p.x > W + 4) p.x = -4; if (p.x < -4) p.x = W + 4;
+  if (p.y > H + 4) p.y = -4; if (p.y < -4) p.y = H + 4;
+}
+
+function pickNextEdge(w, fromEdgeIdx, atNode) {
+  const opts = adj[atNode].filter((ei) => ei !== fromEdgeIdx && edges[ei].g > 0.98);
+  const pool = opts.length ? opts : adj[atNode].filter((ei) => edges[ei].g > 0.98);
+  if (!pool.length) return -1;
+  const r = mulberry32(Math.floor(w.seed + frame * 13))();
+  return pool[Math.floor(r * pool.length)];
+}
+
+function step(i) {
+  frame = i;
+  const t = i / (FRAMES - 1);
+  const time = i / FPS;
+  const cam = camera(t);
+  const pB = smooth((t - 0.22) / 0.46);      // structure assembles 0.22 -> 0.68
+  const pC = smooth((t - 0.66) / 0.34);      // structure locks/brightens 0.66 -> 1
+  const ambientFade = 1 - 0.9 * smooth((t - 0.38) / 0.5);
+
+  // project nodes
+  const P = nodes.map((n) => project(n, cam));
+
+  // edge growth
+  for (const e of edges) e.g = smooth((pB * 1.35 - 0.28 - e.r * 0.72) / 0.32);
+
+  /* ---- trail layer: ambient + core particles ---- */
+  tctx.fillStyle = rgba(BG, 0.09);
+  tctx.fillRect(0, 0, W, H);
+  for (const p of ambient) {
+    advance(p, time);
+    const a = p.a * ambientFade;
+    if (a < 0.01) continue;
+    tctx.fillStyle = rgba(INK, a);
+    tctx.fillRect(p.x, p.y, 1.7, 1.7);
+  }
+  for (let k = 0; k < core.length; k++) {
+    const c = core[k];
+    advance(c, time);
+    const kk = smooth((pB - c.r * 0.55) / 0.42);   // convergence, staggered
+    const q = P[k];
+    const x = lerp(c.x, q.x, kk), y = lerp(c.y, q.y, kk);
+    const a = 0.6 + 0.3 * kk;
+    tctx.fillStyle = rgba(INK, a * (1 - 0.6 * kk));
+    tctx.beginPath(); tctx.arc(x, y, 1.5, 0, Math.PI * 2); tctx.fill();
+  }
+
+  /* ---- main layer ---- */
+  ctx.fillStyle = rgba(BG, 1);
+  ctx.fillRect(0, 0, W, H);
+  ctx.drawImage(trail, 0, 0);
+
+  // edges
+  ctx.lineWidth = 1.2;
+  ctx.lineCap = 'round';
+  for (const e of edges) {
+    if (e.g <= 0) continue;
+    const A = P[e.a], B = P[e.b];
+    const depth = clamp((((A.z + B.z) / 2) - (cam.dist - 5)) / 10, 0, 1);
+    const alpha = (0.2 + 0.2 * pC) * (1 - 0.7 * depth) * e.g;
+    ctx.strokeStyle = rgba(INK, alpha);
+    ctx.beginPath();
+    ctx.moveTo(A.x, A.y);
+    ctx.lineTo(lerp(A.x, B.x, e.g), lerp(A.y, B.y, e.g));
+    ctx.stroke();
+  }
+
+  // nodes
+  for (let k = 0; k < nodes.length; k++) {
+    const n = nodes[k], q = P[k];
+    const kk = smooth((pB - n.r * 0.55) / 0.42);
+    if (kk <= 0) continue;
+    const depth = clamp((q.z - (cam.dist - 5)) / 10, 0, 1);
+    n.glow *= 0.9;
+    const r = (1.5 + 1.3 * pC + n.glow * 2.2) * (1 - 0.35 * depth);
+    const hot = n.hot && pC > 0;
+    const col = hot ? SIGNAL : INK;
+    const alpha = (0.6 + 0.35 * pC) * kk * (1 - 0.6 * depth) * (hot ? 0.75 + 0.25 * pC : 1) + n.glow * 0.4;
+    ctx.fillStyle = rgba(col, clamp(alpha, 0, 1));
+    ctx.beginPath(); ctx.arc(q.x, q.y, r, 0, Math.PI * 2); ctx.fill();
+    if (hot) {
+      const g = ctx.createRadialGradient(q.x, q.y, 0, q.x, q.y, 14 * pC + 4);
+      g.addColorStop(0, rgba(SIGNAL, 0.28 * pC)); g.addColorStop(1, rgba(SIGNAL, 0));
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(q.x, q.y, 14 * pC + 4, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  // signal walkers
+  const wA = smooth((pB - 0.55) / 0.3);
+  if (wA > 0) {
+    for (const w of walkers) {
+      if (w.e < 0) {
+        const grown = edges.map((e, ei) => (e.g > 0.98 ? ei : -1)).filter((v) => v >= 0);
+        if (!grown.length) continue;
+        w.e = grown[Math.floor(mulberry32(Math.floor(w.seed + i))() * grown.length)];
+        w.p = 0; w.dir = 1;
+      }
+      w.p += w.sp;
+      if (w.p >= 1) {
+        const e = edges[w.e];
+        const arrive = w.dir > 0 ? e.b : e.a;
+        nodes[arrive].glow = 1;
+        const nx = pickNextEdge(w, w.e, arrive);
+        if (nx < 0) { w.e = -1; continue; }
+        w.e = nx; w.p = 0;
+        w.dir = edges[nx].a === arrive ? 1 : -1;
+      }
+      const e = edges[w.e];
+      const A = P[w.dir > 0 ? e.a : e.b], B = P[w.dir > 0 ? e.b : e.a];
+      const depth = clamp((((A.z + B.z) / 2) - (cam.dist - 5)) / 10, 0, 1);
+      const dim = (1 - 0.5 * depth) * wA;
+      // tail
+      for (let s = 1; s <= 8; s++) {
+        const pp = w.p - s * 0.028;
+        if (pp < 0) break;
+        ctx.fillStyle = rgba(SIGNAL, 0.42 * (1 - s / 9) * dim);
+        ctx.beginPath(); ctx.arc(lerp(A.x, B.x, pp), lerp(A.y, B.y, pp), 1.6, 0, Math.PI * 2); ctx.fill();
+      }
+      const hx = lerp(A.x, B.x, w.p), hy = lerp(A.y, B.y, w.p);
+      const g = ctx.createRadialGradient(hx, hy, 0, hx, hy, 16);
+      g.addColorStop(0, rgba(SIGNAL, 0.45 * dim)); g.addColorStop(1, rgba(SIGNAL, 0));
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(hx, hy, 16, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = rgba(SIGNAL, 0.95 * dim);
+      ctx.beginPath(); ctx.arc(hx, hy, 2.3, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+
+  // vignette: darker corners + calmer left third (copy sits there)
+  const v = ctx.createRadialGradient(cam.cx, cam.cy, H * 0.25, cam.cx, cam.cy, W * 0.78);
+  v.addColorStop(0, rgba(BG, 0)); v.addColorStop(1, rgba(BG, 0.45));
+  ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+  const l = ctx.createLinearGradient(0, 0, W * 0.55, 0);
+  l.addColorStop(0, rgba(BG, 0.35)); l.addColorStop(1, rgba(BG, 0));
+  ctx.fillStyle = l; ctx.fillRect(0, 0, W, H);
+}
+
+window.renderFrame = function (i) {
+  if (i !== frame + 1) { reset(); for (let k = 0; k < i; k++) step(k); }
+  step(i);
+  return i;
+};
+reset();
+</script>
+</body>
+</html>

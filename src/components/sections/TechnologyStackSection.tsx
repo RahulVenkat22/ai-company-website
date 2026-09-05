@@ -32,7 +32,7 @@ const aiGroups = new Set(['AI / ML', 'Generative AI', 'AI Engineering'])
 
 /**
  * Technology ecosystem (prompt.md §25): eight capability groups rendered as
- * text-first cards — an ecosystem, not a logo wall. AI groups lead and carry
+ * text-first cards: an ecosystem, not a logo wall. AI groups lead and carry
  * accent-tinted icon tiles.
  */
 export function TechnologyStackSection({
@@ -43,9 +43,8 @@ export function TechnologyStackSection({
   return (
     <Section id="technology-stack" variant={variant}>
       <SectionHeading
-        eyebrow="Technology Stack"
         title="An ecosystem, not a logo wall"
-        lead="We do not lead with tools. Each engagement starts from the problem, and the stack is chosen to fit it — for quality, cost, security and the systems you already run. These are the technologies we reach for most often."
+        lead="We do not lead with tools. Each engagement starts from the problem, and the stack is chosen to fit it: for quality, cost, security and the systems you already run. These are the technologies we reach for most often."
       />
 
       <ul className="grid list-none grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -72,7 +71,7 @@ export function TechnologyStackSection({
                   {items.map((item) => (
                     <li
                       key={item}
-                      className="rounded-full border border-line bg-surface-2 px-2.5 py-0.5 text-caption font-medium text-ink-muted"
+                      className="rounded-btn border border-line bg-surface-2 px-2.5 py-0.5 text-caption font-medium text-ink-muted"
                     >
                       {item}
                     </li>

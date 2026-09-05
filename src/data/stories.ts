@@ -16,7 +16,7 @@ export interface TechnologyStory {
   problem: string
   approach: string
   technologies: string[]
-  /** Qualitative only — no numbers, per credibility rules. */
+  /** Qualitative only: no numbers, per credibility rules. */
   outcome: string
   illustrative: true
 }
@@ -71,9 +71,9 @@ export const stories: TechnologyStory[] = [
     category: 'Agentic AI',
     flow: ['Manual Process', 'Agentic Workflow', 'Automation', 'Outcome'],
     problem:
-      'A back-office team processes a steady stream of inbound documents — orders, claims, requests — by reading each one, extracting fields into internal systems and routing edge cases to specialists. The work is repetitive, error-prone and scales only by hiring, yet it cannot simply be scripted because inputs are unstructured and exceptions are common.',
+      'A back-office team processes a steady stream of inbound documents (orders, claims, requests) by reading each one, extracting fields into internal systems and routing edge cases to specialists. The work is repetitive, error-prone and scales only by hiring, yet it cannot simply be scripted because inputs are unstructured and exceptions are common.',
     approach:
-      'We decompose the workflow into steps an agent can own: classify the document, extract structured fields with confidence scores, validate against business rules, then either complete the task through system APIs or escalate to a human with full context attached. The agent operates inside explicit guardrails — allowed tools, spending of retries, and hard rules for what always requires human sign-off. Every action is logged so the process stays auditable, and human corrections feed back into evaluation sets.',
+      'We decompose the workflow into steps an agent can own: classify the document, extract structured fields with confidence scores, validate against business rules, then either complete the task through system APIs or escalate to a human with full context attached. The agent operates inside explicit guardrails: allowed tools, spending of retries, and hard rules for what always requires human sign-off. Every action is logged so the process stays auditable, and human corrections feed back into evaluation sets.',
     technologies: [
       'LLM tool use / function calling',
       'Document extraction models',
@@ -113,7 +113,7 @@ export const stories: TechnologyStory[] = [
     category: 'AI Engineering',
     flow: ['Business Requirement', 'AI Architecture', 'Application', 'Production'],
     problem:
-      'A product team wants intelligence inside the product itself — drafting, summarizing and recommending within the user’s existing workflow — not a separate chatbot bolted onto the side. Early experiments showed promise but also unpredictable latency, inconsistent output quality and no strategy for handling model errors in front of end users.',
+      'A product team wants intelligence inside the product itself (drafting, summarizing and recommending within the user’s existing workflow) not a separate chatbot bolted onto the side. Early experiments showed promise but also unpredictable latency, inconsistent output quality and no strategy for handling model errors in front of end users.',
     approach:
       'We treat the model as one component in a designed system. An orchestration layer manages prompts, context assembly and fallbacks between models; streaming responses keep the interface responsive; and every AI feature has a defined failure mode that degrades gracefully instead of erroring. Output passes through validation before it reaches the user, and an evaluation suite runs against golden datasets in CI so prompt and model changes are tested like any other code change.',
     technologies: [

@@ -67,9 +67,8 @@ export function CloudSection({ variant = 'default' }: CloudSectionProps) {
   return (
     <Section id="cloud-engineering" variant={variant}>
       <SectionHeading
-        eyebrow="Cloud Engineering"
         title="Cloud engineering without the complexity"
-        lead="We design, build and run cloud platforms on Google Cloud, AWS and Microsoft Azure — architectures sized to your workload, automated from day one, and ready for AI."
+        lead="We design, build and run cloud platforms on Google Cloud, AWS and Microsoft Azure: architectures sized to your workload, automated from day one, and ready for AI."
       />
 
       <div className="grid gap-6 md:grid-cols-3">

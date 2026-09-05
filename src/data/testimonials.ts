@@ -1,8 +1,9 @@
 /**
- * Illustrative customer reviews — placeholder people and quotes
- * demonstrating the layout. Replace with real customer names, photos and
- * quotes (with written permission) before launch. Photos: Unsplash,
- * stored in /public/images.
+ * Customer reviews (prompt.md 44, 45).
+ *
+ * ILLUSTRATIVE PLACEHOLDERS. These quotes and people are not real customers.
+ * Replace with real, permitted quotes (name, role, company, written consent)
+ * before launch. Portraits are Unsplash stock in /public/images.
  */
 
 export interface Testimonial {
@@ -12,29 +13,26 @@ export interface Testimonial {
   image: string
 }
 
-export const TESTIMONIALS_DISCLAIMER =
-  'Illustrative examples — replace with real customer reviews before launch.'
-
 export const testimonials: Testimonial[] = [
   {
     quote:
-      'They started with our business problem, not their technology. The AI assistant they built now answers 70% of our support questions — and our customers actually like it.',
-    name: 'Amelia Hart',
-    role: 'Head of Customer Experience, Retail',
-    image: '/images/client-3.jpg',
+      'They questioned our brief before writing a line of code, and the architecture they proposed is the reason the assistant survived its first audit.',
+    name: 'Ilse Vandermeer',
+    role: 'Head of Clinical Systems, regional healthcare provider (illustrative)',
+    image: '/images/client-1.jpg',
   },
   {
     quote:
-      'The first team we worked with that treated a prototype and a product as different things. What they shipped has run in production for a year without drama.',
-    name: 'Marcus Bell',
-    role: 'CTO, Logistics Platform',
+      'The agents run our reconciliation every night. What impressed us was the evaluation harness they insisted on shipping alongside them.',
+    name: 'Tomasz Okafor-Lind',
+    role: 'Director of Finance Operations, logistics group (illustrative)',
     image: '/images/client-2.jpg',
   },
   {
     quote:
-      'Our data was scattered across a dozen systems. They built a platform that finally gives every team one version of the truth — and dashboards people open every morning.',
-    name: 'Priya Raman',
-    role: 'VP of Operations, FinTech',
-    image: '/images/client-5.jpg',
+      'One team took us from a spreadsheet estate to a governed data platform with dashboards our board actually opens.',
+    name: 'Priyanka Raghunathan',
+    role: 'Chief Data Officer, retail bank (illustrative)',
+    image: '/images/client-3.jpg',
   },
 ]

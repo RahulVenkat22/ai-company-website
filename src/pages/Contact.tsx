@@ -33,7 +33,7 @@ const nextSteps = [
   {
     step: '01',
     title: 'We review your requirement',
-    body: 'An engineer — not a sales script — reads what you send and considers the technical shape of the problem.',
+    body: 'An engineer (not a sales script) reads what you send and considers the technical shape of the problem.',
   },
   {
     step: '02',
@@ -51,7 +51,7 @@ export default function Contact() {
   return (
     <>
       <Seo
-        title="Contact — Start a Project"
+        title="Contact. Start a Project"
         description="Tell us about your AI, data, cloud or software challenge. We review every requirement and respond with a concrete, production-focused next step."
         path="/contact"
         jsonLd={jsonLd}

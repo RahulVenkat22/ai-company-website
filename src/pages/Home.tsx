@@ -1,6 +1,6 @@
+import { ArrowUpRight } from 'lucide-react'
 import { Seo } from '@/lib/seo'
 import { site } from '@/config/site'
-import { ArrowUpRight } from 'lucide-react'
 import { Hero } from '@/components/sections/Hero'
 import { CapabilityStrip } from '@/components/sections/CapabilityStrip'
 import { WhatWeSolve } from '@/components/sections/WhatWeSolve'
@@ -12,16 +12,14 @@ import { WhyChooseUs } from '@/components/sections/WhyChooseUs'
 import { ProcessTeaser } from '@/components/sections/ProcessTeaser'
 import { Testimonials } from '@/components/sections/Testimonials'
 import { FinalCTA } from '@/components/sections/FinalCTA'
-import { ParallaxBand } from '@/components/ui/ParallaxBand'
 import { ScrollVideoStory } from '@/components/ui/ScrollVideoStory'
 import { Section } from '@/components/ui/Section'
 import { Button } from '@/components/ui/Button'
-import { HeartHandshake, Lightbulb, ShieldCheck } from 'lucide-react'
 import { Reveal } from '@/components/ui/Reveal'
 
 const TITLE = 'AI Solutions, Agentic AI & Data Engineering'
 const DESCRIPTION =
-  'AI-first engineering: AI agents, agentic AI, RAG systems, data platforms and cloud solutions — from business problem to production, built for enterprise.'
+  'AI-first engineering: AI agents, agentic AI, RAG systems, data platforms and cloud solutions, taken from business problem to production for enterprise teams.'
 
 const HOME_JSONLD = {
   '@context': 'https://schema.org',
@@ -36,63 +34,48 @@ const HOME_JSONLD = {
   },
 } as const
 
-/**
- * Editorial intro split — big serif statement left, supporting copy and a
- * pill CTA right (the "we find & showcase" pattern).
- */
-function EditorialIntro() {
+/** One focused statement: headline, one paragraph, one action. */
+function Intro() {
   return (
     <Section ariaLabel="Who we are">
-      <div className="grid items-start gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
-        <Reveal className="flex flex-col gap-8">
-          <h2 className="text-h1 text-ink">
-            We engineer <span className="accent-word">intelligent</span> systems
-            for real business problems
-          </h2>
-          <div>
-            <Button
-              size="lg"
-              to="/services"
-              eventName="cta_click"
-              eventParams={{ cta: 'explore_services', location: 'editorial_intro' }}
-              iconRight={<ArrowUpRight className="h-4 w-4" aria-hidden="true" />}
-            >
-              Explore services
-            </Button>
-          </div>
-        </Reveal>
-        <Reveal delay={120} className="flex flex-col gap-6 text-body-lg text-ink-muted">
-          <p>
-            Discover AI agents, RAG systems, data platforms and cloud solutions
-            where thoughtful architecture meets production engineering — built
-            for the way your business actually works.
-          </p>
-          <p>
-            From enterprise knowledge assistants to fully agentic workflows,
-            every solution is carefully designed to take you from business
-            problem to production: data, architecture, models, applications,
-            cloud, testing, security and beyond.
-          </p>
-        </Reveal>
-      </div>
+      <Reveal className="flex max-w-4xl flex-col gap-8">
+        <h2 className="text-h1 text-ink">
+          We build the <span className="accent-word">intelligent systems</span> behind
+          real business operations.
+        </h2>
+        <p className="max-w-[62ch] text-body-lg text-ink-muted">
+          Knowledge assistants, agentic workflows, analytics platforms and the cloud
+          they run on. One team carries the work from problem statement to production
+          and stays accountable after launch.
+        </p>
+        <div>
+          <Button
+            variant="secondary"
+            size="lg"
+            to="/about#how-we-work"
+            eventName="cta_click"
+            eventParams={{ cta: 'how_we_work', location: 'intro' }}
+            iconRight={<ArrowUpRight aria-hidden="true" />}
+          >
+            See how we work
+          </Button>
+        </div>
+      </Reveal>
     </Section>
   )
 }
 
 /**
- * Homepage — a curated overview, not the whole story: promise (Hero) →
- * breadth (serif marquee + intro) → outcomes (WhatWeSolve) → capability
- * facts (StatsBand) → featured solutions (PinnedShowcase, the editorial
- * pinned slideshow) → where to go deeper (ServicesOverview) → proof
- * (case studies, differentiators, reviews) → process → invitation.
+ * Homepage: promise (Hero) > breadth (capability strip + intro) > outcomes
+ * (stacked panels) > capability facts > featured solutions (pinned
+ * slideshow) > where to go deeper (services) > proof (case studies,
+ * principles, reviews) > process > invitation.
  *
- * A fixed three-video robot story (ScrollVideoStory) runs behind the whole
- * page, its playback scrubbed by scroll position. The Hero, the ParallaxBand
- * and the FinalCTA are fully transparent windows onto it; every other
- * stretch of content sits inside a `.story-glass` wrapper — translucent
- * enough that the footage stays visible while scrolling, dense enough that
- * body copy stays legible. PinnedShowcase and WhyChooseUs bring their own
- * full-bleed photography and simply cover the footage while on screen.
+ * A single generated brand video (ScrollVideoStory) runs behind the whole
+ * page, scrubbed by scroll. The Hero and FinalCTA are open windows onto it;
+ * the other stretches sit inside `.story-glass` wrappers, translucent enough
+ * that the structure stays visible while body copy stays legible.
+ * PinnedShowcase and WhyChooseUs bring their own full-bleed photography.
  */
 export default function Home() {
   return (
@@ -102,45 +85,19 @@ export default function Home() {
       <Hero />
       <div className="story-glass">
         <CapabilityStrip />
-        <EditorialIntro />
-        <WhatWeSolve variant="default" />
+        <Intro />
+        <WhatWeSolve />
         <StatsBand />
       </div>
       <PinnedShowcase />
-      <ParallaxBand ariaLabel="Technology built by people, for people">
-        <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-          <h2 className="text-h2 text-balance text-white">
-            Technology built <span className="accent-word !text-[#FF5E1C]">by people, for people</span>
-          </h2>
-          <p className="max-w-2xl text-body-lg text-white/75">
-            Behind every AI system we ship is a team that listens first, explains
-            its decisions in plain language and cares how the result feels to use.
-          </p>
-          <ul className="mt-2 flex flex-wrap justify-center gap-3">
-            {[
-              { icon: Lightbulb, label: 'Human-centred design' },
-              { icon: ShieldCheck, label: 'Production-grade engineering' },
-              { icon: HeartHandshake, label: 'Partnership beyond launch' },
-            ].map((chip) => (
-              <li
-                key={chip.label}
-                className="flex items-center gap-2.5 rounded-full border border-white/20 bg-black/25 px-4 py-2 text-small text-white/85 backdrop-blur-sm"
-              >
-                <chip.icon className="h-4 w-4 text-[#FF5E1C]" aria-hidden="true" />
-                {chip.label}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-      </ParallaxBand>
       <div className="story-glass">
-        <ServicesOverview variant="default" />
-        <CaseStudiesSection variant="default" />
+        <ServicesOverview />
+        <CaseStudiesSection />
       </div>
       <WhyChooseUs />
       <div className="story-glass">
         <ProcessTeaser />
-        <Testimonials variant="default" />
+        <Testimonials />
       </div>
       <FinalCTA background="story" />
     </>

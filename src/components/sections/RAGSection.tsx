@@ -111,7 +111,7 @@ const mobileIndexingSteps: MobileStep[] = [
   {
     icon: FileText,
     label: 'Data Sources',
-    caption: 'Documents · Databases · Wikis',
+    caption: 'Documents, Databases, Wikis',
     tone: 'primary',
   },
   {
@@ -129,7 +129,7 @@ const mobileIndexingSteps: MobileStep[] = [
   {
     icon: Boxes,
     label: 'Vector Store',
-    caption: 'pgvector · Elasticsearch',
+    caption: 'pgvector, Elasticsearch',
     tone: 'accent',
   },
 ]
@@ -213,7 +213,7 @@ function FlowCell({
         <ChevronUp className="absolute left-1/2 top-0 h-3.5 w-3.5 -translate-x-1/2" />
       )}
       {chip && (
-        <span className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-full border border-line bg-surface-2 px-3 py-1 text-caption font-medium text-ink-muted">
+        <span className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded-btn border border-line bg-surface-2 px-3 py-1 text-caption font-medium text-ink-muted">
           {chip}
         </span>
       )}
@@ -356,16 +356,15 @@ interface RAGSectionProps {
   variant?: 'default' | 'alt' | 'deep'
 }
 
-/** RAG & Enterprise AI — differentiator section with animated architecture. */
+/** RAG & Enterprise AI: differentiator section with animated architecture. */
 export function RAGSection({ variant = 'deep' }: RAGSectionProps) {
   return (
     <Section id="rag" variant={variant} bleed className="relative">
       <div aria-hidden="true" className="grid-backdrop absolute inset-0" />
       <Container className="relative">
         <SectionHeading
-          eyebrow="RAG & Enterprise AI"
           title="Give AI access to your business knowledge"
-          lead="Retrieval-Augmented Generation connects language models to your documents, databases and internal knowledge — so answers reflect your business, stay current, and cite their sources."
+          lead="Retrieval-Augmented Generation connects language models to your documents, databases and internal knowledge: so answers reflect your business, stay current, and cite their sources."
         />
 
         {/* RAG answer pipeline: Question → Retrieve → Rank → Generate → Cite */}
@@ -454,7 +453,7 @@ export function RAGSection({ variant = 'deep' }: RAGSectionProps) {
                     <DiagramNode
                       icon={Boxes}
                       label="Vector Store"
-                      caption="pgvector · Elasticsearch"
+                      caption="pgvector, Elasticsearch"
                       tone="accent"
                       live
                     />
@@ -478,7 +477,7 @@ export function RAGSection({ variant = 'deep' }: RAGSectionProps) {
                     <FlowCell
                       colorClass="text-accent/70"
                       segments={horizontalRTL}
-                      chip="semantic search · top-k"
+                      chip="semantic search, top-k"
                     />
                     <FlowCell colorClass="text-accent/70" segments={horizontalRTL} />
                     <FlowCell
@@ -513,10 +512,10 @@ export function RAGSection({ variant = 'deep' }: RAGSectionProps) {
                       tone="accent"
                     >
                       <span className="flex flex-wrap justify-center gap-1">
-                        <span className="rounded-full border border-line bg-surface px-2 py-0.5 font-mono text-caption text-ink-subtle">
+                        <span className="rounded-btn border border-line bg-surface px-2 py-0.5 font-mono text-caption text-ink-subtle">
                           [1] handbook.pdf
                         </span>
-                        <span className="rounded-full border border-line bg-surface px-2 py-0.5 font-mono text-caption text-ink-subtle">
+                        <span className="rounded-btn border border-line bg-surface px-2 py-0.5 font-mono text-caption text-ink-subtle">
                           [2] wiki/policy
                         </span>
                       </span>
@@ -578,7 +577,7 @@ export function RAGSection({ variant = 'deep' }: RAGSectionProps) {
               <figcaption className="mt-5 text-caption text-ink-muted">
                 The indexing pipeline keeps the knowledge base current as content changes. At query
                 time, every answer is retrieved, reranked and grounded in your sources before the
-                model responds — and returned with citations.
+                model responds: and returned with citations.
               </figcaption>
             </figure>
           </Card>

@@ -1,24 +1,23 @@
 import { useEffect, useRef } from 'react'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { gsap, prefersReducedMotion } from '@/lib/gsap'
 
 /**
- * Featured-solutions showcase — the editorial "pinned slideshow" pattern:
- * the section pins to the viewport (CSS sticky) for N screen-heights while
- * scroll position crossfades between full-bleed scenes, each with its own
- * photograph, giant serif title and CTAs. Scrolling up rewinds. GSAP drives
- * only the scrubbed crossfade; the pin itself is plain position: sticky.
+ * Featured solutions as a pinned slideshow: the section pins (CSS sticky)
+ * for N screen-heights while scroll position crossfades between four
+ * full-bleed scenes, each with its own photograph, title and one action.
+ * Scrolling up rewinds. GSAP drives only the scrubbed crossfade and the slow
+ * photo push-in; the pin itself is position: sticky. A four-segment progress
+ * rail shows where the reader is.
  *
- * Hidden slides are made `inert` (and aria-hidden) as the active index
- * changes so keyboard focus and screen readers only ever see the visible
- * scene. Under prefers-reduced-motion the slides render as ordinary
- * stacked sections — all content available, nothing pinned or animated.
+ * Hidden slides are made inert and aria-hidden as the active index changes,
+ * so keyboard focus and screen readers only meet the visible scene. Under
+ * prefers-reduced-motion the slides render as ordinary stacked sections.
  */
 
 export interface ShowcaseSlide {
   title: string
-  /** Sub-line under the title — reads like an address line. */
   meta: string
   image: string
   to: string
@@ -27,29 +26,29 @@ export interface ShowcaseSlide {
 
 const SLIDES: ShowcaseSlide[] = [
   {
-    title: 'Enterprise RAG Platforms',
-    meta: 'Retrieval · Vector search · Cited answers',
+    title: 'Enterprise RAG platforms',
+    meta: 'Retrieval, vector search and answers with citations.',
     image: '/images/expertise/rag.jpg',
     to: '/ai-solutions#rag',
     cta: 'Explore RAG',
   },
   {
-    title: 'AI Agents & Agentic AI',
-    meta: 'Reason · Plan · Use tools · Execute',
-    image: '/images/expertise/agentic-ai.jpg',
+    title: 'AI agents and agentic AI',
+    meta: 'Systems that reason, plan, use tools and complete work.',
+    image: '/images/expertise/multi-agent.jpg',
     to: '/ai-solutions#agents',
     cta: 'Explore agents',
   },
   {
-    title: 'Data & Analytics Platforms',
-    meta: 'Pipelines · BI · Dashboards · Decisions',
+    title: 'Data and analytics platforms',
+    meta: 'Pipelines, governed metrics and dashboards teams trust.',
     image: '/images/expertise/decision-support.jpg',
     to: '/data-analytics',
     cta: 'Explore data',
   },
   {
-    title: 'Cloud-Native AI',
-    meta: 'AWS · Azure · Google Cloud · Production',
+    title: 'Cloud-native AI',
+    meta: 'Production infrastructure on AWS, Azure and Google Cloud.',
     image: '/images/expertise/enterprise-ai.jpg',
     to: '/cloud',
     cta: 'Explore cloud',
@@ -58,39 +57,26 @@ const SLIDES: ShowcaseSlide[] = [
 
 function SlideContent({ slide, index }: { slide: ShowcaseSlide; index: number }) {
   return (
-    <div className="container-site relative flex h-full flex-col items-center justify-center text-center">
-      <p
-        data-slide-el="meta"
-        className="font-mono text-caption uppercase tracking-[0.24em] text-white/70"
-      >
-        {String(index + 1).padStart(2, '0')} · {slide.meta}
-      </p>
-      <h3 data-slide-el="title" className="mt-5 max-w-5xl text-display text-white">
-        {slide.title}
-      </h3>
-      <div
-        data-slide-el="ctas"
-        className="mt-9 flex flex-col justify-center gap-3 sm:flex-row"
-      >
-        <Button
-          size="lg"
-          to={slide.to}
-          eventName="cta_click"
-          eventParams={{ cta: 'showcase_explore', location: `showcase_${index + 1}` }}
-          iconRight={<ArrowUpRight className="h-4 w-4" aria-hidden="true" />}
-        >
-          {slide.cta}
-        </Button>
-        <Button
-          size="lg"
-          variant="inverse"
-          to="/contact"
-          eventName="cta_click"
-          eventParams={{ cta: 'showcase_start', location: `showcase_${index + 1}` }}
-          iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
-        >
-          Start your project
-        </Button>
+    <div className="container-site relative flex h-full flex-col justify-end pb-24 md:pb-28">
+      <div className="max-w-3xl">
+        <h3 data-slide-el="title" className="text-display text-paper">
+          {slide.title}
+        </h3>
+        <p data-slide-el="meta" className="mt-5 max-w-xl text-body-lg text-paper/75">
+          {slide.meta}
+        </p>
+        <div data-slide-el="ctas" className="mt-8">
+          <Button
+            size="lg"
+            variant="inverse"
+            to={slide.to}
+            eventName="cta_click"
+            eventParams={{ cta: 'showcase_explore', location: `showcase_${index + 1}` }}
+            iconRight={<ArrowUpRight aria-hidden="true" />}
+          >
+            {slide.cta}
+          </Button>
+        </div>
       </div>
     </div>
   )
@@ -98,27 +84,25 @@ function SlideContent({ slide, index }: { slide: ShowcaseSlide; index: number })
 
 export function PinnedShowcase() {
   const rootRef = useRef<HTMLElement>(null)
-  const indexRef = useRef<HTMLSpanElement>(null)
+  const railRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const root = rootRef.current
     if (!root || prefersReducedMotion()) return
 
     const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-slide]'))
+    const segments = Array.from(railRef.current?.querySelectorAll('span') ?? [])
     const setActive = (active: number) => {
       slides.forEach((slide, i) => {
         const hidden = i !== active
         slide.toggleAttribute('inert', hidden)
         slide.setAttribute('aria-hidden', hidden ? 'true' : 'false')
       })
-      if (indexRef.current) {
-        indexRef.current.textContent = String(active + 1).padStart(2, '0')
-      }
+      segments.forEach((seg, i) => seg.classList.toggle('bg-paper', i <= active))
     }
     setActive(0)
 
     const ctx = gsap.context(() => {
-      // Each slide's photo pushes in slowly for its whole segment.
       slides.forEach((slide) => {
         gsap.fromTo(
           slide.querySelector('[data-slide-bg]'),
@@ -126,12 +110,7 @@ export function PinnedShowcase() {
           {
             scale: 1,
             ease: 'none',
-            scrollTrigger: {
-              trigger: root,
-              start: 'top top',
-              end: 'bottom bottom',
-              scrub: true,
-            },
+            scrollTrigger: { trigger: root, start: 'top top', end: 'bottom bottom', scrub: true },
           },
         )
       })
@@ -143,30 +122,22 @@ export function PinnedShowcase() {
           end: 'bottom bottom',
           scrub: true,
           onUpdate: (self) => {
-            const active = Math.min(
-              SLIDES.length - 1,
-              Math.round(self.progress * (SLIDES.length - 1)),
-            )
-            setActive(active)
+            setActive(Math.min(SLIDES.length - 1, Math.round(self.progress * (SLIDES.length - 1))))
           },
         },
       })
 
-      // Crossfade each incoming slide over the second half of its segment,
-      // lifting its content in slightly behind the fade.
       slides.forEach((slide, i) => {
         if (i === 0) return
         const at = i - 0.45
         tl.fromTo(slide, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.45 }, at)
         tl.fromTo(
           slide.querySelectorAll('[data-slide-el]'),
-          { y: 44 },
+          { y: 40 },
           { y: 0, duration: 0.45, stagger: 0.04 },
           at,
         )
       })
-      // Timeline spans slide count - 1 units; pad the tail so the last
-      // slide holds for its own full segment.
       tl.to({}, { duration: 0.55 }, SLIDES.length - 1.45)
     }, root)
 
@@ -180,18 +151,17 @@ export function PinnedShowcase() {
   }, [])
 
   if (typeof window !== 'undefined' && prefersReducedMotion()) {
-    // Static fallback: ordinary stacked scenes.
     return (
       <section aria-label="Featured solutions">
         {SLIDES.map((slide, i) => (
-          <div key={slide.title} className="relative isolate flex min-h-[80svh] items-center overflow-hidden">
+          <div key={slide.title} className="relative isolate flex min-h-[80svh] items-end overflow-hidden">
             <div
               className="absolute inset-0 -z-20 bg-cover bg-center"
               style={{ backgroundImage: `url(${slide.image})` }}
               aria-hidden="true"
             />
-            <div className="absolute inset-0 -z-10 bg-[#130F0D]/65" aria-hidden="true" />
-            <div className="w-full py-20">
+            <div className="absolute inset-0 -z-10 bg-scene/65" aria-hidden="true" />
+            <div className="w-full pt-20">
               <SlideContent slide={slide} index={i} />
             </div>
           </div>
@@ -209,12 +179,7 @@ export function PinnedShowcase() {
     >
       <div className="sticky top-0 h-screen overflow-hidden">
         {SLIDES.map((slide, i) => (
-          <div
-            key={slide.title}
-            data-slide
-            className="absolute inset-0 isolate"
-            style={{ opacity: i === 0 ? 1 : 0 }}
-          >
+          <div key={slide.title} data-slide className="absolute inset-0 isolate" style={{ opacity: i === 0 ? 1 : 0 }}>
             <div
               data-slide-bg
               className="absolute inset-0 -z-20 bg-cover bg-center will-change-transform"
@@ -222,23 +187,26 @@ export function PinnedShowcase() {
               aria-hidden="true"
             />
             <div
-              className="absolute inset-0 -z-10 bg-gradient-to-b from-[#130F0D]/70 via-[#130F0D]/45 to-[#130F0D]/75"
+              className="absolute inset-0 -z-10 bg-gradient-to-t from-scene/85 via-scene/45 to-scene/35"
               aria-hidden="true"
             />
             <SlideContent slide={slide} index={i} />
           </div>
         ))}
 
-        {/* Frame chrome: label top-left, live index top-right */}
+        {/* Frame chrome: label and progress rail */}
         <div className="container-site pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between pt-24">
-          <p className="font-mono text-caption uppercase tracking-[0.24em] text-white/70">
-            Featured solutions
-          </p>
-          <p className="flex items-baseline gap-2 font-serif text-2xl text-white">
-            <span ref={indexRef}>01</span>
-            <span className="h-px w-10 self-center bg-white/40" aria-hidden="true" />
-            <span className="text-white/55">{String(SLIDES.length).padStart(2, '0')}</span>
-          </p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-paper/60">Featured solutions</p>
+          <div ref={railRef} className="flex items-center gap-1.5" aria-hidden="true">
+            {SLIDES.map((s, i) => (
+              <span
+                key={s.title}
+                className={`block h-px w-8 transition-colors duration-500 md:w-12 ${
+                  i === 0 ? 'bg-paper' : 'bg-paper/25'
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

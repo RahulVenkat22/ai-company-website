@@ -17,12 +17,12 @@ const sections: PolicySection[] = [
   {
     title: 'Data we collect',
     description:
-      '[TBD] The categories of personal data collected through this website — for example, details submitted via the contact form and technical data collected by analytics after consent.',
+      '[TBD] The categories of personal data collected through this website: for example, details submitted via the contact form and technical data collected by analytics after consent.',
   },
   {
     title: 'How and why we use data',
     description:
-      '[TBD] The purposes of processing — responding to enquiries, operating and improving the website, and understanding aggregate usage.',
+      '[TBD] The purposes of processing: responding to enquiries, operating and improving the website, and understanding aggregate usage.',
   },
   {
     title: 'Legal bases for processing',
@@ -57,7 +57,7 @@ const sections: PolicySection[] = [
   {
     title: 'Your rights',
     description:
-      '[TBD] The rights available to visitors — access, correction, deletion, objection, portability and withdrawal of consent — and how to exercise them.',
+      '[TBD] The rights available to visitors (access, correction, deletion, objection, portability and withdrawal of consent) and how to exercise them.',
   },
   {
     title: 'Changes to this policy',
@@ -71,7 +71,7 @@ export default function PrivacyPolicy() {
     <>
       <Seo
         title="Privacy Policy"
-        description="How this website handles personal data. Placeholder page — final policy content to be provided by legal counsel."
+        description="How this website handles personal data. Placeholder page: final policy content to be provided by legal counsel."
         path="/privacy-policy"
       />
 
@@ -82,7 +82,7 @@ export default function PrivacyPolicy() {
 
       <Section variant="default">
         <div className="mx-auto flex max-w-prose flex-col gap-10">
-          <Alert tone="info" title="[TBD — Replace with approved legal content]">
+          <Alert tone="info" title="[TBD: Replace with approved legal content]">
             This page is a placeholder and is not legal advice. The outline
             below shows the sections the final policy will contain.
           </Alert>

@@ -1,54 +1,41 @@
 /**
- * Capability band directly under the hero (prompt.md §8) — restyled as a
- * giant editorial serif word marquee with small inline photographs punched
- * between the words. Text capabilities only — no vendor or partner logos,
- * so nothing implies a partnership or certification. Implemented as an
- * accessible marquee: the scrolling track is aria-hidden and duplicated 2x
- * for a seamless loop, with a static sr-only sentence carrying the content
- * for assistive technology. Reduced motion is handled globally (animations
- * are disabled in CSS), which leaves the first copy visible as a static
- * strip.
+ * Capability strip under the hero: the page's ONE marquee. Large capability
+ * words run in a single line with small photographs punched between them,
+ * which says "breadth" in one glance without a logo wall we cannot truthfully
+ * show. Text capabilities only, no vendor or partner logos. Accessible
+ * marquee: the scrolling track is aria-hidden and duplicated for a seamless
+ * loop, with a static sr-only sentence carrying the content. Reduced motion
+ * disables the animation globally, leaving the first copy as a static strip.
  */
 
 import { useEffect, useRef } from 'react'
 import { gsap, ScrollTrigger, prefersReducedMotion } from '@/lib/gsap'
 
 const CAPABILITIES: Array<{ word: string; image?: string }> = [
-  { word: 'AI', image: '/images/expertise/generative-ai.jpg' },
-  { word: 'Data' },
+  { word: 'AI agents', image: '/images/expertise/system-lattice.jpg' },
+  { word: 'RAG' },
+  { word: 'Data platforms', image: '/images/expertise/decision-support.jpg' },
+  { word: 'Machine learning' },
   { word: 'Cloud', image: '/images/expertise/enterprise-ai.jpg' },
-  { word: 'Analytics' },
-  { word: 'Automation', image: '/images/expertise/ai-automation.jpg' },
-  { word: 'Engineering' },
+  { word: 'Automation' },
+  { word: 'Software engineering', image: '/images/expertise/solution-architecture.jpg' },
 ]
 
-interface CapabilityStripProps {
-  /** Background band; the strip is bespoke, so this maps to classes. */
-  variant?: 'default' | 'alt' | 'deep'
-}
-
-const variantClasses: Record<NonNullable<CapabilityStripProps['variant']>, string> = {
-  default: 'bg-surface',
-  alt: 'bg-surface-2',
-  deep: 'bg-surface-2/60',
-}
-
-/** One run of the capability words; rendered twice for the seamless loop. */
 function StripRun() {
   return (
     <ul className="flex shrink-0 items-center">
       {CAPABILITIES.map(({ word, image }) => (
-        <li key={word} className="flex shrink-0 items-center gap-8 pr-8 sm:gap-12 sm:pr-12">
-          <span className="whitespace-nowrap font-serif text-[clamp(2.75rem,6vw,5.5rem)] leading-none tracking-tight text-ink">
+        <li key={word} className="flex shrink-0 items-center gap-7 pr-7 sm:gap-10 sm:pr-10">
+          <span className="whitespace-nowrap text-[clamp(2rem,4.4vw,4rem)] font-medium leading-none tracking-[-0.035em] text-ink/90">
             {word}
           </span>
           {image ? (
             <span
-              className="block h-[clamp(2.5rem,4.5vw,4rem)] w-[clamp(4.5rem,9vw,8rem)] shrink-0 rounded-full bg-cover bg-center"
+              className="block h-[clamp(2.25rem,3.6vw,3.5rem)] w-[clamp(4rem,6.6vw,6.25rem)] shrink-0 rounded-btn bg-cover bg-center grayscale-[0.5]"
               style={{ backgroundImage: `url(${image})` }}
             />
           ) : (
-            <span className="block h-2 w-2 shrink-0 rounded-full bg-primary" />
+            <span className="block h-7 w-px shrink-0 rotate-[18deg] bg-line-strong" />
           )}
         </li>
       ))}
@@ -56,11 +43,11 @@ function StripRun() {
   )
 }
 
-export function CapabilityStrip({ variant = 'default' }: CapabilityStripProps) {
+export function CapabilityStrip() {
   const wrapRef = useRef<HTMLDivElement>(null)
 
-  // Scroll-velocity skew: the marquee leans into fast scrolls and eases
-  // back upright when scrolling settles. Purely decorative (aria-hidden).
+  // Scroll-velocity lean: the strip tilts into fast scrolls and settles
+  // upright, so it feels attached to the page's momentum. Decorative.
   useEffect(() => {
     const el = wrapRef.current
     if (!el || prefersReducedMotion()) return
@@ -70,7 +57,7 @@ export function CapabilityStrip({ variant = 'default' }: CapabilityStripProps) {
       const settle = gsap.delayedCall(0.15, () => skewTo(0)).pause()
       ScrollTrigger.create({
         onUpdate: (self) => {
-          skewTo(gsap.utils.clamp(-6, 6, self.getVelocity() / -400))
+          skewTo(gsap.utils.clamp(-5, 5, self.getVelocity() / -450))
           settle.restart(true)
         },
       })
@@ -80,16 +67,13 @@ export function CapabilityStrip({ variant = 'default' }: CapabilityStripProps) {
   }, [])
 
   return (
-    <section
-      id="capabilities"
-      aria-label="Core capabilities"
-      className={`scroll-mt-20 border-y border-line ${variantClasses[variant]}`}
-    >
+    <section id="capabilities" aria-label="Core capabilities" className="scroll-mt-20 border-y border-line">
       <p className="sr-only">
-        Our core capabilities: AI, data, cloud, analytics, automation and software engineering.
+        Our core capabilities: AI agents, RAG, data platforms, machine learning, cloud, automation and
+        software engineering.
       </p>
-      <div ref={wrapRef} className="overflow-hidden py-10 md:py-14" aria-hidden="true">
-        <div className="flex w-max animate-marquee">
+      <div ref={wrapRef} className="overflow-hidden py-9 md:py-12" aria-hidden="true">
+        <div className="flex w-max animate-marquee [animation-duration:46s]">
           <StripRun />
           <StripRun />
         </div>

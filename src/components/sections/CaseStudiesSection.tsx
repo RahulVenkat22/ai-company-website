@@ -1,90 +1,108 @@
-import { ArrowRight } from 'lucide-react'
+import { useRef } from 'react'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { Section } from '@/components/ui/Section'
-import { SectionHeading } from '@/components/ui/SectionHeading'
-import { Card } from '@/components/ui/Card'
-import { Badge } from '@/components/ui/Badge'
-import { Button } from '@/components/ui/Button'
-import { StackedCards } from '@/components/ui/StackedCards'
+import { Reveal } from '@/components/ui/Reveal'
 import { caseStudies } from '@/data/caseStudies'
+import { trackEvent } from '@/lib/analytics'
 
 /** Illustrative imagery per featured project (stored in /public/images). */
-const CARD_IMAGES = [
-  '/images/band-tech.jpg',
-  '/images/team-laptop.jpg',
-  '/images/band-office.jpg',
-]
+const CARD_IMAGES = ['/images/band-tech.jpg', '/images/team-laptop.jpg', '/images/band-office.jpg']
 
 /**
- * Case study previews as a stacking-cards scroller: each project card
- * sticks below the navbar and the next slides up over it (StackedCards),
- * giving the section a deliberate, one-story-at-a-time rhythm.
+ * Case study previews as a native horizontal scroll-snap row: wide cards,
+ * one story per card, a partial next card visible as the affordance, and
+ * prev/next buttons for pointer users. No scroll hijacking.
  */
-export function CaseStudiesSection({
-  variant = 'alt',
-}: {
-  variant?: 'default' | 'alt' | 'deep'
-}) {
+export function CaseStudiesSection({ variant = 'default' }: { variant?: 'default' | 'alt' | 'deep' }) {
   const featured = caseStudies.slice(0, 3)
+  const listRef = useRef<HTMLUListElement>(null)
+
+  const scrollBy = (dir: 1 | -1) => {
+    const list = listRef.current
+    if (!list) return
+    const card = list.querySelector<HTMLElement>('li')
+    const step = card ? card.getBoundingClientRect().width + 20 : list.clientWidth * 0.8
+    list.scrollBy({ left: dir * step, behavior: 'smooth' })
+  }
+
+  const controlClass =
+    'inline-flex h-11 w-11 items-center justify-center rounded-btn border border-line-strong text-ink transition-colors hover:border-ink/50 hover:bg-surface-2 active:scale-[0.98]'
 
   return (
-    <Section id="case-studies" variant={variant}>
-      <SectionHeading
-        eyebrow="Case Studies"
-        title="Engineering work, end to end"
-        lead="Challenge, architecture, implementation and outcome — written the way we actually deliver. These projects are illustrative: no client names, no invented numbers."
-      />
+    <Section id="case-studies" variant={variant} className="overflow-hidden">
+      <Reveal className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="flex max-w-2xl flex-col gap-4">
+          <h2 className="text-h2">Engineering work, end to end</h2>
+          <p className="text-body-lg text-ink-muted">
+            Challenge, architecture, implementation and outcome, written the way we deliver.
+            These projects are illustrative: no client names, no invented numbers.
+          </p>
+        </div>
+        <div className="hidden gap-2 md:flex">
+          <button type="button" className={controlClass} onClick={() => scrollBy(-1)} aria-label="Previous case study">
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          </button>
+          <button type="button" className={controlClass} onClick={() => scrollBy(1)} aria-label="Next case study">
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </button>
+        </div>
+      </Reveal>
 
-      <StackedCards>
+      <ul
+        ref={listRef}
+        className="scrollbar-none -mx-5 mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-2 sm:-mx-8 sm:px-8 md:mt-12 lg:-mx-10 lg:px-10"
+        aria-label="Featured case studies"
+      >
         {featured.map((study, i) => (
-          <Card
-            key={study.slug}
-            as="article"
-            className="overflow-hidden shadow-card-hover md:grid md:grid-cols-[2fr_3fr]"
-          >
-            <img
-              src={CARD_IMAGES[i % CARD_IMAGES.length]}
-              alt=""
-              loading="lazy"
-              className="h-44 w-full object-cover md:h-full"
-            />
-            <div className="flex flex-col gap-4 p-6 md:p-8">
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge tone="accent">{study.category}</Badge>
-                <Badge tone="neutral">Illustrative Project</Badge>
+          <li key={study.slug} className="w-[85vw] shrink-0 snap-start sm:w-[28rem] lg:w-[34rem]">
+            <article className="flex h-full flex-col overflow-hidden rounded-card border border-line bg-surface">
+              <div className="aspect-[16/9] overflow-hidden">
+                <img
+                  src={CARD_IMAGES[i % CARD_IMAGES.length]}
+                  alt=""
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-700 ease-premium hover:scale-[1.03]"
+                />
               </div>
-
-              <h3 className="text-h3 text-ink">{study.title}</h3>
-
-              <p className="line-clamp-3 text-body text-ink-muted">{study.challenge}</p>
-
-              <ul className="flex list-none flex-wrap gap-1.5" aria-label="Key technologies">
-                {study.technologies.slice(0, 4).map((tech) => (
-                  <li
-                    key={tech}
-                    className="rounded border border-line bg-surface-2 px-2.5 py-0.5 font-mono text-caption text-ink-muted"
-                  >
-                    {tech}
-                  </li>
-                ))}
-              </ul>
-
-              <span className="mt-auto pt-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
+              <div className="flex flex-1 flex-col gap-3 p-6 md:p-7">
+                <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-subtle">
+                  {study.category}. Illustrative project
+                </p>
+                <h3 className="text-h3 text-ink">{study.title}</h3>
+                <p className="line-clamp-3 text-small text-ink-muted">{study.challenge}</p>
+                <ul className="mt-1 flex list-none flex-wrap gap-1.5" aria-label="Key technologies">
+                  {study.technologies.slice(0, 4).map((tech) => (
+                    <li
+                      key={tech}
+                      className="rounded-btn border border-line px-2 py-0.5 font-mono text-[11px] text-ink-muted"
+                    >
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+                <Link
                   to="/case-studies"
-                  className="-ml-3.5"
-                  iconRight={<ArrowRight aria-hidden="true" className="h-4 w-4" />}
-                  eventName="case_study_teaser_click"
-                  eventParams={{ slug: study.slug }}
+                  onClick={() => trackEvent('case_study_teaser_click', { slug: study.slug })}
+                  className="group mt-auto inline-flex items-center gap-1.5 pt-4 text-small font-medium text-ink transition-colors hover:text-primary"
                 >
-                  Read the Case Study
-                </Button>
-              </span>
-            </div>
-          </Card>
+                  Read the case study
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-premium group-hover:translate-x-1" aria-hidden="true" />
+                </Link>
+              </div>
+            </article>
+          </li>
         ))}
-      </StackedCards>
+        <li className="w-[70vw] shrink-0 snap-start sm:w-[18rem]">
+          <Link
+            to="/case-studies"
+            className="group flex h-full min-h-[18rem] flex-col justify-between rounded-card border border-line-strong p-6 text-ink transition-colors hover:border-ink/50 hover:bg-surface-2 md:p-7"
+          >
+            <span className="text-h3">All case studies</span>
+            <ArrowRight className="h-8 w-8 transition-transform duration-300 ease-premium group-hover:translate-x-1.5" aria-hidden="true" />
+          </Link>
+        </li>
+      </ul>
     </Section>
   )
 }

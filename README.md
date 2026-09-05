@@ -1,4 +1,4 @@
-# AI-First Technology Company — Public Website
+# AI-First Technology Company: Public Website
 
 Premium, enterprise-grade marketing website for an AI-first technology company
 covering AI Agents, Agentic AI, RAG & Enterprise AI, AI Solution Architecture,
@@ -10,13 +10,22 @@ Built to the requirements in [`prompt.md`](./prompt.md).
 ## Stack
 
 - **React 18 + TypeScript (strict) + Vite**
-- **Tailwind CSS** with a CSS-variable theme system (dark-first, light mode toggle,
-  system-preference aware, persisted)
-- **Framer Motion** — used *only* for the hero network visualization and the
-  process timeline (both lazy-loaded); every other animation is CSS
-- **lucide-react** — single icon library sitewide
+- **Tailwind CSS 3.4** with a CSS-variable theme system (dark-first "graphite +
+  signal" palette, light "cool paper" theme via toggle, persisted)
+- **GSAP + ScrollTrigger** for all scroll-driven motion (scrubbed video
+  backdrop, pinning, parallax, count-ups) over native scrolling
+- **Framer Motion** for component-level transitions (button press/hover, menu
+  and consent presence, accordion, testimonial crossfade). The two libraries
+  never drive the same element.
+- **lucide-react**, single icon library sitewide
 - **react-router-dom** with route-level code splitting
-- Self-hosted **Instrument Sans Variable + Instrument Serif** fonts (no external font CDN)
+- Self-hosted **Geist Variable + Geist Mono Variable** (no external font CDN)
+- Scroll-scrubbed backdrop footage in `public/videos/backdrop-*.mp4`: two
+  free-license stock clips (Pexels neural-network animation, Mixkit circuit
+  board) graded and crossfaded into one all-intra file by
+  `tools/video/encode.mjs` so scrubbing seeks one frame at a time; any clips
+  can be swapped in with that script. A generative alternative lives in
+  `tools/video/scene.html` + `render.mjs`. See `docs/STYLEGUIDE.md`.
 
 ## Getting started
 
@@ -45,23 +54,25 @@ docs/STYLEGUIDE.md      # binding design-system & contribution contract
 public/                 # robots.txt, sitemap.xml, favicon, og-image
 ```
 
-## Before launch — replace every placeholder
+## Before launch: replace every placeholder
 
 All placeholders are intentional (see `prompt.md` §45–46: never invent company
 facts). Search the repo for `[TBD]` and update:
 
-1. **`src/config/site.ts`** — company name, wordmark, domain/URL, emails,
+1. **`src/config/site.ts`**: company name, wordmark, domain/URL, emails,
    phone, address, social links.
-2. **Analytics** — `src/lib/analytics.ts`: set real `GTM_ID` / `GA4_ID`.
+2. **Analytics**: `src/lib/analytics.ts`: set real `GTM_ID` / `GA4_ID`.
    Scripts only load after consent *and* only when real IDs are configured.
-3. **Legal pages** — `src/pages/legal/*` are clearly-marked placeholders;
+3. **Legal pages**: `src/pages/legal/*` are clearly-marked placeholders;
    replace with approved legal content.
-4. **Domain references** — `public/robots.txt`, `public/sitemap.xml`,
+4. **Domain references**: `public/robots.txt`, `public/sitemap.xml`,
    `index.html` (title/description), `public/og-image.png` (regenerate with
    the real brand), favicon.
-5. **Case studies / technology stories** — `src/data/*.ts` content is labeled
+5. **Case studies / technology stories**: `src/data/*.ts` content is labeled
    *Illustrative*; replace with approved client work when available.
-6. **Contact form endpoint** — `src/components/sections/ContactForm.tsx`
+7. **Testimonials**: `src/data/testimonials.ts` quotes and people are
+   illustrative placeholders; replace with real, permitted quotes.
+6. **Contact form endpoint**: `src/components/sections/ContactForm.tsx`
    submits to a stub; wire `submitContactRequest` to a real endpoint with
    server-side spam protection and rate limiting.
 
@@ -80,7 +91,7 @@ CTA → `FinalCTA`. All share the `ui/` primitives (Button, Card, Badge, …).
 
 - WCAG 2.1 AA: skip link, semantic HTML, keyboard navigable, visible focus,
   labeled forms, reduced-motion support, AA contrast in both themes
-- Performance: code-split routes, lazy framer-motion chunks, self-hosted font,
-  no third-party scripts before consent, home JS budget < 200–250 KB gzip
+- Performance: code-split routes, vendor chunks (react, gsap), self-hosted fonts,
+  no third-party scripts before consent, home JS budget under 250 KB gzip
 - SEO: per-page titles/descriptions/canonicals, Open Graph + Twitter cards,
   `Organization` + `WebSite` JSON-LD, sitemap.xml, robots.txt

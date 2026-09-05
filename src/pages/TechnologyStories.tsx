@@ -26,12 +26,12 @@ const jsonLd = {
 function FlowChain({ phases, title }: { phases: string[]; title: string }) {
   return (
     <ol
-      aria-label={`${title} — flow: ${phases.join(', then ')}`}
+      aria-label={`${title}: flow: ${phases.join(', then ')}`}
       className="flex flex-wrap items-center gap-y-2"
     >
       {phases.map((phase, i) => (
         <li key={phase} className="flex items-center">
-          <span className="rounded-full border border-line bg-surface-2 px-3.5 py-1.5 text-caption font-semibold text-ink-muted">
+          <span className="rounded-btn border border-line bg-surface-2 px-3.5 py-1.5 text-caption font-semibold text-ink-muted">
             {phase}
           </span>
           {i < phases.length - 1 && (
@@ -58,14 +58,14 @@ export default function TechnologyStories() {
   return (
     <>
       <Seo
-        title="Technology Stories — From Problem to System"
+        title="Technology Stories. From Problem to System"
         description="Illustrative engineering narratives showing how we take RAG platforms, AI agents, BI transformations and cloud-native AI systems from business problem to production."
         path="/technology-stories"
         jsonLd={jsonLd}
       />
       <PageHeader
         title="How problems become systems"
-        lead="Illustrative engineering narratives — not client references. Each story shows the pattern we follow when a class of business problem becomes a production system. Approved client case studies will be published separately."
+        lead="Illustrative engineering narratives: not client references. Each story shows the pattern we follow when a class of business problem becomes a production system. Approved client case studies will be published separately."
       />
 
       {stories.map((story, i) => (
@@ -77,7 +77,7 @@ export default function TechnologyStories() {
           <Reveal as="article" className="mx-auto max-w-4xl">
             <div className="flex flex-wrap items-center gap-2.5">
               <Badge tone="primary">{story.category}</Badge>
-              <Badge>Illustrative Technology Story</Badge>
+              <Badge>Illustrative story</Badge>
             </div>
             <h2 className="mt-4 text-h2">{story.title}</h2>
 

@@ -1,7 +1,7 @@
 /**
  * Industries (prompt.md §29).
  *
- * Wording is deliberately about how the technology ADAPTS to each industry —
+ * Wording is deliberately about how the technology ADAPTS to each industry:
  * never a claim of prior industry experience or client work (prompt.md §45).
  * Icons are mapped in the presenting component to keep this file pure data.
  */

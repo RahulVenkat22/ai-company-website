@@ -1,7 +1,7 @@
 /**
  * Technology stack ecosystem (prompt.md §25).
  *
- * Grouped by capability, AI-first order. Rendered as text-first group cards —
+ * Grouped by capability, AI-first order. Rendered as text-first group cards:
  * never as a logo wall. Listing a technology does not imply certification,
  * partnership or official vendor status.
  */
@@ -59,7 +59,7 @@ export const techStack: readonly TechStackGroup[] = [
   {
     group: 'Cloud',
     blurb:
-      'Secure, scalable infrastructure across the major cloud providers — matched to your estate.',
+      'Secure, scalable infrastructure across the major cloud providers: matched to your estate.',
     items: ['AWS', 'Microsoft Azure', 'Google Cloud'],
   },
   {

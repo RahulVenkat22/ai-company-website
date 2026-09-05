@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { gsap, prefersReducedMotion } from '@/lib/gsap'
 
 /**
- * Thin scroll-progress bar under the fixed navbar — the page is long enough
+ * Thin scroll-progress bar under the fixed navbar: the page is long enough
  * (20+ home sections) that a sense of position genuinely helps. Scrubbed via
  * ScrollTrigger; hidden entirely under reduced motion and from assistive
  * tech (purely decorative).

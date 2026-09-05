@@ -2,51 +2,31 @@ import { Link } from 'react-router-dom'
 import { site } from '@/config/site'
 
 /**
- * Placeholder wordmark (prompt.md §46 — replace with the real logo).
- * The mark is a simple abstract "node + connections" glyph consistent with
- * the technical visual language of the site.
+ * Placeholder wordmark (prompt.md 46: replace with the real logo). The mark
+ * is a quiet node-and-edge glyph in ink with a single signal-coloured node.
  */
 export function Logo({
   onClick,
   onDark = false,
 }: {
   onClick?: () => void
-  /** Explicit light colors for use over the dark video hero. */
+  /** Explicit light colours for use over dark media in the light theme. */
   onDark?: boolean
 }) {
+  const ink = onDark ? 'text-paper' : 'text-ink'
   return (
     <Link
       to="/"
       onClick={onClick}
-      aria-label={`${site.name} — home`}
-      className="flex items-center gap-2.5"
+      aria-label={`${site.name}, home`}
+      className={`flex items-center gap-2.5 ${ink}`}
     >
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 28 28"
-        fill="none"
-        aria-hidden="true"
-        className="shrink-0"
-      >
-        <rect x="1" y="1" width="26" height="26" rx="5" className="fill-primary/10 stroke-primary/60" />
-        <circle cx="9" cy="19" r="2.4" className="fill-accent" />
-        <circle cx="14" cy="9" r="2.4" className="fill-primary" />
-        <circle cx="19.5" cy="16.5" r="2.4" className="fill-violet-acc" />
-        <path
-          d="M10.5 17.2 12.8 11M15.8 10.5l2.4 4.2M11.4 19h5.7"
-          className={onDark ? 'stroke-white/60' : 'stroke-ink-subtle'}
-          strokeWidth="1.3"
-          strokeLinecap="round"
-        />
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" className="shrink-0">
+        <rect x="0.75" y="0.75" width="22.5" height="22.5" rx="5" className="stroke-current opacity-30" strokeWidth="1.5" />
+        <path d="M7.5 16.5 12 7.5l4.5 9M9 13.5h6" className="stroke-current" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="12" cy="7.5" r="1.9" className="fill-signal" />
       </svg>
-      <span
-        className={`font-serif text-[21px] leading-none tracking-tight ${
-          onDark ? 'text-white' : 'text-ink'
-        }`}
-      >
-        {site.wordmark}
-      </span>
+      <span className="text-[17px] font-medium leading-none tracking-[-0.02em]">{site.wordmark}</span>
     </Link>
   )
 }

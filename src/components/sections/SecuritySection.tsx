@@ -63,9 +63,8 @@ export function SecuritySection({ variant = 'deep' }: SecuritySectionProps) {
           </Badge>
         </Reveal>
         <SectionHeading
-          eyebrow="Security & Data Protection"
           title="Built for trust, designed for scale"
-          lead="Security is not a feature we add before launch. It shapes how we design architectures, model access, move data and operate systems — from the first design review onward."
+          lead="Security is not a feature we add before launch. It shapes how we design architectures, model access, move data and operate systems: from the first design review onward."
           className="mb-10 md:mb-12"
         />
 

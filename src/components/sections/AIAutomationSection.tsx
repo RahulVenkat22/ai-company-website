@@ -148,9 +148,8 @@ export function AIAutomationSection({ variant = 'default' }: AIAutomationSection
   return (
     <Section id="automation" variant={variant}>
       <SectionHeading
-        eyebrow="AI Automation"
         title="Automate the work, amplify the people"
-        lead="We automate the repetitive work that slows teams down — document handling, reporting, support, routine decisions — so your people spend their time on judgment, relationships and the problems software cannot solve."
+        lead="We automate the repetitive work that slows teams down (document handling, reporting, support, routine decisions) so your people spend their time on judgment, relationships and the problems software cannot solve."
       />
 
       {/* Transformation flow: progressively more solid and accented stages. */}

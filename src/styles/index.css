@@ -3,55 +3,54 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------ */
-/* Theme tokens — warm ivory editorial palette with a single           */
-/* signal-orange accent. Values are RGB triplets so Tailwind can       */
-/* apply alpha modifiers.                                              */
+/* Theme tokens. Dark-first "graphite + signal" palette: cool near-    */
+/* black ground, off-white ink, ONE desaturated signal-orange accent.  */
+/* Values are RGB triplets so Tailwind can apply alpha modifiers.      */
 /* ------------------------------------------------------------------ */
 
 :root {
-  /* Light theme (default): gallery ivory, espresso ink, signal orange */
-  --c-bg: 244 238 227; /* #F4EEE3 warm ivory */
-  --c-surface: 250 246 238; /* #FAF6EE raised cream */
-  --c-surface-2: 237 229 214; /* #EDE5D6 */
-  --c-surface-3: 228 218 198; /* #E4DAC6 */
-  --c-border: 224 214 195; /* #E0D6C3 */
-  --c-border-strong: 194 181 155; /* #C2B59B */
-  --c-text: 30 25 20; /* #1E1914 espresso ink */
-  --c-text-muted: 92 84 72; /* #5C5448 */
-  --c-text-subtle: 108 99 85; /* #6C6355 — ≥4.5:1 on every light surface */
-  --c-text-inverse: 250 246 238;
-  /* Single-accent palette: accent and violet-acc resolve to the same
-     signal orange as primary — the brand uses ONE color, everywhere. */
-  --c-primary: 192 54 0; /* #C03600 deep signal orange */
-  --c-primary-hover: 150 42 0; /* #962A00 */
-  --c-primary-soft: 255 231 216;
-  --c-accent: 192 54 0;
-  --c-accent-strong: 150 42 0;
-  --c-violet: 192 54 0;
-
-  color-scheme: light;
-}
-
-:root[data-theme='dark'] {
-  /* Dark theme: espresso carbon — the same warmth, after dark */
-  --c-bg: 19 15 13; /* #130F0D */
-  --c-surface: 27 22 19; /* #1B1613 */
-  --c-surface-2: 36 30 25; /* #241E19 */
-  --c-surface-3: 46 39 32; /* #2E2720 */
-  --c-border: 54 46 38; /* #362E26 */
-  --c-border-strong: 86 74 61; /* #564A3D */
-  --c-text: 244 238 227; /* #F4EEE3 warm ivory */
-  --c-text-muted: 180 169 152; /* #B4A998 */
-  --c-text-subtle: 150 139 123; /* #968B7B — ≥4.5:1 on every dark surface */
-  --c-text-inverse: 22 17 14;
-  --c-primary: 255 94 28; /* #FF5E1C signal orange */
-  --c-primary-hover: 255 122 64; /* #FF7A40 */
-  --c-primary-soft: 46 26 15; /* dark ember wash */
-  --c-accent: 255 94 28;
-  --c-accent-strong: 224 78 18; /* #E04E12 */
-  --c-violet: 255 94 28;
+  /* Dark theme (default): graphite ground, off-white ink */
+  --c-bg: 11 12 15; /* #0B0C0F */
+  --c-surface: 17 19 24; /* #111318 */
+  --c-surface-2: 23 26 32; /* #171A20 */
+  --c-surface-3: 32 36 44; /* #20242C */
+  --c-border: 38 42 50; /* #262A32 */
+  --c-border-strong: 62 68 80; /* #3E4450 */
+  --c-text: 236 238 242; /* #ECEEF2 */
+  --c-text-muted: 160 166 178; /* #A0A6B2 */
+  --c-text-subtle: 138 145 158; /* #8A919E, >= 4.5:1 on every dark surface */
+  --c-text-inverse: 11 12 15; /* ink used ON the accent */
+  /* Single accent. accent / violet remain aliases so legacy markup keeps working. */
+  --c-primary: 232 99 43; /* #E8632B */
+  --c-primary-hover: 242 122 69; /* #F27A45 */
+  --c-primary-soft: 46 27 18; /* ember wash */
+  --c-accent: 232 99 43;
+  --c-accent-strong: 242 122 69;
+  --c-violet: 232 99 43;
 
   color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+  /* Light theme: cool paper. Same hierarchy, same single accent. */
+  --c-bg: 245 246 248; /* #F5F6F8 */
+  --c-surface: 255 255 255;
+  --c-surface-2: 237 239 243; /* #EDEFF3 */
+  --c-surface-3: 226 229 235; /* #E2E5EB */
+  --c-border: 220 224 231; /* #DCE0E7 */
+  --c-border-strong: 184 190 201; /* #B8BEC9 */
+  --c-text: 14 16 19; /* #0E1013 */
+  --c-text-muted: 78 85 98; /* #4E5562 */
+  --c-text-subtle: 92 99 113; /* #5C6371 */
+  --c-text-inverse: 255 255 255;
+  --c-primary: 194 74 23; /* #C24A17 */
+  --c-primary-hover: 160 60 18; /* #A03C12 */
+  --c-primary-soft: 252 233 224;
+  --c-accent: 194 74 23;
+  --c-accent-strong: 160 60 18;
+  --c-violet: 194 74 23;
+
+  color-scheme: light;
 }
 
 /* ------------------------------------------------------------------ */
@@ -67,13 +66,13 @@
   body {
     @apply bg-bg font-sans text-body text-ink antialiased;
     text-rendering: optimizeLegibility;
+    font-feature-settings: 'ss01', 'cv01';
   }
 
   ::selection {
-    background: rgb(var(--c-primary) / 0.3);
+    background: rgb(var(--c-primary) / 0.35);
   }
 
-  /* Visible, consistent focus states for keyboard navigation */
   :focus-visible {
     outline: 2px solid rgb(var(--c-primary));
     outline-offset: 2px;
@@ -94,7 +93,6 @@
     text-wrap: pretty;
   }
 
-  /* Sensible defaults for embedded media */
   img,
   svg,
   video {
@@ -108,51 +106,39 @@
 /* ------------------------------------------------------------------ */
 
 @layer components {
-  /* Standard vertical rhythm for page sections */
   .section-pad {
-    @apply py-16 md:py-22 lg:py-30;
+    @apply py-20 md:py-28 lg:py-36;
   }
 
   .container-site {
-    @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-content px-5 sm:px-8 lg:px-10;
   }
 
-  /* Eyebrow label above section headings — small mono index label with a
-     leading rule, instead of a badge. Works in both themes via tokens. */
+  /* Small mono label. Rationed: at most one per three sections. */
   .eyebrow {
-    @apply inline-flex w-fit items-center gap-3 font-mono text-caption font-medium uppercase tracking-[0.18em] text-accent;
+    @apply inline-flex w-fit items-center font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink-subtle;
   }
 
-  .eyebrow::before {
-    content: '';
-    @apply h-px w-7 bg-accent/70;
-  }
-
-  /* Editorial display type — every large heading renders in the serif.
-     The size utilities (config fontSize) carry weight 400 + tight leading;
-     this pairs them with the family so text-h4 and below stay sans. */
-  .text-display,
-  .text-display-xl,
-  .text-h1,
-  .text-h2,
-  .text-h3 {
-    font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-    font-weight: 400;
-  }
-
-  /* Emphasis words inside headlines — italic serif in the signal color.
-     (Replaces the old animated gradient-text treatment.) */
+  /* Emphasis inside a headline: same family, accent colour. */
   .accent-word {
-    font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: 1.02em;
-    letter-spacing: -0.01em;
     color: rgb(var(--c-primary));
-    padding-right: 0.05em; /* italic overhang, avoids clipping in reveals */
   }
 
-  /* Photo card treatment — subtle radius, hairline edge, zoom on hover */
+  /* Numerals line up in tables, stats and indexes */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Hide scrollbars on scroll-snap rows (the partial next card is the cue) */
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Photo treatment: quiet radius, hairline edge, slow zoom on hover */
   .photo-frame {
     @apply overflow-hidden rounded-card border border-line;
   }
@@ -167,30 +153,72 @@
     }
   }
 
-  /* Subtle top border used to separate major dark sections */
   .section-divider {
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgb(var(--c-border-strong)) 50%,
-      transparent
-    );
+    background: linear-gradient(90deg, transparent, rgb(var(--c-border-strong)) 50%, transparent);
     height: 1px;
   }
 
   /* Fine grid backdrop for technical/diagram sections */
   .grid-backdrop {
     background-image:
-      linear-gradient(rgb(var(--c-border) / 0.35) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(var(--c-border) / 0.35) 1px, transparent 1px);
+      linear-gradient(rgb(var(--c-border) / 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-border) / 0.5) 1px, transparent 1px);
     background-size: 44px 44px;
     mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 75%);
-    -webkit-mask-image: radial-gradient(
-      ellipse 80% 70% at 50% 40%,
-      black 30%,
-      transparent 75%
-    );
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 75%);
   }
+
+  /* Glass panel over footage/photos: blur + 1px inner highlight edge */
+  .glass {
+    background-color: rgb(255 255 255 / 0.06);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .glass {
+      background-color: rgb(var(--c-surface) / 0.96);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Film grain: one fixed, pointer-events-none layer over everything.   */
+/* Breaks digital flatness on the large dark planes. Never on          */
+/* scrolling containers.                                               */
+/* ------------------------------------------------------------------ */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+:root[data-theme='light'] .grain {
+  opacity: 0.035;
+}
+
+/* Footer wordmark watermark: rendered from data-watermark so the giant
+   decorative text never enters the accessibility or contrast tree. */
+.watermark::after {
+  content: attr(data-watermark);
+  display: block;
+  white-space: nowrap;
+  text-align: center;
+  font-size: clamp(5rem, 16vw, 15rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  color: rgb(236 238 242 / 0.05);
 }
 
 /* ------------------------------------------------------------------ */
@@ -200,14 +228,12 @@
 
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  filter: blur(7px);
+  transform: translateY(18px);
   transition:
     opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform, filter;
+  will-change: opacity, transform;
 }
 
 .reveal-fade {
@@ -217,15 +243,11 @@
 .reveal.is-visible {
   opacity: 1;
   transform: none;
-  filter: blur(0);
 }
 
-/* Photo frames inside a Reveal additionally un-mask via clip-path,
-   giving images a cinematic opening reveal without any JS. (No blur here —
-   clip-path is the effect, and blurring large photos is expensive.) */
+/* Photo frames additionally un-mask via clip-path for a cinematic open. */
 .reveal.photo-frame {
-  filter: none;
-  clip-path: inset(14% 10% 14% 10% round 1.25rem);
+  clip-path: inset(12% 8% 12% 8% round 0.75rem);
   transition:
     opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
@@ -234,7 +256,7 @@
 }
 
 .reveal.photo-frame.is-visible {
-  clip-path: inset(0 0 0 0 round 1rem);
+  clip-path: inset(0 0 0 0 round 0.625rem);
 }
 
 /* ------------------------------------------------------------------ */
@@ -308,14 +330,27 @@
   animation: marquee 36s linear infinite;
 }
 
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
 /* ------------------------------------------------------------------ */
-/* Fixed-window backgrounds ("background scroll")                      */
-/* The image is fixed to the viewport while the page scrolls over it — */
-/* each section is a window onto the photo. The section carries        */
-/* `clip-path: inset(0)` (see .bg-window), which clips its fixed child */
-/* WITHOUT re-anchoring it (unlike transform/filter), so this works    */
-/* where background-attachment: fixed breaks (iOS).                    */
-/* useParallax adds a slow scrubbed zoom on top.                       */
+/* Fixed-window backgrounds                                            */
+/* The image is fixed to the viewport while the page scrolls over it.  */
+/* The section carries clip-path: inset(0) (.bg-window), which clips   */
+/* its fixed child WITHOUT re-anchoring it, so this works where         */
+/* background-attachment: fixed breaks (iOS). Never add transform or   */
+/* filter to these sections' ancestors.                                */
 /* ------------------------------------------------------------------ */
 
 .bg-window {
@@ -337,87 +372,46 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* Homepage over-video glass                                           */
-/* The scroll-scrubbed video backdrop is the page background: content  */
-/* stretches carry only a scrim, sections paint nothing, and cards     */
-/* become translucent panels. The glass follows the ACTIVE THEME so    */
-/* the toggle visibly works on the homepage too: dark theme keeps a    */
-/* thin carbon scrim (footage shines through), light theme uses a      */
-/* denser paper scrim so dark ink stays readable while the footage     */
-/* remains faintly present. The window sections (hero, bands, final    */
-/* CTA) always show the footage full-strength with explicit white      */
-/* text, like the interior photo headers.                              */
-/* Alphas are tuned: lower is unreadable over moving footage, higher   */
-/* hides the video.                                                    */
+/* Homepage over-video content                                         */
+/* The scroll-scrubbed backdrop is the page background. Content        */
+/* stretches carry a graphite scrim; sections paint nothing; panels    */
+/* are translucent. The footage is itself dark and abstract, so the    */
+/* scrim can stay thin and the structure remains visible while body    */
+/* copy stays readable.                                                */
 /* ------------------------------------------------------------------ */
 
 .story-glass {
-  background-color: rgb(var(--c-bg) / 0.88);
+  background-color: rgb(var(--c-bg) / 0.72);
 }
 
-:root[data-theme='dark'] .story-glass {
-  background-color: rgb(var(--c-bg) / 0.45);
+:root[data-theme='light'] .story-glass {
+  background-color: rgb(var(--c-bg) / 0.94);
 }
 
-/* Sections inside the glass paint no band fills of their own. */
 .story-glass section {
   background-color: transparent;
 }
 
-/* Cards read as translucent glass panels over the footage. */
 .story-glass .bg-surface {
-  background-color: rgb(var(--c-surface) / 0.8);
+  background-color: rgb(var(--c-surface) / 0.7);
 }
 
-:root[data-theme='dark'] .story-glass .bg-surface {
-  background-color: rgb(var(--c-surface) / 0.55);
+:root[data-theme='light'] .story-glass .bg-surface {
+  background-color: rgb(var(--c-surface) / 0.9);
 }
 
-/* Stacking cards cover each other, so their panels must stay near-opaque —
-   at glass alpha the covered card's text ghosts through the one on top.
-   (The dark-theme rule repeats the selector at higher specificity so the
-   0.55 glass override above cannot win over it.) */
+/* Stacking cards cover each other; their panels must stay near-opaque. */
 .story-glass [data-stack-item] .bg-surface,
-:root[data-theme='dark'] .story-glass [data-stack-item] .bg-surface {
-  background-color: rgb(var(--c-surface) / 0.94);
+:root[data-theme='light'] .story-glass [data-stack-item] .bg-surface {
+  background-color: rgb(var(--c-surface) / 0.96);
 }
 
 .story-glass .rounded-card.bg-surface {
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-@keyframes float-slow {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-}
-
-.animate-float-slow {
-  animation: float-slow 6s ease-in-out infinite;
-}
-
-@keyframes bounce-cue {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.9;
-  }
-  50% {
-    transform: translateY(8px);
-    opacity: 0.5;
-  }
-}
-
-.animate-bounce-cue {
-  animation: bounce-cue 2s ease-in-out infinite;
-}
-
-/* Card hover lift — CSS only */
+/* Card hover lift: CSS only */
 .card-lift {
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
@@ -427,12 +421,12 @@
 
 @media (hover: hover) {
   .card-lift:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
   }
 }
 
 /* ------------------------------------------------------------------ */
-/* Reduced motion — disable all non-essential animation                */
+/* Reduced motion: disable all non-essential animation                 */
 /* ------------------------------------------------------------------ */
 
 @media (prefers-reduced-motion: reduce) {
@@ -451,7 +445,6 @@
   .reveal {
     opacity: 1;
     transform: none;
-    filter: none;
     clip-path: none;
   }
 }

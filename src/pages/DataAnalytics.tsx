@@ -33,7 +33,7 @@ const jsonLd = [
     serviceType: 'Data analytics and business intelligence',
     name: 'Data Science, Analytics & BI Services',
     description:
-      'Machine learning, data engineering, business intelligence and data visualization services — from pipelines and warehousing to models and dashboards.',
+      'Machine learning, data engineering, business intelligence and data visualization services: from pipelines and warehousing to models and dashboards.',
     provider: { '@type': 'Organization', name: site.name, url: site.url },
     areaServed: 'Worldwide',
     url: `${site.url}${PAGE_PATH}`,
@@ -96,7 +96,7 @@ export default function DataAnalytics() {
     <>
       <Seo
         title="Data Science, Analytics & BI Services"
-        description="Machine learning, data engineering, BI and data visualization — pipelines, models and dashboards that turn raw data into confident decisions."
+        description="Machine learning, data engineering, BI and data visualization: pipelines, models and dashboards that turn raw data into confident decisions."
         path={PAGE_PATH}
         jsonLd={jsonLd}
       />
@@ -104,7 +104,7 @@ export default function DataAnalytics() {
       <PageHeader
         image="/images/team-laptop.jpg"
         title="From raw data to predictive intelligence"
-        lead="One team owns the full data value chain — the pipelines and warehouse that organize your data, the models that predict what happens next, and the dashboards where decisions actually get made."
+        lead="One team owns the full data value chain: the pipelines and warehouse that organize your data, the models that predict what happens next, and the dashboards where decisions actually get made."
       >
         <Button
           size="lg"
@@ -123,9 +123,8 @@ export default function DataAnalytics() {
 
       <Section id="data-value-chain" variant="deep">
         <SectionHeading
-          eyebrow="One connected discipline"
           title="The data value chain"
-          lead="Machine learning and business intelligence are often run as separate programs. We engineer them as one chain — the pipelines that feed your dashboards are the same pipelines that feed your models."
+          lead="Machine learning and business intelligence are often run as separate programs. We engineer them as one chain: the pipelines that feed your dashboards are the same pipelines that feed your models."
         />
 
         <Reveal>
@@ -141,7 +140,7 @@ export default function DataAnalytics() {
           <div className="my-8 flex items-center gap-4 md:my-10">
             <span className="h-px flex-1 bg-line-strong" aria-hidden="true" />
             <p className="max-w-md text-center text-caption font-semibold uppercase tracking-[0.14em] text-ink-subtle">
-              One governed foundation — model features and BI metrics share the same warehouse
+              One governed foundation: model features and BI metrics share the same warehouse
             </p>
             <span className="h-px flex-1 bg-line-strong" aria-hidden="true" />
           </div>

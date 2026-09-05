@@ -22,25 +22,25 @@ const platforms: Platform[] = [
   {
     name: 'Power BI',
     monogram: 'PB',
-    monogramClass: 'bg-primary/10 text-primary',
+    monogramClass: 'bg-surface-3 text-ink',
     description: 'Enterprise reporting across the Microsoft ecosystem.',
   },
   {
     name: 'Tableau',
     monogram: 'T',
-    monogramClass: 'bg-accent/10 text-accent',
+    monogramClass: 'bg-surface-3 text-ink',
     description: 'Rich exploratory and analytical visualization.',
   },
   {
     name: 'Qlik',
     monogram: 'Q',
-    monogramClass: 'bg-violet-acc/10 text-violet-acc',
+    monogramClass: 'bg-surface-3 text-ink',
     description: 'Associative exploration across connected datasets.',
   },
   {
     name: 'Looker',
     monogram: 'L',
-    monogramClass: 'bg-ink/10 text-ink',
+    monogramClass: 'bg-surface-3 text-ink',
     description: 'Governed metrics and embedded analytics.',
   },
 ]
@@ -60,7 +60,7 @@ const dashboardTypes: string[] = [
 
 const kpiTiles: string[] = ['Revenue', 'Orders', 'Active users', 'Conversion']
 
-/** Illustrative placeholder bar heights — shapes only, no real values. */
+/** Illustrative placeholder bar heights: shapes only, no real values. */
 const barHeights = [44, 58, 36, 66, 50, 74, 60, 44, 68, 56, 80, 64]
 const monthTicks = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
 
@@ -72,9 +72,8 @@ export function DataVizSection({ variant = 'default' }: DataVizSectionProps) {
   return (
     <Section id="visualization" variant={variant}>
       <SectionHeading
-        eyebrow="Data Visualization"
         title="Dashboards people actually use"
-        lead="A dashboard succeeds when someone checks it every morning. We design visual reporting around the decisions your teams make — not around how much data we can fit on one screen."
+        lead="A dashboard succeeds when someone checks it every morning. We design visual reporting around the decisions your teams make: not around how much data we can fit on one screen."
       />
 
       <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -111,7 +110,7 @@ export function DataVizSection({ variant = 'default' }: DataVizSectionProps) {
                   <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
                   <span className="h-2.5 w-2.5 rounded-full bg-line-strong" />
                 </span>
-                <span className="mx-auto flex items-center gap-1.5 rounded-full border border-line bg-bg/60 px-3 py-1 text-caption text-ink-subtle">
+                <span className="mx-auto flex items-center gap-1.5 rounded-btn border border-line bg-bg/60 px-3 py-1 text-caption text-ink-subtle">
                   <Lock className="h-3 w-3" />
                   Illustrative preview
                 </span>
@@ -125,8 +124,8 @@ export function DataVizSection({ variant = 'default' }: DataVizSectionProps) {
                   {kpiTiles.map((label) => (
                     <div key={label} className="rounded-btn border border-line bg-surface p-3">
                       <p className="text-caption text-ink-subtle">{label}</p>
-                      <p className="mt-1 text-h4 font-semibold text-ink">—</p>
-                      <p className="mt-0.5 text-caption text-ink-subtle">vs prior period · —</p>
+                      <p className="mt-1 text-h4 font-semibold text-ink">, </p>
+                      <p className="mt-0.5 text-caption text-ink-subtle">vs prior period, , </p>
                     </div>
                   ))}
                 </div>
@@ -201,21 +200,21 @@ export function DataVizSection({ variant = 'default' }: DataVizSectionProps) {
                           fontWeight="600"
                           className="fill-ink"
                         >
-                          —
+                         :
                         </text>
                       </svg>
                       <ul className="flex flex-col gap-2 text-caption text-ink-muted">
                         <li className="flex items-center gap-2">
                           <span className="h-2.5 w-2.5 rounded-full bg-primary" />
-                          Segment A · —
+                          Segment A
                         </li>
                         <li className="flex items-center gap-2">
                           <span className="h-2.5 w-2.5 rounded-full bg-accent" />
-                          Segment B · —
+                          Segment B
                         </li>
                         <li className="flex items-center gap-2">
                           <span className="h-2.5 w-2.5 rounded-full bg-violet-acc/80" />
-                          Segment C · —
+                          Segment C
                         </li>
                       </ul>
                     </div>
@@ -262,7 +261,7 @@ export function DataVizSection({ variant = 'default' }: DataVizSectionProps) {
             </div>
           </div>
           <figcaption className="mt-3 text-center text-caption text-ink-subtle">
-            Illustrative dashboard preview — placeholder layout and data shapes only, no real
+            Illustrative dashboard preview: placeholder layout and data shapes only, no real
             metrics. Customer dashboards are shown only with verified permission.
           </figcaption>
         </figure>
