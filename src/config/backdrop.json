@@ -1,0 +1,19 @@
+{
+  "frames": 240,
+  "fps": 15,
+  "ext": "webp",
+  "pad": 3,
+  "start": 1,
+  "version": "1733e73d",
+  "poster": "/videos/backdrop-poster.jpg",
+  "desktop": {
+    "dir": "/videos/frames/desktop",
+    "width": 1280,
+    "height": 720
+  },
+  "mobile": {
+    "dir": "/videos/frames/mobile",
+    "width": 540,
+    "height": 962
+  }
+}

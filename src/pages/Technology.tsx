@@ -5,7 +5,6 @@ import { TechnologyStackSection } from '@/components/sections/TechnologyStackSec
 import { SoftwareSection } from '@/components/sections/SoftwareSection'
 import { TestingSection } from '@/components/sections/TestingSection'
 import { WebsiteManagementSection } from '@/components/sections/WebsiteManagementSection'
-import { TechnologyStoriesSection } from '@/components/sections/TechnologyStoriesSection'
 import { FinalCTA } from '@/components/sections/FinalCTA'
 
 const jsonLd = {
@@ -35,7 +34,6 @@ export default function Technology() {
       <SoftwareSection variant="alt" />
       <TestingSection variant="default" />
       <WebsiteManagementSection variant="alt" />
-      <TechnologyStoriesSection variant="default" />
       <FinalCTA />
     </>
   )

@@ -169,7 +169,7 @@ export default function Services() {
         lead="One team across AI, data, cloud and software engineering. AI leads our thinking, data feeds it, and cloud and engineering carry it into production: so you engage one partner, not four vendors."
       >
         <Button
-          to="/contact"
+          to="/contact#contact-form"
           eventName="consultation_cta_click"
           eventParams={{ location: 'services_header' }}
           iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}

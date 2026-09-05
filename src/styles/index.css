@@ -129,6 +129,12 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* Fade the left/right edges of horizontal marquee rows into the band */
+  .edge-fade-x {
+    mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+  }
+
   /* Hide scrollbars on scroll-snap rows (the partial next card is the cue) */
   .scrollbar-none {
     scrollbar-width: none;
@@ -330,6 +336,11 @@
   animation: marquee 36s linear infinite;
 }
 
+/* Counter-running marquee row. Declared after the shorthand above so it wins. */
+.animate-marquee-reverse {
+  animation-direction: reverse;
+}
+
 @keyframes float-slow {
   0%,
   100% {
@@ -406,9 +417,18 @@
   background-color: rgb(var(--c-surface) / 0.96);
 }
 
-.story-glass .rounded-card.bg-surface {
+/* Blur only where it is visible (dark glass at 0.7 alpha); the light theme
+   panels are 0.9 opaque, so the blur would cost GPU time for nothing. */
+:root[data-theme='dark'] .story-glass .rounded-card.bg-surface {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root[data-theme='dark'] .story-glass .rounded-card.bg-surface {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 /* Card hover lift: CSS only */

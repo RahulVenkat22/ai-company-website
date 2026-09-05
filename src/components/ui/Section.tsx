@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { Container } from './Container'
+import { sectionVariantClasses, type SectionVariant } from './sectionVariants'
 
 interface SectionProps {
   children: ReactNode
@@ -8,7 +9,7 @@ interface SectionProps {
    * 'default' (page background; 'alt') raised surface band;
    * 'deep': near-black band for high-contrast feature sections.
    */
-  variant?: 'default' | 'alt' | 'deep'
+  variant?: SectionVariant
   className?: string
   /** Set to render children full-bleed (no inner Container). */
   bleed?: boolean
@@ -16,11 +17,6 @@ interface SectionProps {
   ariaLabel?: string
 }
 
-const variantClasses: Record<NonNullable<SectionProps['variant']>, string> = {
-  default: '',
-  alt: 'bg-surface',
-  deep: 'bg-surface-2/60 border-y border-line',
-}
 
 /** Standard page section with consistent vertical rhythm. */
 export function Section({
@@ -35,7 +31,7 @@ export function Section({
     <section
       id={id}
       aria-label={ariaLabel}
-      className={`section-pad scroll-mt-20 ${variantClasses[variant]} ${className}`.trim()}
+      className={`section-pad scroll-mt-20 ${sectionVariantClasses[variant]} ${className}`.trim()}
     >
       {bleed ? children : <Container>{children}</Container>}
     </section>

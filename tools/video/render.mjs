@@ -1,16 +1,16 @@
 /**
- * Renders tools/video/scene.html frame by frame in headless Chrome and encodes
- * the brand backdrop videos + poster into public/videos/.
+ * Renders tools/video/scene.html frame by frame in headless Chrome and
+ * encodes a MASTER clip for the generative backdrop alternative.
  *
  *   node tools/video/render.mjs preview   -> tools/video/out/preview-sheet.jpg
- *   node tools/video/render.mjs full      -> public/videos/backdrop-1280.mp4,
- *                                            backdrop-854.mp4, backdrop-poster.jpg
+ *   node tools/video/render.mjs full      -> tools/video/out/master.mp4
+ *
+ * The site itself consumes a frame sequence, so feed the master through the
+ * encoder to publish it:
+ *   node tools/video/encode.mjs tools/video/out/master.mp4 --grade none
  *
  * Needs playwright + ffmpeg-static available in node_modules (install them
  * with `npm i playwright ffmpeg-static --no-save`, then `npm prune`).
- * Encoding is ALL-INTRA (-g 1 -bf 0): every frame is a keyframe, so a
- * currentTime seek decodes exactly one frame. That is what keeps scroll
- * scrubbing smooth. Never replace these files with normally encoded exports.
  */
 import { chromium } from 'playwright'
 import { spawnSync } from 'node:child_process'
@@ -61,18 +61,10 @@ if (mode === 'preview') {
     '-vf', 'scale=533:-1,tile=3x2', '-frames:v', '1', '-q:v', '3', path.join(outDir, 'preview-sheet.jpg')])
   console.log('preview ->', path.join(outDir, 'preview-sheet.jpg'))
 } else {
-  const videos = path.join(root, 'public/videos')
-  mkdirSync(videos, { recursive: true })
-  const enc = (w, crf, out) =>
-    run(['-y', '-loglevel', 'error', '-framerate', '24', '-i', path.join(frames, '%04d.png'),
-      '-vf', `scale=${w}:-2:flags=lanczos`, '-c:v', 'libx264', '-preset', 'slow', '-crf', String(crf),
-      '-g', '1', '-bf', '0', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an', out])
-  const d1280 = path.join(videos, 'backdrop-1280.mp4')
-  const d854 = path.join(videos, 'backdrop-854.mp4')
-  enc(1280, 29, d1280)
-  enc(854, 28, d854)
-  const posterFrame = String(Math.round(total * 0.1)).padStart(4, '0')
-  const poster = path.join(videos, 'backdrop-poster.jpg')
-  run(['-y', '-loglevel', 'error', '-i', path.join(frames, `${posterFrame}.png`), '-vf', 'scale=1600:-2', '-q:v', '5', poster])
-  for (const f of [d1280, d854, poster]) console.log(path.basename(f), (statSync(f).size / 1e6).toFixed(2), 'MB')
+  const master = path.join(outDir, 'master.mp4')
+  run(['-y', '-loglevel', 'error', '-framerate', '24', '-i', path.join(frames, '%04d.png'),
+    '-vf', 'scale=1600:-2:flags=lanczos', '-c:v', 'libx264', '-preset', 'slow', '-crf', '16',
+    '-pix_fmt', 'yuv420p', '-an', master])
+  console.log('master ->', master, (statSync(master).size / 1e6).toFixed(2), 'MB')
+  console.log('publish with: node tools/video/encode.mjs', master, '--grade none')
 }

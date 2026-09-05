@@ -10,7 +10,6 @@ import {
   Rocket,
   SearchCheck,
   ShieldCheck,
-  Info,
 } from 'lucide-react'
 import { Seo } from '@/lib/seo'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -95,13 +94,6 @@ const disciplines = [
   },
 ] as const
 
-const companyFacts = [
-  { label: 'Founded', value: '[TBD: to be provided]' },
-  { label: 'Locations', value: '[TBD: to be provided]' },
-  { label: 'Team size', value: '[TBD: to be provided]' },
-  { label: 'Legal entity', value: '[TBD: to be provided]' },
-] as const
-
 export default function About() {
   return (
     <>
@@ -164,41 +156,11 @@ export default function About() {
         </ul>
       </Section>
 
-      <Section variant="default" ariaLabel="Company facts">
-        <Reveal className="mx-auto max-w-2xl">
-          <Card className="p-6 md:p-8">
-            <div className="mb-4 flex items-start gap-3">
-              <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-btn bg-surface-2 text-ink-muted">
-                <Info className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <div>
-                <h2 className="text-h4">Company facts</h2>
-                <p className="mt-1 text-small text-ink-muted">
-                  We publish only verified company information. The details
-                  below will be added once provided: nothing here is invented.
-                </p>
-              </div>
-            </div>
-            <dl className="divide-y divide-line border-t border-line">
-              {companyFacts.map(({ label, value }) => (
-                <div
-                  key={label}
-                  className="flex flex-col gap-1 py-3 sm:flex-row sm:items-baseline sm:justify-between"
-                >
-                  <dt className="text-small font-medium text-ink">{label}</dt>
-                  <dd className="text-small text-ink-subtle">{value}</dd>
-                </div>
-              ))}
-            </dl>
-          </Card>
-        </Reveal>
-      </Section>
+      <HowWeWork variant="default" />
 
-      <HowWeWork variant="alt" />
+      <PeopleCulture variant="alt" />
 
-      <PeopleCulture variant="default" />
-
-      <Testimonials variant="alt" />
+      <Testimonials variant="default" />
       <FinalCTA />
     </>
   )

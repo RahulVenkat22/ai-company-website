@@ -15,16 +15,16 @@ Built to the requirements in [`prompt.md`](./prompt.md).
 - **GSAP + ScrollTrigger** for all scroll-driven motion (scrubbed video
   backdrop, pinning, parallax, count-ups) over native scrolling
 - **Framer Motion** for component-level transitions (button press/hover, menu
-  and consent presence, accordion, testimonial crossfade). The two libraries
+  and consent presence, accordion). The two libraries
   never drive the same element.
 - **lucide-react**, single icon library sitewide
 - **react-router-dom** with route-level code splitting
 - Self-hosted **Geist Variable + Geist Mono Variable** (no external font CDN)
-- Scroll-scrubbed backdrop footage in `public/videos/backdrop-*.mp4`: two
+- Scroll-scrubbed backdrop as a canvas frame sequence
+  (`public/videos/frames/`, manifest in `src/config/backdrop.json`): two
   free-license stock clips (Pexels neural-network animation, Mixkit circuit
-  board) graded and crossfaded into one all-intra file by
-  `tools/video/encode.mjs` so scrubbing seeks one frame at a time; any clips
-  can be swapped in with that script. A generative alternative lives in
+  board) graded and crossfaded by `tools/video/encode.mjs`, which writes the
+  WebP frames and poster; any clips can be swapped in with that script. A generative alternative lives in
   `tools/video/scene.html` + `render.mjs`. See `docs/STYLEGUIDE.md`.
 
 ## Getting started
@@ -48,7 +48,7 @@ src/
     ui/                 # design-system primitives (Button, Card, Field, …)
     layout/             # Navbar, Footer, ConsentBanner, Layout shell
     sections/           # one component per homepage/story section
-  data/                 # tech stack, stories, case studies, industries
+  data/                 # tech stack, case studies, industries, testimonials
   pages/                # routed pages (+ legal placeholder pages)
 docs/STYLEGUIDE.md      # binding design-system & contribution contract
 public/                 # robots.txt, sitemap.xml, favicon, og-image
@@ -68,11 +68,11 @@ facts). Search the repo for `[TBD]` and update:
 4. **Domain references**: `public/robots.txt`, `public/sitemap.xml`,
    `index.html` (title/description), `public/og-image.png` (regenerate with
    the real brand), favicon.
-5. **Case studies / technology stories**: `src/data/*.ts` content is labeled
+5. **Case studies**: `src/data/caseStudies.ts` content is labeled
    *Illustrative*; replace with approved client work when available.
-7. **Testimonials**: `src/data/testimonials.ts` quotes and people are
+6. **Testimonials**: `src/data/testimonials.ts` quotes and people are
    illustrative placeholders; replace with real, permitted quotes.
-6. **Contact form endpoint**: `src/components/sections/ContactForm.tsx`
+7. **Contact form endpoint**: `src/components/sections/ContactForm.tsx`
    submits to a stub; wire `submitContactRequest` to a real endpoint with
    server-side spam protection and rate limiting.
 
@@ -84,7 +84,7 @@ RAGArchitecture → diagram in `RAGSection`, AgentWorkflow → `AgentsSection`,
 DataSection → `MachineLearningSection` + `AnalyticsBISection`,
 DashboardPreview → in `DataVizSection`, ArchitectureDiagram →
 `AIArchitectureSection`, TechnologyCard → cards in `TechnologyStackSection`,
-TechnologyStoryCard / CaseStudyCard / IndustryCard → cards in their sections,
+CaseStudyCard / IndustryCard → cards in their sections,
 CTA → `FinalCTA`. All share the `ui/` primitives (Button, Card, Badge, …).
 
 ## Quality targets (from prompt.md)

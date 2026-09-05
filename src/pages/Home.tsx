@@ -10,7 +10,6 @@ import { ServicesOverview } from '@/components/sections/ServicesOverview'
 import { CaseStudiesSection } from '@/components/sections/CaseStudiesSection'
 import { WhyChooseUs } from '@/components/sections/WhyChooseUs'
 import { ProcessTeaser } from '@/components/sections/ProcessTeaser'
-import { Testimonials } from '@/components/sections/Testimonials'
 import { FinalCTA } from '@/components/sections/FinalCTA'
 import { ScrollVideoStory } from '@/components/ui/ScrollVideoStory'
 import { Section } from '@/components/ui/Section'
@@ -52,7 +51,7 @@ function Intro() {
           <Button
             variant="secondary"
             size="lg"
-            to="/about#how-we-work"
+            to="/ai-solutions"
             eventName="cta_click"
             eventParams={{ cta: 'how_we_work', location: 'intro' }}
             iconRight={<ArrowUpRight aria-hidden="true" />}
@@ -69,7 +68,7 @@ function Intro() {
  * Homepage: promise (Hero) > breadth (capability strip + intro) > outcomes
  * (stacked panels) > capability facts > featured solutions (pinned
  * slideshow) > where to go deeper (services) > proof (case studies,
- * principles, reviews) > process > invitation.
+ * principles) > process > invitation.
  *
  * A single generated brand video (ScrollVideoStory) runs behind the whole
  * page, scrubbed by scroll. The Hero and FinalCTA are open windows onto it;
@@ -97,7 +96,6 @@ export default function Home() {
       <WhyChooseUs />
       <div className="story-glass">
         <ProcessTeaser />
-        <Testimonials />
       </div>
       <FinalCTA background="story" />
     </>

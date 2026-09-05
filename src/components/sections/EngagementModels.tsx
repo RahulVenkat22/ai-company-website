@@ -119,7 +119,7 @@ export function EngagementModels({ variant = 'default' }: { variant?: 'default' 
         </p>
         <Button
           size="lg"
-          to="/contact"
+          to="/contact#contact-form"
           eventName="consultation_cta_click"
           eventParams={{ cta: 'start_project', location: 'engagement_models' }}
           iconRight={<ArrowRight aria-hidden="true" />}

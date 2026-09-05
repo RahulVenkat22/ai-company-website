@@ -30,14 +30,13 @@ export const site = {
 
 export const navLinks = [
   { label: 'Home', to: '/' },
+  { label: 'About', to: '/about' },
   { label: 'Services', to: '/services' },
   { label: 'AI Solutions', to: '/ai-solutions' },
   { label: 'Data & Analytics', to: '/data-analytics' },
   { label: 'Cloud', to: '/cloud' },
   { label: 'Technology', to: '/technology' },
-  { label: 'Technology Stories', to: '/technology-stories' },
   { label: 'Case Studies', to: '/case-studies' },
-  { label: 'About', to: '/about' },
   { label: 'Contact', to: '/contact' },
 ] as const
 
@@ -68,7 +67,6 @@ export const footerLinkGroups = [
     title: 'Company',
     links: [
       { label: 'About', to: '/about' },
-      { label: 'Technology Stories', to: '/technology-stories' },
       { label: 'Case Studies', to: '/case-studies' },
       { label: 'How We Work', to: '/about#how-we-work' },
       { label: 'Contact', to: '/contact' },

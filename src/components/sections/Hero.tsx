@@ -83,7 +83,7 @@ export function Hero() {
             <div data-hero="ctas" className="flex flex-col gap-3 sm:flex-row">
               <Button
                 size="lg"
-                to="/contact"
+                to="/contact#contact-form"
                 eventName="cta_click"
                 eventParams={{ cta: 'start_project', location: 'hero' }}
                 iconRight={<ArrowRight aria-hidden="true" />}

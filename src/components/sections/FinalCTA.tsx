@@ -31,7 +31,7 @@ export function FinalCTA({ background = 'photo' }: { background?: 'photo' | 'sto
         <div className="flex flex-col items-start gap-5 lg:col-span-4 lg:items-end">
           <Button
             size="lg"
-            to="/contact"
+            to="/contact#contact-form"
             eventName="cta_click"
             eventParams={{ cta: 'start_project', location: 'final_cta' }}
             iconRight={<ArrowRight aria-hidden="true" />}

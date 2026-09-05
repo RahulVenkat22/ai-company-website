@@ -108,7 +108,7 @@ export default function DataAnalytics() {
       >
         <Button
           size="lg"
-          to="/contact"
+          to="/contact#contact-form"
           eventName="consultation_cta_click"
           eventParams={{ location: 'data_header' }}
           iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}

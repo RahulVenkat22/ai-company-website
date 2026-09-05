@@ -5,16 +5,20 @@
  *   node tools/video/encode.mjs <clipA.mp4> [--grade G] [--sat 0..1] [--trim start:dur]
  *                            [-- <clipB.mp4> [--grade G] [--sat 0..1] [--trim start:dur]] ...
  *                            [--xfade <seconds>] [--crf <n>]
+ *                            [--frames-fps 15] [--frames-width 1280] [--frames-mobile-width 540]
+ *                            [--frames-quality 68] [--mp4]
  *
  * Segments are separated by a bare `--`; each keeps its own grade, saturation
  * and trim. Several segments are joined with an ffmpeg crossfade (default 1s)
  * into ONE continuous clip, so the scroll position maps onto a single timeline.
  *
- * Writes public/videos/backdrop-1280.mp4, backdrop-854.mp4 and
- * backdrop-poster.jpg. Output is 24fps ALL-INTRA H.264 (-g 1 -bf 0): every
- * frame is a keyframe, so a currentTime seek decodes exactly one frame. That
- * encoding is what keeps scroll scrubbing smooth; never replace these files
- * with normally encoded exports.
+ * Writes the scroll-scrubbed FRAME SEQUENCE the site draws on a canvas:
+ *   public/videos/frames/desktop/NNN.webp   (--frames-fps, --frames-width)
+ *   public/videos/frames/mobile/NNN.webp    (portrait 9:16 crop, --frames-mobile-width)
+ *   public/videos/backdrop-poster.jpg
+ *   src/config/backdrop.json                (manifest imported by ScrollVideoStory)
+ * plus, with --mp4, public/videos/backdrop-1280.mp4 as an all-intra reference. Frame sequences beat <video> scrubbing: no decoder in
+ * the loop, instant response in both directions, identical on iOS.
  *
  * Grades pull arbitrary footage toward the graphite + signal-orange system:
  *   none       leave colours as shot
@@ -28,7 +32,8 @@
  * `npm prune` when done).
  */
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, rmSync, statSync } from 'node:fs'
+import { createHash } from 'node:crypto'
+import { mkdirSync, mkdtempSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -56,7 +61,9 @@ if (!argv.length || argv[0].startsWith('--')) {
   console.error('usage: node tools/video/encode.mjs <clip.mp4> [--grade G] [--sat s] [--trim a:b] [-- <clip2.mp4> ...] [--xfade s] [--crf n]')
   process.exit(1)
 }
-const globalOpts = { xfade: 1, crf: 27 }
+const globalOpts = { xfade: 1, crf: 27, fps: 15, width: 1280, mobileWidth: 540, quality: 68, mp4: false }
+const PAD = 3 // frame file names: 001.webp ... (shared with the component through the manifest)
+const START = 1
 const segments = []
 let cur = null
 for (let i = 0; i < argv.length; i++) {
@@ -64,6 +71,12 @@ for (let i = 0; i < argv.length; i++) {
   if (a === '--') { cur = null; continue }
   if (a === '--xfade') { globalOpts.xfade = Number(argv[++i]); continue }
   if (a === '--crf') { globalOpts.crf = Number(argv[++i]); continue }
+  if (a === '--frames-fps') { globalOpts.fps = Number(argv[++i]); continue }
+  if (a === '--frames-width') { globalOpts.width = Number(argv[++i]); continue }
+  if (a === '--frames-mobile-width') { globalOpts.mobileWidth = Number(argv[++i]); continue }
+  if (a === '--frames-quality') { globalOpts.quality = Number(argv[++i]); continue }
+  if (a === '--no-mp4') { globalOpts.mp4 = false; continue }
+  if (a === '--mp4') { globalOpts.mp4 = true; continue }
   if (a.startsWith('--')) {
     if (!cur) { console.error(`option ${a} before any input`); process.exit(1) }
     cur[a.slice(2)] = argv[++i]
@@ -129,20 +142,60 @@ if (masters.length > 1) {
   run(['-y', '-loglevel', 'error', ...inputs, '-filter_complex', filter.slice(0, -1), '-map', '[v]', '-c:v', 'libx264', '-preset', 'fast', '-crf', '12', '-pix_fmt', 'yuv420p', '-an', master])
 }
 
-/* ---------- 3. all-intra deliverables + poster ---------- */
+/* ---------- 3. frame sequences + poster + manifest (+ reference mp4) ---------- */
 const videos = path.join(root, 'public/videos')
 mkdirSync(videos, { recursive: true })
-const out1280 = path.join(videos, 'backdrop-1280.mp4')
-const out854 = path.join(videos, 'backdrop-854.mp4')
-const poster = path.join(videos, 'backdrop-poster.jpg')
-const intra = (w, out, q) =>
-  run(['-y', '-loglevel', 'error', '-i', master, '-vf', `scale=${w}:-2:flags=lanczos`, '-c:v', 'libx264', '-preset', 'slow',
-    '-crf', String(q), '-g', '1', '-bf', '0', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an', out])
-intra(1280, out1280, globalOpts.crf)
-intra(854, out854, globalOpts.crf + 1)
 const total = duration(master)
-run(['-y', '-loglevel', 'error', '-ss', (total * 0.1).toFixed(2), '-i', master, '-frames:v', '1', '-vf', 'scale=1600:-2', '-q:v', '5', poster])
+
+const frameSet = (name, w, portrait = false) => {
+  const dir = path.join(videos, 'frames', name)
+  rmSync(dir, { recursive: true, force: true })
+  mkdirSync(dir, { recursive: true })
+  // Portrait sets crop the centre 9:16 of the master so phones get real pixels.
+  const vf = [`fps=${globalOpts.fps}`, portrait ? 'crop=ih*9/16:ih' : null, `scale=${w}:-2:flags=lanczos`].filter(Boolean).join(',')
+  run(['-y', '-loglevel', 'error', '-i', master, '-vf', vf,
+    '-c:v', 'libwebp', '-quality', String(globalOpts.quality), '-compression_level', '6', path.join(dir, `%0${PAD}d.webp`)])
+  const files = readdirSync(dir).filter((f) => f.endsWith('.webp')).sort()
+  if (files.length >= 10 ** PAD) throw new Error(`too many frames for %0${PAD}d names: ${files.length}`)
+  const bytes = files.reduce((n, f) => n + statSync(path.join(dir, f)).size, 0)
+  const probe = spawnSync(ffmpeg, ['-i', path.join(dir, files[0])], { encoding: 'utf8' }).stderr
+  const m = /, (\d+)x(\d+)/.exec(probe)
+  if (!m) throw new Error('could not probe frame size for ' + name)
+  return { dir: `/videos/frames/${name}`, width: Number(m[1]), height: Number(m[2]), count: files.length, bytes }
+}
+const desktop = frameSet('desktop', globalOpts.width)
+const mobile = frameSet('mobile', globalOpts.mobileWidth, true)
+if (desktop.count !== mobile.count) throw new Error(`frame count mismatch: desktop ${desktop.count} vs mobile ${mobile.count}`)
+
+const poster = path.join(videos, 'backdrop-poster.jpg')
+run(['-y', '-loglevel', 'error', '-i', master, '-frames:v', '1', '-vf', 'scale=1600:-2', '-q:v', '5', poster])
+
+const version = createHash('sha1')
+  .update(JSON.stringify({ segments: segments.map((x) => ({ ...x, input: path.basename(x.input) })), globalOpts, total: total.toFixed(2) }))
+  .digest('hex')
+  .slice(0, 8)
+const manifest = {
+  frames: desktop.count,
+  fps: globalOpts.fps,
+  ext: 'webp',
+  pad: PAD,
+  start: START,
+  version,
+  poster: '/videos/backdrop-poster.jpg',
+  desktop: { dir: desktop.dir, width: desktop.width, height: desktop.height },
+  mobile: { dir: mobile.dir, width: mobile.width, height: mobile.height },
+}
+writeFileSync(path.join(root, 'src/config/backdrop.json'), JSON.stringify(manifest, null, 2) + '\n')
+
+if (globalOpts.mp4) {
+  const out1280 = path.join(videos, 'backdrop-1280.mp4')
+  run(['-y', '-loglevel', 'error', '-i', master, '-vf', 'scale=1280:-2:flags=lanczos', '-c:v', 'libx264', '-preset', 'slow',
+    '-crf', String(globalOpts.crf), '-g', '1', '-bf', '0', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an', out1280])
+  console.log('reference mp4:', (statSync(out1280).size / 1e6).toFixed(2), 'MB')
+}
 rmSync(tmp, { recursive: true, force: true })
 
-console.log(`backdrop: ${total.toFixed(2)}s, ${segments.length} segment(s)`)
-for (const f of [out1280, out854, poster]) console.log(path.basename(f), (statSync(f).size / 1e6).toFixed(2), 'MB')
+console.log(`backdrop: ${total.toFixed(2)}s, ${segments.length} segment(s), ${desktop.count} frames @ ${globalOpts.fps}fps`)
+console.log(`desktop ${desktop.width}x${desktop.height}: ${(desktop.bytes / 1e6).toFixed(2)} MB total, ${Math.round(desktop.bytes / desktop.count / 1000)} KB/frame`)
+console.log(`mobile  ${mobile.width}x${mobile.height}: ${(mobile.bytes / 1e6).toFixed(2)} MB total, ${Math.round(mobile.bytes / mobile.count / 1000)} KB/frame`)
+console.log('poster', (statSync(poster).size / 1e6).toFixed(2), 'MB; manifest -> src/config/backdrop.json')

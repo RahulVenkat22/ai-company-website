@@ -27,7 +27,7 @@ export function Footer() {
             </p>
             <div className="mt-7">
               <Button
-                to="/contact"
+                to="/contact#contact-form"
                 variant="inverse"
                 eventName="cta_click"
                 eventParams={{ cta: 'start_project', location: 'footer' }}

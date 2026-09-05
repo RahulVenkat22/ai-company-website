@@ -9,7 +9,6 @@ const AISolutions = lazy(() => import('@/pages/AISolutions'))
 const DataAnalytics = lazy(() => import('@/pages/DataAnalytics'))
 const Cloud = lazy(() => import('@/pages/Cloud'))
 const Technology = lazy(() => import('@/pages/Technology'))
-const TechnologyStories = lazy(() => import('@/pages/TechnologyStories'))
 const CaseStudies = lazy(() => import('@/pages/CaseStudies'))
 const About = lazy(() => import('@/pages/About'))
 const Contact = lazy(() => import('@/pages/Contact'))
@@ -28,7 +27,6 @@ export default function App() {
         <Route path="/data-analytics" element={<DataAnalytics />} />
         <Route path="/cloud" element={<Cloud />} />
         <Route path="/technology" element={<Technology />} />
-        <Route path="/technology-stories" element={<TechnologyStories />} />
         <Route path="/case-studies" element={<CaseStudies />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

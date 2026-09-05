@@ -10,7 +10,7 @@ interface CardProps {
   as?: 'div' | 'article' | 'li'
 }
 
-/** Base card surface used across services, stories and case studies. */
+/** Base card surface used across services, case studies and forms. */
 export function Card({
   children,
   className = '',

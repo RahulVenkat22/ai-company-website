@@ -64,7 +64,7 @@ export default function NotFound() {
               Back to home
             </Button>
             <Button
-              to="/contact"
+              to="/contact#contact-form"
               variant="secondary"
               iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
               eventName="cta_click"

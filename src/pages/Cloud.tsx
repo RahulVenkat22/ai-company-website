@@ -64,7 +64,7 @@ export default function Cloud() {
         lead="Secure, scalable cloud foundations across AWS, Microsoft Azure and Google Cloud: designed for the applications, data platforms and AI workloads that run on them."
       >
         <Button
-          to="/contact"
+          to="/contact#contact-form"
           eventName="consultation_cta_click"
           eventParams={{ location: 'cloud_header' }}
           iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}

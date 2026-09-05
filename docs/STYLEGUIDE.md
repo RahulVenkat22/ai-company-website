@@ -16,27 +16,39 @@ website. The product requirements live in `prompt.md` at the repo root.
     removed; do not reintroduce scroll hijacking).
   - **Framer Motion** (`framer-motion`) for component-level state
     transitions: button hover/press, menu open/close (`AnimatePresence`),
-    accordion expand, testimonial crossfade, consent card enter/exit, hover
-    photo reveals. Always read `useReducedMotion()` and collapse to static.
+    accordion expand, consent card enter/exit, hover photo reveals. Always read `useReducedMotion()` and collapse to static.
   - **Never drive the same DOM node with both.** GSAP animates wrappers and
     scroll containers; Framer animates the interactive leaf.
   - Simple entrance reveals stay on the CSS `.reveal` system.
 - Photography lives in `public/images/` (Unsplash). No third-party products
   or trademarks in photos. Abstract tiles (`public/images/expertise/system-*.jpg`)
   are stills from the generated brand footage.
-- Backdrop footage: `public/videos/backdrop-1280.mp4` / `backdrop-854.mp4` +
-  `backdrop-poster.jpg`. Current footage is a two-clip sequence (the headline's
-  "intelligence, then production"): (1) Pexels "Abstract Neural Network
-  Connections Animation" by Nicola Narracci, pexels.com/video/29184317, Pexels
-  License (free commercial use, no attribution), `--grade neural`; crossfading
-  into (2) Mixkit "High tech circuit board with processor",
+- Backdrop footage is a FRAME SEQUENCE: `public/videos/frames/desktop/NNN.webp`
+  (1280x720, 15fps, 240 frames, ~6.8MB), `frames/mobile/` (portrait 9:16
+  crop, 540x962, ~3.2MB, chosen by orientation), `backdrop-poster.jpg`, and
+  the manifest `src/config/backdrop.json` (count, pad, start, version) that
+  `ScrollVideoStory` imports. The component draws on a fixed canvas sized to
+  the source; a GSAP ScrollTrigger scrubs the frame index (`scrub: 0.6` for
+  a short glide over wheel steps); each tick cross-blends the two nearest
+  frames from a memory-bounded window of ImageBitmaps decoded off-thread
+  around the playhead. No `<video>` element: no decoder on the scroll path,
+  instant in both directions, identical on iOS. Frames load nearest-the-
+  playhead first, then in interleaved passes (8ths, 4ths, 2nds, rest); the
+  canvas reveals only after its first real paint. Poster only under
+  prefers-reduced-motion, prefers-reduced-data or data-saver/2G. Frame URLs
+  carry `?v=<manifest.version>` and `/videos/*` is served immutable
+  (netlify.toml, vercel.json), so re-encodes never mix cached frames. The
+  frames directory MUST be committed; the build fails without the manifest.
+  Current sources: (1) Pexels "Abstract Neural Network Connections
+  Animation" by Nicola Narracci, pexels.com/video/29184317, Pexels License
+  (free commercial use, no attribution), `--grade neural`; crossfading into
+  (2) Mixkit "High tech circuit board with processor",
   mixkit.co/free-stock-video/high-tech-circuit-board-with-processor-47051/,
-  Mixkit Stock Video Free License, `--grade muted --sat 0.6`. Produce the files
-  ONLY through `tools/video/encode.mjs`
-  (any source clip, with optional graphite/orange grade and trim) or
-  `tools/video/render.mjs` (the generator in `tools/video/scene.html`). Both
-  write all-intra H.264 (every frame a keyframe), which is what keeps scroll
-  scrubbing smooth. Never drop in a normally encoded export.
+  Mixkit Stock Video Free License, `--grade muted --sat 0.6`. Produce the
+  frames ONLY through `tools/video/encode.mjs` (segments split on `--`, per
+  segment --grade/--sat/--trim, plus --xfade and --frames-* options); the
+  generator in `tools/video/scene.html` + `render.mjs` remains as an
+  alternative source of a master clip.
 - Respect `prefers-reduced-motion`: global CSS disables transitions and
   reveals; JS-driven motion checks `prefersReducedMotion()` (GSAP) or
   `useReducedMotion()` (Framer).
@@ -103,10 +115,14 @@ decoration text strips.
 - Layout families are not repeated on one page. Homepage set: window hero
   (bottom-left copy) > single marquee strip > statement > stacked photo
   panels (`StackedCards`) > stat row > pinned slideshow (`PinnedShowcase`) >
-  three-cell bento (`ServicesOverview`) > horizontal scroll-snap row
-  (`CaseStudiesSection`) > sticky rail over fixed photo (`WhyChooseUs`) >
-  hairline three-cell grid (`ProcessTeaser`) > quote + portrait
-  (`Testimonials`) > window CTA (`FinalCTA`). Max one marquee per page.
+  three-cell bento (`ServicesOverview`) > pinned horizontal scroller
+  (`CaseStudiesSection`: sticky panel, GSAP scrubs the row's translateX 1:1
+  with page scroll from `md`; native scroll-snap row on phones and under
+  reduced motion) > sticky rail over fixed photo (`WhyChooseUs`) >
+  hairline three-cell grid (`ProcessTeaser`) > window CTA (`FinalCTA`).
+  Max one marquee section per page. Customer reviews (`Testimonials`) live
+  on the About page only: two counter-running marquee rows of text cards,
+  no portraits, no controls, never paused; a static grid under reduced motion.
 - No three-equal-card feature rows; asymmetric grids, bento, hairline grids
   or scroll-snap rows instead. Grids have exactly as many cells as items.
 - Mobile-first. No horizontal page scroll at 320px. Grids collapse to one column.
@@ -130,30 +146,36 @@ import { trackEvent } from '@/lib/analytics'
 import { site } from '@/config/site'
 ```
 
+Contact CTAs link to `/contact#contact-form` so the visitor lands on the
+form itself; `ScrollManager` waits for the lazy page to render the anchor.
+
 Business CTAs fire analytics: `eventName` (`cta_click`, `consultation_cta_click`,
 `nav_cta_click`) with `eventParams={{ cta: '<slug>', location: '<section>' }}`.
 
 ## Scroll-video backdrop (homepage)
 
-`ScrollVideoStory` renders one fixed full-viewport video behind the page.
-Page progress (top until the footer enters) maps linearly onto the video's
-timeline; a `gsap.ticker` loop chases forward scroll with real playback at a
-proportional rate and seeks on rewinds. The Hero and FinalCTA are open
-windows (`data-video-window`); other stretches sit in `.story-glass`
-wrappers (graphite scrim, translucent panels). A poster image sits under the
-video and is the only thing rendered under reduced motion.
+`ScrollVideoStory` renders one fixed full-viewport canvas behind the page.
+Page progress (top until the footer enters) maps linearly onto a frame
+index via a GSAP ScrollTrigger tween (`scrub: 0.6`); the ticker draws the
+two nearest frames blended by the fractional position, using the nearest
+already-loaded frame until the set is complete. The Hero and FinalCTA are
+open windows (`data-video-window`); other stretches sit in `.story-glass`
+wrappers (graphite scrim, translucent panels). A poster image sits under
+the canvas, fades out as the first pass loads, and is the only thing
+rendered under reduced motion.
 
-To change the footage: edit `tools/video/scene.html`, run
-`npm i playwright ffmpeg-static --no-save`, then
-`node tools/video/render.mjs preview` (contact sheet) and
-`node tools/video/render.mjs full` (encodes + poster), then `npm prune`.
+To change the footage: `npm i ffmpeg-static --no-save`, then
+`node tools/video/encode.mjs <clip.mp4> [--grade ...] [-- <clip2.mp4> ...]`
+(writes frames, poster and manifest), check a hero screenshot, `npm prune`.
 
 ## Animation utilities (CSS)
 
 - Scroll reveal: `<Reveal delay={80 * i}>` for staggered entrances.
 - SVG flow lines: `animate-flow` / `animate-flow-slow`; node pulse
   `animate-node-glow`; soft pulse `animate-pulse-soft`; card hover `card-lift`.
-- Marquee: `animate-marquee` (one per page).
+- Marquee: `animate-marquee` (one marquee section per page;
+  `animate-marquee-reverse` for a counter-running row, `.edge-fade-x` to
+  fade the row edges).
 - Easing: `ease-premium` (cubic-bezier(0.22, 1, 0.36, 1)); durations 200 to 700ms.
 - `.grid-backdrop` = subtle technical grid layer; `.scrollbar-none` hides
   scrollbars on scroll-snap rows.

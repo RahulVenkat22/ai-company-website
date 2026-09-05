@@ -30,13 +30,19 @@ export function Navbar() {
   }, [location.pathname])
 
   // Elevated background once scrolled; slide away when scrolling down deep
-  // into the page, return the moment the user scrolls back up.
+  // into the page, return the moment the user scrolls back up. Scroll events
+  // in the moments after a route or hash change come from the page placing
+  // itself (top reset, anchor jump), not from the visitor, so they never
+  // hide the bar: a visitor arriving at the contact form still sees it.
   useEffect(() => {
     let lastY = window.scrollY
+    const settleUntil = performance.now() + 400
+    setHidden(false)
     const onScroll = () => {
       const y = window.scrollY
+      const settling = performance.now() < settleUntil
       setScrolled(y > 8)
-      setHidden(y > lastY && y > 480 && !open)
+      setHidden(!settling && y > lastY && y > 480 && !open)
       setOverHero(isHome && y < window.innerHeight - 96)
       lastY = y
     }
@@ -47,7 +53,7 @@ export function Navbar() {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
     }
-  }, [open, isHome])
+  }, [open, isHome, location.pathname, location.hash])
 
   // The home hero is dark media in both themes. In the dark theme the tokens
   // already read light-on-dark; only the light theme needs explicit paper
@@ -116,7 +122,7 @@ export function Navbar() {
         <div className="flex items-center gap-2.5">
           <ThemeToggle className="hidden md:inline-flex" onDark={overVideo} />
           <Button
-            to="/contact"
+            to="/contact#contact-form"
             size="sm"
             className="hidden md:inline-flex"
             eventName="nav_cta_click"
@@ -176,7 +182,7 @@ export function Navbar() {
               </motion.ul>
               <div className="mt-4 flex items-center gap-3 border-t border-line pt-4">
                 <Button
-                  to="/contact"
+                  to="/contact#contact-form"
                   className="flex-1"
                   eventName="nav_cta_click"
                   eventParams={{ location: 'mobile_menu' }}
