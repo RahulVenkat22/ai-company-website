@@ -41,7 +41,7 @@ export function Logo({
         />
       </svg>
       <span
-        className={`text-[17px] font-semibold tracking-tight ${
+        className={`font-serif text-[21px] leading-none tracking-tight ${
           onDark ? 'text-white' : 'text-ink'
         }`}
       >

@@ -66,22 +66,28 @@ export default {
         ],
       },
       fontSize: {
-        // Typography scale (see prompt.md §41)
+        // Editorial serif display scale — the family is attached to these
+        // classes in index.css (@layer components), so text-h4 and smaller
+        // stay sans. Serif carries weight 400 and near-zero tracking.
+        'display-xl': [
+          'clamp(3.25rem, 1.2rem + 9vw, 8.5rem)',
+          { lineHeight: '0.96', letterSpacing: '-0.01em', fontWeight: '400' },
+        ],
         display: [
-          'clamp(2.75rem, 1.4rem + 5.4vw, 5.75rem)',
-          { lineHeight: '1.02', letterSpacing: '-0.035em', fontWeight: '590' },
+          'clamp(3rem, 1.6rem + 5.8vw, 6.5rem)',
+          { lineHeight: '0.98', letterSpacing: '-0.01em', fontWeight: '400' },
         ],
         h1: [
-          'clamp(2.25rem, 1.45rem + 3vw, 3.5rem)',
-          { lineHeight: '1.06', letterSpacing: '-0.03em', fontWeight: '590' },
+          'clamp(2.5rem, 1.7rem + 3.4vw, 4.5rem)',
+          { lineHeight: '1.03', letterSpacing: '-0.01em', fontWeight: '400' },
         ],
         h2: [
-          'clamp(1.875rem, 1.35rem + 1.9vw, 2.75rem)',
-          { lineHeight: '1.1', letterSpacing: '-0.025em', fontWeight: '580' },
+          'clamp(2rem, 1.5rem + 2.1vw, 3.25rem)',
+          { lineHeight: '1.08', letterSpacing: '-0.005em', fontWeight: '400' },
         ],
         h3: [
-          'clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem)',
-          { lineHeight: '1.2', letterSpacing: '-0.02em', fontWeight: '560' },
+          'clamp(1.5rem, 1.3rem + 1vw, 2.125rem)',
+          { lineHeight: '1.15', letterSpacing: '0em', fontWeight: '400' },
         ],
         h4: [
           'clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem)',
@@ -96,8 +102,8 @@ export default {
         content: '80rem', // 1280px content width
       },
       borderRadius: {
-        card: '0.5rem',
-        btn: '0.375rem',
+        card: '1rem',
+        btn: '0.625rem',
       },
       boxShadow: {
         card: '0 1px 2px 0 rgb(0 0 0 / 0.05), 0 10px 30px -18px rgb(0 0 0 / 0.35)',

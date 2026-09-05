@@ -298,7 +298,7 @@ Do not imply partnerships or certifications simply by displaying a logo.
 
 Create a major section:
 
-> **AI That Goes Beyond the Chatbot**
+> ****
 
 Explain that the company works across the complete AI lifecycle:
 

@@ -29,36 +29,49 @@ website. The product requirements live in `prompt.md` at the repo root.
 
 ## Theme & color
 
-Design language (2026-09-03 restyle): carbon neutrals + ONE signal accent —
-no gradients anywhere (backgrounds, buttons, text). Semantic Tailwind colors
-only (never hardcode hex in components):
+Design language (2026-09-05 editorial restyle, Luxterra-inspired): warm
+ivory "gallery" ground + espresso ink + ONE signal-orange accent, giant
+editorial serif display type, and full-bleed dark photographic/video scenes
+between cream content stretches. No gradients as decoration (dark photo
+scrims are the only gradients). Semantic Tailwind colors only (never
+hardcode hex in components — the only sanctioned literals are the
+always-dark scene colors below):
 
 - Backgrounds: `bg-bg` (page), `bg-surface`, `bg-surface-2`, `bg-surface-3`
 - Borders: `border-line`, `border-line-strong`
 - Text: `text-ink` (primary), `text-ink-muted`, `text-ink-subtle`, `text-ink-inverse`
-- Brand: ONE color. `primary` is the signal orange; `accent` and
-  `violet-acc` resolve to the SAME orange (kept as aliases so existing
-  markup works — do not reintroduce second hues). Usable with alpha:
-  `bg-primary/10`
+- Brand: ONE color. `primary` is the signal orange (deep `#C03600` in light,
+  `#FF5E1C` in dark); `accent` and `violet-acc` resolve to the SAME orange.
+  Usable with alpha: `bg-primary/10`
 - Status colors (fixed Tailwind hues) need light+dark: e.g.
   `text-emerald-800 dark:text-emerald-300`
-- Dark is the default theme; light mode via `:root[data-theme='light']` swaps
-  the CSS variables. `dark:` variant utilities work (selector-based).
-- Over photos/video use explicit `text-white/…` + `#FF5E1C` accents,
-  never theme tokens.
-- PageHeader has NO eyebrow (removed by request) — pages open with the h1.
+- **Light (ivory) is the default theme**; dark ("espresso carbon") via
+  `:root[data-theme='dark']`. `dark:` variant utilities work
+  (selector-based). System preference is not auto-applied — ivory is the
+  brand default; the toggle stores an explicit choice.
+- Over photos/video use explicit `text-white/…` + `#FF5E1C` accents and
+  `#130F0D` (espresso) scrims, never theme tokens. Always-dark UI panels
+  (footer, question card) use `#191310` with `#F4EEE3` text.
+- PageHeader = tall editorial photo hero (min-h 68svh, bottom-aligned
+  `text-display` serif h1, optional mono `kicker`).
 
 ## Typography
 
-Instrument Sans (variable) is the UI/body/heading face; Instrument Serif
-italic is reserved for emphasis words inside headlines via the
-`.accent-word` class (renders italic serif in the primary color — this
-replaced the old animated `.text-gradient`). Micro-labels (eyebrows, indexes,
-tags, footer group titles) are `font-mono` uppercase with wide tracking.
+Editorial two-face system: **Instrument Serif (400)** is the display face —
+`text-display-xl`, `text-display`, `text-h1`, `text-h2`, `text-h3` all
+render serif automatically (family attached in index.css; near-zero
+tracking, tight leading). **Instrument Sans** covers `text-h4` and below,
+body, UI. `.accent-word` = italic serif emphasis in the primary color
+inside headlines (over dark scenes add `!text-[#FF5E1C]`). Micro-labels
+(eyebrows, indexes, tags, footer group titles) are `font-mono` uppercase
+with wide tracking. Giant serif is also used for: word marquee
+(CapabilityStrip), stat numerals (StatsBand), footer watermark, FAQ
+questions, Write/Call/Visit contact rows.
 
-Custom text sizes: `text-display`, `text-h1`, `text-h2`, `text-h3`, `text-h4`,
-`text-body-lg`, `text-body`, `text-small`, `text-caption`. Headings must follow
-document order (one h1 per page; sections use h2; sub-heads h3/h4).
+Custom text sizes: `text-display-xl` (hero only), `text-display`,
+`text-h1`, `text-h2`, `text-h3`, `text-h4`, `text-body-lg`, `text-body`,
+`text-small`, `text-caption`. Headings must follow document order (one h1
+per page; sections use h2; sub-heads h3/h4).
 
 Copy style: visible headings and CTA labels are sentence case ("Start a
 conversation"), never Title Case; `<Seo title>` document titles may stay
@@ -70,11 +83,18 @@ Title Case. No Sparkles/magic icons anywhere.
   1280px `Container`). Variants: `default`, `alt` (surface band), `deep`.
 - `.container-site` class or `Container` for custom wrappers.
 - 8px spacing grid: use Tailwind spacing steps (4/6/8/10/12/16…, plus 18/22/30).
-- Radii: `rounded-card` (8px, cards/photos), `rounded-btn` (6px,
-  buttons/inputs), `rounded` (4px, tags/chips). `rounded-full` is for avatars
-  and dots only — no pill buttons or pill badges. Shadows: `shadow-card`
-  (hover states; cards are flat + hairline-bordered at rest),
-  `shadow-card-hover`.
+- Radii: `rounded-card` (16px, cards/photos), `rounded-btn` (10px, inputs),
+  `rounded` (4px, tags/chips). **Buttons are pills** (`rounded-full`, built
+  into `Button` with a circular icon chip) — part of the 2026-09-05
+  editorial restyle; circular controls (prev/next, FAQ chevrons) are
+  `rounded-full` too. Shadows: `shadow-card` (hover states; cards are flat +
+  hairline-bordered at rest), `shadow-card-hover`.
+- Signature scroll patterns (all reduced-motion safe):
+  `PinnedShowcase` (sticky full-screen crossfade slideshow),
+  `WhyChooseUs` (fixed-window photo + sticky serif intro + numbered glass
+  cards), `StackedCards` (What we solve), `StatsBand` (count-up facts),
+  `CapabilityStrip` (giant serif word marquee with inline photos),
+  `ScrollVideoStory` (homepage scrubbed video backdrop).
 - Mobile-first. No horizontal scroll at 320px. Grids collapse to 1 column.
 
 ## Shared primitives (import — do not re-create)

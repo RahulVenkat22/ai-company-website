@@ -20,16 +20,17 @@ export function FinalCTA({
       image={background === 'photo' ? '/images/band-meeting.jpg' : undefined}
       ariaLabel="Start a project with us"
     >
-      <Reveal className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-        <span className="inline-flex items-center gap-3 font-mono text-caption uppercase tracking-[0.2em] text-white/70">
+      <Reveal className="mx-auto flex max-w-4xl flex-col items-center gap-7 py-10 text-center md:py-16">
+        <span className="inline-flex items-center gap-3 font-mono text-caption uppercase tracking-[0.24em] text-white/70">
           <span className="h-px w-7 bg-[#FF5E1C]" aria-hidden="true" />
           Let&rsquo;s build together
+          <span className="h-px w-7 bg-[#FF5E1C]" aria-hidden="true" />
         </span>
-        <h2 className="text-h2 text-balance text-white">
-          Have a hard technology problem?{' '}
-          <span className="accent-word">Let&rsquo;s solve it.</span>
+        <h2 className="text-display text-balance text-white">
+          Have a hard problem?{' '}
+          <span className="accent-word !text-[#FF5E1C]">Let&rsquo;s solve it.</span>
         </h2>
-        <p className="max-w-2xl text-body-lg text-white/75">
+        <p className="max-w-2xl text-body-lg text-white/80">
           Whether you are exploring AI, modernizing your data platform,
           automating a business process or building a new application, our team
           can help turn the idea into a production-ready solution.

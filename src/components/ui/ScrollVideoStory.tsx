@@ -235,7 +235,7 @@ export function ScrollVideoStory() {
           preload="metadata"
           tabIndex={-1}
         />
-        <div className="absolute inset-0 bg-[#0A0A0B]/35" />
+        <div className="absolute inset-0 bg-[#130F0D]/35" />
       </div>
     )
   }
@@ -260,7 +260,7 @@ export function ScrollVideoStory() {
         />
       ))}
       {/* Permanent wash so the footage reads as backdrop, not content. */}
-      <div className="absolute inset-0 bg-[#0A0A0B]/35" />
+      <div className="absolute inset-0 bg-[#130F0D]/35" />
     </div>
   )
 }

@@ -1,34 +1,33 @@
 import { useEffect, useRef } from 'react'
-import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/Container'
 import { gsap, prefersReducedMotion } from '@/lib/gsap'
 
 /**
- * Homepage hero — a transparent window (`data-video-window`) onto the
- * page-wide ScrollVideoStory backdrop, carrying only its dark wash, behind
- * ONE orchestrated GSAP entrance (the boldest motion moment on the page):
- * label → headline words → lead → CTAs → footer meta. Scrolling away
+ * Homepage hero — an always-dark cinematic window (`data-video-window`)
+ * onto the page-wide ScrollVideoStory backdrop. The footage shows at full
+ * strength in both themes under a light scrim, with the headline set in
+ * giant editorial serif across three staggered lines, a featured-solution
+ * card anchored bottom-left and the practice index bottom-right — the
+ * gallery-hero look.
+ *
+ * One orchestrated GSAP entrance (the boldest motion moment on the page):
+ * kicker → headline lines → lead → CTAs → corner cards. Scrolling away
  * scrubs the content up and out over the pinned backdrop. Owns the only
- * h1 on the home page. The wash div veils the footage per theme (paper in
- * light, carbon in dark), so text uses ordinary theme tokens.
+ * h1 on the home page.
  *
  * Under prefers-reduced-motion nothing animates: the JSX below is already
  * the final state, every tween is skipped, and the backdrop shows a static
  * frame.
  */
 
-const HEADLINE: Array<{ text: string; em?: boolean }> = [
-  { text: 'We' },
-  { text: 'turn' },
-  { text: 'business' },
-  { text: 'problems' },
-  { text: 'into' },
-  { text: 'production', em: true },
-  { text: 'AI', em: true },
-  { text: 'people' },
-  { text: 'love' },
-  { text: 'using.' },
+/** Headline lines with editorial stagger offsets (Luxterra-style). */
+const LINES: Array<{ text: string; em?: boolean; className: string }> = [
+  { text: 'Engineering', className: 'self-start' },
+  { text: 'Intelligence', em: true, className: 'self-center sm:pl-24' },
+  { text: 'That Ships.', className: 'self-end' },
 ]
 
 const META = [
@@ -46,23 +45,18 @@ export function Hero() {
 
     const ctx = gsap.context(() => {
       // Entrance: one deliberate sequence, slightly overlapped.
-      // (Background scale is owned by the useParallax scrub — not tweened
-      // here, so the two never fight over the same transform.)
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
       tl.from('[data-hero="badge"]', { y: 24, autoAlpha: 0, duration: 0.7 }, 0.15)
-        .from(
-          '.hero-word',
-          { yPercent: 115, duration: 0.9, stagger: 0.055 },
-          0.3,
-        )
-        .from('[data-hero="lead"]', { y: 24, autoAlpha: 0, duration: 0.7 }, 0.9)
-        .from('[data-hero="ctas"]', { y: 24, autoAlpha: 0, duration: 0.7 }, 1.05)
-        .from('[data-hero="proof"]', { y: 16, autoAlpha: 0, duration: 0.7 }, 1.2)
-        .from('[data-hero="cue"]', { autoAlpha: 0, duration: 0.6 }, 1.5)
+        .from('.hero-line', { yPercent: 112, duration: 1, stagger: 0.14 }, 0.3)
+        .from('[data-hero="lead"]', { y: 24, autoAlpha: 0, duration: 0.7 }, 1.0)
+        .from('[data-hero="ctas"]', { y: 24, autoAlpha: 0, duration: 0.7 }, 1.15)
+        .from('[data-hero="corner"]', { y: 28, autoAlpha: 0, duration: 0.8 }, 1.3)
+        .from('[data-hero="proof"]', { y: 16, autoAlpha: 0, duration: 0.7 }, 1.4)
+        .from('[data-hero="cue"]', { autoAlpha: 0, duration: 0.6 }, 1.6)
 
       // Exit scrub: content lifts away faster than the parallax backdrop.
       gsap.to('[data-hero="content"]', {
-        yPercent: -18,
+        yPercent: -14,
         autoAlpha: 0.15,
         ease: 'none',
         scrollTrigger: {
@@ -93,49 +87,48 @@ export function Hero() {
     <section
       ref={sectionRef}
       data-video-window
-      className="relative isolate -mt-16 flex min-h-[100svh] items-center overflow-hidden md:-mt-[72px]"
+      className="relative isolate -mt-16 flex min-h-[100svh] flex-col justify-center overflow-hidden md:-mt-[72px]"
       aria-label="AI-first engineering for real business outcomes"
     >
-      {/* Window onto the fixed ScrollVideoStory backdrop — this section only
-          carries the wash that keeps the copy legible. It follows the theme:
-          light mode veils the dark footage in paper so ink-colored text
-          reads; dark mode keeps the cinematic carbon wash. */}
+      {/* Light cinematic scrim — the footage stays the hero. */}
       <div
-        className="absolute inset-0 -z-10 bg-gradient-to-br from-[#FAFAF7]/95 via-[#FAFAF7]/80 to-[#FAFAF7]/55 dark:from-[#0A0A0B]/90 dark:via-[#0A0A0B]/55 dark:to-[#0A0A0B]/25"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-bg to-transparent"
+        className="absolute inset-0 -z-10 bg-gradient-to-b from-[#130F0D]/60 via-[#130F0D]/25 to-[#130F0D]/70"
         aria-hidden="true"
       />
 
-      <Container className="relative py-28 md:py-36">
-        <div data-hero="content" className="flex max-w-4xl flex-col items-start gap-7">
-          <span
+      <Container className="relative flex flex-1 flex-col justify-center py-28 md:py-32">
+        <div data-hero="content" className="flex flex-col">
+          <p
             data-hero="badge"
-            className="inline-flex items-center gap-3 font-mono text-caption uppercase tracking-[0.22em] text-ink-muted"
+            className="mb-6 inline-flex items-center gap-3 self-center font-mono text-caption uppercase tracking-[0.26em] text-white/75"
           >
-            <span className="h-px w-8 bg-primary" aria-hidden="true" />
-            An applied-AI engineering studio
-          </span>
+            <span className="h-px w-8 bg-[#FF5E1C]" aria-hidden="true" />
+            AI · Data · Cloud · Automation
+            <span className="h-px w-8 bg-[#FF5E1C]" aria-hidden="true" />
+          </p>
 
-          <h1 className="text-display text-ink">
-            {HEADLINE.map((word, i) => (
-              <span key={i}>
-                <span className="inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom">
-                  <span
-                    className={`hero-word inline-block will-change-transform ${
-                      word.em ? 'accent-word' : ''
-                    }`}
-                  >
-                    {word.text}
-                  </span>
-                </span>{' '}
+          {/* Giant staggered serif headline */}
+          <h1 className="flex flex-col text-display-xl text-white">
+            {LINES.map((line) => (
+              <span
+                key={line.text}
+                className={`inline-block overflow-hidden pb-[0.1em] -mb-[0.1em] ${line.className}`}
+              >
+                <span
+                  className={`hero-line inline-block will-change-transform ${
+                    line.em ? 'accent-word !text-[#FF5E1C]' : ''
+                  }`}
+                >
+                  {line.text}
+                </span>
               </span>
             ))}
           </h1>
 
-          <p data-hero="lead" className="max-w-2xl text-body-lg text-ink-muted">
+          <p
+            data-hero="lead"
+            className="mx-auto mt-8 max-w-2xl text-center text-body-lg text-white/80"
+          >
             AI agents, RAG systems, data platforms and cloud solutions — designed
             with your team, engineered to production standards, and improved long
             after launch.
@@ -143,7 +136,7 @@ export function Hero() {
 
           <div
             data-hero="ctas"
-            className="mt-1 flex w-full flex-col gap-3 sm:w-auto sm:flex-row"
+            className="mx-auto mt-8 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row"
           >
             <Button
               size="lg"
@@ -152,45 +145,71 @@ export function Hero() {
               eventParams={{ cta: 'start_conversation', location: 'hero' }}
               iconRight={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
             >
-              Start a conversation
+              Start a project
             </Button>
             <Button
               size="lg"
-              variant="secondary"
-              to="/services"
+              variant="inverse"
+              to="/ai-solutions"
               eventName="cta_click"
-              eventParams={{ cta: 'explore_services', location: 'hero' }}
+              eventParams={{ cta: 'explore_ai_solutions', location: 'hero' }}
+              iconRight={<ArrowUpRight className="h-4 w-4" aria-hidden="true" />}
             >
-              See what we build
+              Explore AI solutions
             </Button>
           </div>
+        </div>
+      </Container>
 
-          {/* Practice areas — quiet mono index, not a badge wall */}
+      {/* Corner card — featured capability (Luxterra location card) */}
+      <div className="container-site pointer-events-none relative pb-20 md:pb-8">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <Link
+            to="/ai-solutions#rag"
+            data-hero="corner"
+            className="pointer-events-auto group hidden w-64 flex-col gap-1 rounded-card border border-white/15 bg-white/10 p-5 backdrop-blur-md transition-colors hover:bg-white/15 md:flex"
+          >
+            <span className="font-mono text-caption uppercase tracking-[0.18em] text-white/65">
+              Featured capability
+            </span>
+            <span className="mt-2 font-serif text-3xl leading-none text-white">
+              Enterprise RAG
+            </span>
+            <span className="mt-3 inline-flex items-center gap-2 border-t border-white/20 pt-3 text-small text-white/85">
+              Explore the platform
+              <ArrowUpRight
+                className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </span>
+          </Link>
+
+          {/* Practice areas — quiet mono index */}
           <div
             data-hero="proof"
-            className="mt-8 flex w-full flex-wrap gap-x-10 gap-y-3 border-t border-ink/15 pt-5"
+            className="pointer-events-auto flex flex-wrap gap-x-10 gap-y-3 md:justify-end"
           >
             {META.map((item) => (
               <span key={item.index} className="flex items-baseline gap-2.5">
-                <span className="font-mono text-caption text-primary">
+                <span className="font-mono text-caption text-[#FF5E1C]">
                   {item.index}
                 </span>
-                <span className="text-small text-ink-muted">{item.label}</span>
+                <span className="text-small text-white/75">{item.label}</span>
               </span>
             ))}
           </div>
         </div>
-      </Container>
+      </div>
 
       {/* Scroll cue */}
       <a
         href="#capabilities"
         data-hero="cue"
-        className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-ink-subtle transition-colors hover:text-ink"
+        className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-white/60 transition-colors hover:text-white"
         aria-label="Scroll to explore"
       >
         <span className="font-mono text-[10px] uppercase tracking-[0.3em]">Scroll</span>
-        <span className="h-8 w-px bg-ink/40 animate-bounce-cue" aria-hidden="true" />
+        <span className="h-8 w-px bg-white/50 animate-bounce-cue" aria-hidden="true" />
       </a>
     </section>
   )

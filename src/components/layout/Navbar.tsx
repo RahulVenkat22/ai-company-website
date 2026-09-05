@@ -3,7 +3,6 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { ArrowRight, Menu, X } from 'lucide-react'
 import { navLinks } from '@/config/site'
 import { Button } from '@/components/ui/Button'
-import { useTheme } from '@/lib/theme'
 import { Logo } from './Logo'
 import { ThemeToggle } from './ThemeToggle'
 
@@ -51,11 +50,9 @@ export function Navbar() {
     }
   }, [open, isHome])
 
-  const { theme } = useTheme()
-  // Explicit white nav colors are needed only while the DARK hero wash is
-  // behind the bar; the light theme veils the hero in paper, where normal
-  // ink tokens are the readable choice.
-  const overVideo = overHero && !open && theme === 'dark'
+  // The home hero is an always-dark cinematic window in both themes, so the
+  // bar needs explicit white colors whenever it is still over the hero.
+  const overVideo = overHero && !open
 
   // Escape closes the menu; lock body scroll and make the covered page
   // content inert while open so Tab cannot reach hidden elements.

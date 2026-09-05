@@ -2,7 +2,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -23,7 +22,7 @@ function readInitialTheme(): Theme {
     const attr = document.documentElement.getAttribute('data-theme')
     if (attr === 'light' || attr === 'dark') return attr
   }
-  return 'dark'
+  return 'light'
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
@@ -43,23 +42,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const toggleTheme = useCallback(() => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }, [theme, setTheme])
-
-  // Follow system preference only while the user has no stored choice.
-  useEffect(() => {
-    const media = window.matchMedia('(prefers-color-scheme: light)')
-    const onChange = (e: MediaQueryListEvent) => {
-      try {
-        if (localStorage.getItem('theme')) return
-      } catch {
-        /* ignore */
-      }
-      const next: Theme = e.matches ? 'light' : 'dark'
-      setThemeState(next)
-      document.documentElement.setAttribute('data-theme', next)
-    }
-    media.addEventListener('change', onChange)
-    return () => media.removeEventListener('change', onChange)
-  }, [])
 
   const value = useMemo(
     () => ({ theme, setTheme, toggleTheme }),

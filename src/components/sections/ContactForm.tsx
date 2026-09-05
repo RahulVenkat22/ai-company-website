@@ -287,11 +287,16 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
     <Section id="contact-form" variant={variant}>
       <SectionHeading
         eyebrow="Contact"
-        title="Tell us about your project"
+        title={
+          <>
+            Tell us about your <span className="accent-word">project</span>
+          </>
+        }
         lead="Share a few details about what you are trying to build or solve. We will review it and come back to you with a concrete next step — no obligation."
       />
+      <div className="grid items-start gap-10 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
       <Reveal>
-        <Card className="mx-auto max-w-3xl p-6 sm:p-8 md:p-10">
+        <Card className="p-6 sm:p-8 md:p-10">
           {status === 'success' ? (
             <div className="flex flex-col items-start gap-6">
               <Alert tone="success" title="Thanks — we received your message.">
@@ -445,6 +450,36 @@ export function ContactForm({ variant = 'default' }: ContactFormProps) {
           )}
         </Card>
       </Reveal>
+
+      {/* Editorial contact column — serif Write / Call / Visit rows */}
+      <Reveal delay={120} className="flex flex-col lg:sticky lg:top-32">
+        {(
+          [
+            { label: 'Write', lines: [site.email, site.privacyEmail] },
+            { label: 'Call', lines: [site.phone] },
+            { label: 'Visit', lines: [site.address] },
+          ] as const
+        ).map((row) => (
+          <div
+            key={row.label}
+            className="flex items-baseline justify-between gap-6 border-t border-line py-7 first:border-t-0 first:pt-0"
+          >
+            <p className="font-serif text-h2 text-ink">{row.label}</p>
+            <div className="text-right">
+              {row.lines.map((line) => (
+                <p key={line} className="text-small text-ink-muted">
+                  {line}
+                </p>
+              ))}
+            </div>
+          </div>
+        ))}
+        <p className="border-t border-line pt-6 text-caption text-ink-subtle">
+          [TBD] placeholders — replace with approved company details before
+          launch.
+        </p>
+      </Reveal>
+      </div>
     </Section>
   )
 }

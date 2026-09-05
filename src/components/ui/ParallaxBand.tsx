@@ -56,11 +56,11 @@ export function ParallaxBand({
         className={`absolute inset-0 -z-10 ${
           image
             ? overlay === 'strong'
-              ? 'bg-gradient-to-b from-[#0A0A0B]/85 via-[#0A0A0B]/70 to-[#0A0A0B]/85'
-              : 'bg-[#0A0A0B]/60'
+              ? 'bg-gradient-to-b from-[#130F0D]/85 via-[#130F0D]/70 to-[#130F0D]/85'
+              : 'bg-[#130F0D]/60'
             : overlay === 'strong'
-              ? 'bg-gradient-to-b from-[#0A0A0B]/65 via-[#0A0A0B]/55 to-[#0A0A0B]/65 dark:from-[#0A0A0B]/40 dark:via-[#0A0A0B]/25 dark:to-[#0A0A0B]/40'
-              : 'bg-[#0A0A0B]/60 dark:bg-[#0A0A0B]/20'
+              ? 'bg-gradient-to-b from-[#130F0D]/65 via-[#130F0D]/55 to-[#130F0D]/65 dark:from-[#130F0D]/40 dark:via-[#130F0D]/25 dark:to-[#130F0D]/40'
+              : 'bg-[#130F0D]/60 dark:bg-[#130F0D]/20'
         }`}
         aria-hidden="true"
       />

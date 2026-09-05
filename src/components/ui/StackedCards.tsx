@@ -41,7 +41,7 @@ export function StackedCards({ children, top = 6 }: StackedCardsProps) {
           { scale: 1, filter: 'brightness(1)' },
           {
             scale: 0.94,
-            filter: 'brightness(0.55)',
+            filter: 'brightness(0.82)',
             transformOrigin: 'center top',
             ease: 'none',
             scrollTrigger: {

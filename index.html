@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#0a0a0b" />
+    <meta name="theme-color" content="#f4eee3" />
     <title>AI Solutions, Agentic AI &amp; Data Engineering | [TBD] Company</title>
     <meta
       name="description"
@@ -26,16 +26,12 @@
       // Set theme before first paint to avoid a flash of the wrong theme.
       ;(function () {
         try {
+          // Ivory editorial is the brand default; dark is an explicit choice.
           var stored = localStorage.getItem('theme')
-          var theme =
-            stored === 'light' || stored === 'dark'
-              ? stored
-              : window.matchMedia('(prefers-color-scheme: light)').matches
-                ? 'light'
-                : 'dark'
+          var theme = stored === 'light' || stored === 'dark' ? stored : 'light'
           document.documentElement.setAttribute('data-theme', theme)
         } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'dark')
+          document.documentElement.setAttribute('data-theme', 'light')
         }
       })()
     </script>

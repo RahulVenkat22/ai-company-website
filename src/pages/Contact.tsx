@@ -7,6 +7,7 @@ import { Section } from '@/components/ui/Section'
 import { Card } from '@/components/ui/Card'
 import { Reveal } from '@/components/ui/Reveal'
 import { ContactForm } from '@/components/sections/ContactForm'
+import { FAQAccordion } from '@/components/sections/FAQAccordion'
 import { EngagementModels } from '@/components/sections/EngagementModels'
 
 const jsonLd = [
@@ -133,6 +134,7 @@ export default function Contact() {
       </Section>
 
       <EngagementModels variant="default" />
+      <FAQAccordion variant="alt" />
     </>
   )
 }

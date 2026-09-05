@@ -3,53 +3,55 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------ */
-/* Theme tokens — carbon neutrals with a single signal-orange accent   */
-/* Values are RGB triplets so Tailwind can apply alpha modifiers.      */
+/* Theme tokens — warm ivory editorial palette with a single           */
+/* signal-orange accent. Values are RGB triplets so Tailwind can       */
+/* apply alpha modifiers.                                              */
 /* ------------------------------------------------------------------ */
 
 :root {
-  /* Dark theme (default): near-black carbon, warm greys, signal orange */
-  --c-bg: 10 10 11; /* #0A0A0B carbon */
-  --c-surface: 17 17 19; /* #111113 */
-  --c-surface-2: 24 24 27; /* #18181B */
-  --c-surface-3: 32 32 36; /* #202024 */
-  --c-border: 39 39 42; /* #27272A */
-  --c-border-strong: 63 63 70; /* #3F3F46 */
-  --c-text: 244 244 240; /* #F4F4F0 warm white */
-  --c-text-muted: 168 168 161; /* #A8A8A1 */
-  --c-text-subtle: 138 138 132; /* #8A8A84 — ≥4.5:1 on every dark surface */
-  --c-text-inverse: 12 12 13;
+  /* Light theme (default): gallery ivory, espresso ink, signal orange */
+  --c-bg: 244 238 227; /* #F4EEE3 warm ivory */
+  --c-surface: 250 246 238; /* #FAF6EE raised cream */
+  --c-surface-2: 237 229 214; /* #EDE5D6 */
+  --c-surface-3: 228 218 198; /* #E4DAC6 */
+  --c-border: 224 214 195; /* #E0D6C3 */
+  --c-border-strong: 194 181 155; /* #C2B59B */
+  --c-text: 30 25 20; /* #1E1914 espresso ink */
+  --c-text-muted: 92 84 72; /* #5C5448 */
+  --c-text-subtle: 108 99 85; /* #6C6355 — ≥4.5:1 on every light surface */
+  --c-text-inverse: 250 246 238;
   /* Single-accent palette: accent and violet-acc resolve to the same
      signal orange as primary — the brand uses ONE color, everywhere. */
-  --c-primary: 255 94 28; /* #FF5E1C signal orange */
-  --c-primary-hover: 255 122 64; /* #FF7A40 */
-  --c-primary-soft: 42 22 12; /* dark ember wash */
-  --c-accent: 255 94 28;
-  --c-accent-strong: 224 78 18; /* #E04E12 */
-  --c-violet: 255 94 28;
-
-  color-scheme: dark;
-}
-
-:root[data-theme='light'] {
-  --c-bg: 250 250 247; /* #FAFAF7 paper */
-  --c-surface: 255 255 255; /* #FFFFFF */
-  --c-surface-2: 243 242 238; /* #F3F2EE */
-  --c-surface-3: 234 233 227; /* #EAE9E3 */
-  --c-border: 228 227 220; /* #E4E3DC */
-  --c-border-strong: 200 198 189; /* #C8C6BD */
-  --c-text: 20 20 19; /* #141413 */
-  --c-text-muted: 87 86 82; /* #575652 */
-  --c-text-subtle: 108 107 101; /* #6C6B65 — ≥4.5:1 on every light surface */
-  --c-text-inverse: 255 255 253;
-  --c-primary: 192 54 0; /* #C03600 deep signal orange — ≥4.5:1 even on its own /10 tint */
+  --c-primary: 192 54 0; /* #C03600 deep signal orange */
   --c-primary-hover: 150 42 0; /* #962A00 */
-  --c-primary-soft: 255 234 223;
+  --c-primary-soft: 255 231 216;
   --c-accent: 192 54 0;
   --c-accent-strong: 150 42 0;
   --c-violet: 192 54 0;
 
   color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  /* Dark theme: espresso carbon — the same warmth, after dark */
+  --c-bg: 19 15 13; /* #130F0D */
+  --c-surface: 27 22 19; /* #1B1613 */
+  --c-surface-2: 36 30 25; /* #241E19 */
+  --c-surface-3: 46 39 32; /* #2E2720 */
+  --c-border: 54 46 38; /* #362E26 */
+  --c-border-strong: 86 74 61; /* #564A3D */
+  --c-text: 244 238 227; /* #F4EEE3 warm ivory */
+  --c-text-muted: 180 169 152; /* #B4A998 */
+  --c-text-subtle: 150 139 123; /* #968B7B — ≥4.5:1 on every dark surface */
+  --c-text-inverse: 22 17 14;
+  --c-primary: 255 94 28; /* #FF5E1C signal orange */
+  --c-primary-hover: 255 122 64; /* #FF7A40 */
+  --c-primary-soft: 46 26 15; /* dark ember wash */
+  --c-accent: 255 94 28;
+  --c-accent-strong: 224 78 18; /* #E04E12 */
+  --c-violet: 255 94 28;
+
+  color-scheme: dark;
 }
 
 /* ------------------------------------------------------------------ */
@@ -126,13 +128,25 @@
     @apply h-px w-7 bg-accent/70;
   }
 
+  /* Editorial display type — every large heading renders in the serif.
+     The size utilities (config fontSize) carry weight 400 + tight leading;
+     this pairs them with the family so text-h4 and below stay sans. */
+  .text-display,
+  .text-display-xl,
+  .text-h1,
+  .text-h2,
+  .text-h3 {
+    font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+    font-weight: 400;
+  }
+
   /* Emphasis words inside headlines — italic serif in the signal color.
      (Replaces the old animated gradient-text treatment.) */
   .accent-word {
     font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
     font-style: italic;
     font-weight: 400;
-    font-size: 1.05em;
+    font-size: 1.02em;
     letter-spacing: -0.01em;
     color: rgb(var(--c-primary));
     padding-right: 0.05em; /* italic overhang, avoids clipping in reveals */
@@ -211,7 +225,7 @@
    clip-path is the effect, and blurring large photos is expensive.) */
 .reveal.photo-frame {
   filter: none;
-  clip-path: inset(14% 10% 14% 10% round 0.75rem);
+  clip-path: inset(14% 10% 14% 10% round 1.25rem);
   transition:
     opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
@@ -220,7 +234,7 @@
 }
 
 .reveal.photo-frame.is-visible {
-  clip-path: inset(0 0 0 0 round 0.5rem);
+  clip-path: inset(0 0 0 0 round 1rem);
 }
 
 /* ------------------------------------------------------------------ */
@@ -338,11 +352,11 @@
 /* ------------------------------------------------------------------ */
 
 .story-glass {
-  background-color: rgb(var(--c-bg) / 0.45);
+  background-color: rgb(var(--c-bg) / 0.88);
 }
 
-:root[data-theme='light'] .story-glass {
-  background-color: rgb(var(--c-bg) / 0.87);
+:root[data-theme='dark'] .story-glass {
+  background-color: rgb(var(--c-bg) / 0.45);
 }
 
 /* Sections inside the glass paint no band fills of their own. */
@@ -352,19 +366,19 @@
 
 /* Cards read as translucent glass panels over the footage. */
 .story-glass .bg-surface {
-  background-color: rgb(var(--c-surface) / 0.55);
+  background-color: rgb(var(--c-surface) / 0.8);
 }
 
-:root[data-theme='light'] .story-glass .bg-surface {
-  background-color: rgb(var(--c-surface) / 0.8);
+:root[data-theme='dark'] .story-glass .bg-surface {
+  background-color: rgb(var(--c-surface) / 0.55);
 }
 
 /* Stacking cards cover each other, so their panels must stay near-opaque —
    at glass alpha the covered card's text ghosts through the one on top.
-   (The light-theme rule repeats the selector at higher specificity so the
-   0.8 glass override above cannot win over it.) */
+   (The dark-theme rule repeats the selector at higher specificity so the
+   0.55 glass override above cannot win over it.) */
 .story-glass [data-stack-item] .bg-surface,
-:root[data-theme='light'] .story-glass [data-stack-item] .bg-surface {
+:root[data-theme='dark'] .story-glass [data-stack-item] .bg-surface {
   background-color: rgb(var(--c-surface) / 0.94);
 }
 
